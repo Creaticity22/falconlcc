@@ -34,6 +34,17 @@ function detectTopics(text: string): string[] {
     investing_basics: ["invest", "investing", "stocks", "shares", "index fund"],
     economy: ["economy", "inflation", "interest rate", "bank of england"],
     financial_literacy: ["financial literacy", "money basics", "money skills", "financial education"],
+    everyday_money: ["everyday money", "bills", "housing", "rent", "pay cheque", "payslip"],
+    benefits: ["benefits", "universal credit", "entitled", "support payment"],
+    financial_independence: ["financial independence", "leaving home", "move out", "first job"],
+    teacher_resources: ["teacher", "classroom", "lesson plan", "curriculum", "school"],
+    scams: ["scam", "fraud", "phishing", "fake", "con artist"],
+    cost_of_living: ["cost of living", "energy bills", "rising costs", "afford"],
+    student_finance: ["student finance", "student loan", "tuition", "maintenance loan", "university fee"],
+    education_transition: ["uni", "university", "college", "sixth form", "apprenticeship"],
+    disability_support: ["disability", "disabled", "accessibility", "additional needs"],
+    care_leavers: ["care leaver", "care home", "foster", "looked after"],
+    hardship: ["hardship", "struggling", "money worries", "debt advice", "food bank"],
   };
   const found: string[] = [];
   for (const [topic, keywords] of Object.entries(map)) {
