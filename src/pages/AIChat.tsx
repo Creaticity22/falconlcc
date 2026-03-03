@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Send, Bird, Loader2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
 import ResourceCard from "@/components/ResourceCard";
@@ -22,10 +22,22 @@ const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/falcon-chat`
 
 export default function AIChat() {
   const { user } = useAuth();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const prefillHandled = useRef(false);
+
+  // Handle pre-filled prompt from URL
+  useEffect(() => {
+    const prompt = searchParams.get("prompt");
+    if (prompt && !prefillHandled.current && messages.length === 0) {
+      prefillHandled.current = true;
+      setSearchParams({}, { replace: true });
+      send(prompt);
+    }
+  }, [searchParams]);
 
   // Detect topics mentioned in the latest assistant message
   const detectedTopics = useMemo(() => {

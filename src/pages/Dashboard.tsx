@@ -1,10 +1,11 @@
 import { motion } from "framer-motion";
-import { Bird, Wallet, PiggyBank, Zap, Flame, Plus, BookOpen, MessageCircle } from "lucide-react";
+import { Bird, Wallet, PiggyBank, Zap, Flame, Plus, BookOpen, MessageCircle, SmilePlus, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
+import CommunityInsights from "@/components/CommunityInsights";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
@@ -195,7 +196,7 @@ export default function Dashboard() {
 
       {/* Next lesson */}
       {nextLesson && (
-        <section className="mb-8">
+        <section className="mb-6">
           <h2 className="font-display font-semibold text-base mb-3">Keep learning</h2>
           <Link to={`/learn/${nextLesson.id}`}>
             <div className="bg-card rounded-xl p-4 border border-border/50 shadow-sm flex items-center gap-3">
@@ -211,6 +212,31 @@ export default function Dashboard() {
           </Link>
         </section>
       )}
+
+      {/* Money diary & wins quick links */}
+      <section className="mb-6">
+        <div className="grid grid-cols-2 gap-2">
+          <Link to="/diary">
+            <motion.div whileTap={{ scale: 0.97 }} className="bg-card rounded-xl p-4 border border-border/50 text-center">
+              <SmilePlus className="w-6 h-6 text-primary mx-auto mb-1" />
+              <p className="text-xs font-semibold">Money Diary</p>
+              <p className="text-[10px] text-muted-foreground">Track your feelings</p>
+            </motion.div>
+          </Link>
+          <Link to="/wins">
+            <motion.div whileTap={{ scale: 0.97 }} className="bg-card rounded-xl p-4 border border-border/50 text-center">
+              <Trophy className="w-6 h-6 text-accent mx-auto mb-1" />
+              <p className="text-xs font-semibold">Money Wins</p>
+              <p className="text-[10px] text-muted-foreground">Celebrate victories</p>
+            </motion.div>
+          </Link>
+        </div>
+      </section>
+
+      {/* Community insights */}
+      <section className="mb-8">
+        <CommunityInsights />
+      </section>
     </AppLayout>
   );
 }

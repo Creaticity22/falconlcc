@@ -4,6 +4,7 @@ import { Plus, Target } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import GoalCard from "@/components/GoalCard";
+import GoalTemplateSelector from "@/components/GoalTemplateSelector";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -18,10 +19,12 @@ export default function Goals() {
   const qc = useQueryClient();
   const awardXP = useAwardXP();
   const [open, setOpen] = useState(false);
+  const [showForm, setShowForm] = useState(false);
   const [name, setName] = useState("");
   const [target, setTarget] = useState("");
   const [date, setDate] = useState("");
   const [desc, setDesc] = useState("");
+  const [templateCode, setTemplateCode] = useState<string | null>(null);
 
   const { data: goals, isLoading } = useQuery({
     queryKey: ["all-goals", user?.id],
@@ -50,43 +53,77 @@ export default function Goals() {
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["all-goals"] });
       qc.invalidateQueries({ queryKey: ["goals"] });
-      setOpen(false);
-      setName("");
-      setTarget("");
-      setDate("");
-      setDesc("");
+      resetForm();
       toast.success("Goal created! 🎯");
       awardXP.mutate({ amount: 20, reason: "New savings goal" });
     },
   });
 
+  const resetForm = () => {
+    setOpen(false);
+    setShowForm(false);
+    setName("");
+    setTarget("");
+    setDate("");
+    setDesc("");
+    setTemplateCode(null);
+  };
+
+  const handleTemplateSelect = (t: any) => {
+    setName(t.name);
+    setTarget(String(t.suggested_min_amount));
+    setDesc(t.description);
+    setTemplateCode(t.code);
+    const futureDate = new Date();
+    futureDate.setMonth(futureDate.getMonth() + t.suggested_timeframe_months);
+    setDate(futureDate.toISOString().split("T")[0]);
+    setShowForm(true);
+  };
+
   return (
     <AppLayout>
       <div className="pt-8 pb-4 flex items-center justify-between">
         <h1 className="text-2xl font-display font-bold">Savings Goals</h1>
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
           <DialogTrigger asChild>
             <Button size="sm" className="rounded-xl gradient-primary text-primary-foreground border-0">
               <Plus className="w-4 h-4 mr-1" /> New goal
             </Button>
           </DialogTrigger>
-          <DialogContent className="rounded-2xl">
+          <DialogContent className="rounded-2xl max-h-[85vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle className="font-display">Create new goal</DialogTitle>
+              <DialogTitle className="font-display">
+                {showForm ? "Set up your goal" : "Create new goal"}
+              </DialogTitle>
             </DialogHeader>
-            <div className="space-y-4 pt-2">
-              <Input placeholder="Goal name" value={name} onChange={(e) => setName(e.target.value)} className="h-12 rounded-xl" />
-              <Input type="number" placeholder="Target amount (£)" value={target} onChange={(e) => setTarget(e.target.value)} className="h-12 rounded-xl" />
-              <Input type="date" placeholder="Target date" value={date} onChange={(e) => setDate(e.target.value)} className="h-12 rounded-xl" />
-              <Textarea placeholder="Description (optional)" value={desc} onChange={(e) => setDesc(e.target.value)} className="rounded-xl" />
-              <Button
-                onClick={() => createGoal.mutate()}
-                disabled={!name || !target || createGoal.isPending}
-                className="w-full h-12 rounded-xl gradient-primary text-primary-foreground border-0"
-              >
-                Create goal
-              </Button>
-            </div>
+
+            {!showForm ? (
+              <GoalTemplateSelector
+                onSelect={handleTemplateSelect}
+                onSkip={() => setShowForm(true)}
+              />
+            ) : (
+              <div className="space-y-4 pt-2">
+                {templateCode && (
+                  <div className="bg-primary/5 rounded-xl p-3 border border-primary/10">
+                    <p className="text-xs text-muted-foreground">{desc}</p>
+                  </div>
+                )}
+                <Input placeholder="Goal name" value={name} onChange={(e) => setName(e.target.value)} className="h-12 rounded-xl" />
+                <Input type="number" placeholder="Target amount (£)" value={target} onChange={(e) => setTarget(e.target.value)} className="h-12 rounded-xl" />
+                <Input type="date" placeholder="Target date" value={date} onChange={(e) => setDate(e.target.value)} className="h-12 rounded-xl" />
+                {!templateCode && (
+                  <Textarea placeholder="Description (optional)" value={desc} onChange={(e) => setDesc(e.target.value)} className="rounded-xl" />
+                )}
+                <Button
+                  onClick={() => createGoal.mutate()}
+                  disabled={!name || !target || createGoal.isPending}
+                  className="w-full h-12 rounded-xl gradient-primary text-primary-foreground border-0"
+                >
+                  Create goal
+                </Button>
+              </div>
+            )}
           </DialogContent>
         </Dialog>
       </div>
