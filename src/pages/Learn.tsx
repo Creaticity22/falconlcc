@@ -8,6 +8,21 @@ import { useResources } from "@/hooks/useResources";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 
+const FEATURED_VIDEOS = [
+  {
+    id: "budgeting-guide",
+    title: "A Young Person's Guide to Budgeting",
+    source: "The Mix & The Big Issue",
+    embedUrl: "https://www.youtube.com/embed/7j55GQ7f844",
+  },
+  {
+    id: "financial-literacy",
+    title: "Master Financial Literacy in 54 Minutes",
+    source: "Nischa",
+    embedUrl: "https://www.youtube.com/embed/vJabNEwZIuc",
+  },
+];
+
 export default function Learn() {
   const { user } = useAuth();
 
@@ -37,7 +52,9 @@ export default function Learn() {
 
   // Derive the "current" topic from the next lesson, fallback to first topic
   const currentTopic = nextLesson?.topic ?? LESSONS[0]?.topic ?? "Budgeting";
-  const resourceTopics = topicMap[currentTopic] ? [topicMap[currentTopic]] : [currentTopic.toLowerCase()];
+  const resourceTopics = topicMap[currentTopic]
+    ? [topicMap[currentTopic]]
+    : [currentTopic.toLowerCase()];
   const { data: resources } = useResources(resourceTopics, 3);
 
   return (
@@ -48,6 +65,57 @@ export default function Learn() {
           {completed.length}/{LESSONS.length} lessons completed
         </p>
       </div>
+
+      {/* Featured videos */}
+      <section className="mb-8">
+        <h2 className="font-display font-semibold text-base mb-3">Featured videos</h2>
+        <div className="space-y-5">
+          {FEATURED_VIDEOS.map((video, i) => (
+            <motion.div
+              key={video.id}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.08 }}
+            >
+              <div className="rounded-xl overflow-hidden border border-border/50 bg-card">
+                <div className="relative w-full" style={{ paddingBottom: "56.25%" }}>
+                  <iframe
+                    src={video.embedUrl}
+                    title={video.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </div>
+                <div className="px-4 py-3">
+                  <p className="text-sm font-medium leading-snug">{video.title}</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">{video.source}</p>
+                  <p className="text-[10px] text-muted-foreground mt-1">
+                    External video – tap to watch on YouTube. For education only, not personal advice.
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Trusted resources */}
+      {resources && resources.length > 0 && (
+        <section className="mb-8">
+          <h2 className="font-display font-semibold text-base mb-3">Trusted resources</h2>
+          <p className="text-xs text-muted-foreground mb-3">
+            Curated links about {currentTopic.toLowerCase()} from UK experts
+          </p>
+          <div className="space-y-3">
+            {resources.map((r) => (
+              <motion.div key={r.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <ResourceCard resource={r} />
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* My path */}
       {nextLesson && (
@@ -72,23 +140,6 @@ export default function Learn() {
           ))}
         </div>
       </section>
-
-      {/* Trusted resources */}
-      {resources && resources.length > 0 && (
-        <section className="mt-8 pb-4">
-          <h2 className="font-display font-semibold text-base mb-3">Trusted resources</h2>
-          <p className="text-xs text-muted-foreground mb-3">
-            Curated links about {currentTopic.toLowerCase()} from UK experts
-          </p>
-          <div className="space-y-3">
-            {resources.map((r) => (
-              <motion.div key={r.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <ResourceCard resource={r} />
-              </motion.div>
-            ))}
-          </div>
-        </section>
-      )}
 
       {/* Damien Talks Money */}
       <motion.section
