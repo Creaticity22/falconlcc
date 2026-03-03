@@ -1,10 +1,12 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, Send, Bird, Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
+import ResourceCard from "@/components/ResourceCard";
 import { useAuth } from "@/hooks/useAuth";
+import { useResources, type Resource } from "@/hooks/useResources";
 import { toast } from "sonner";
 
 type Msg = { role: "user" | "assistant"; content: string };
@@ -24,6 +26,27 @@ export default function AIChat() {
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Detect topics mentioned in the latest assistant message
+  const detectedTopics = useMemo(() => {
+    const lastAssistant = [...messages].reverse().find((m) => m.role === "assistant");
+    if (!lastAssistant) return [];
+    const text = lastAssistant.content.toLowerCase();
+    const topicKeywords: Record<string, string[]> = {
+      budgeting: ["budget", "budgeting", "spending plan"],
+      saving: ["saving", "savings", "save money", "emergency fund"],
+      debt: ["debt", "borrow", "loan", "credit card", "bnpl", "buy now pay later"],
+      investing_basics: ["invest", "investing", "stocks", "shares", "index fund"],
+      economy: ["economy", "inflation", "interest rate", "bank of england"],
+    };
+    const found: string[] = [];
+    for (const [topic, keywords] of Object.entries(topicKeywords)) {
+      if (keywords.some((kw) => text.includes(kw))) found.push(topic);
+    }
+    return found;
+  }, [messages]);
+
+  const { data: chatResources } = useResources(detectedTopics, 2);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
@@ -173,6 +196,18 @@ export default function AIChat() {
             </div>
           </motion.div>
         ))}
+
+        {/* Want to go deeper? */}
+        {!isLoading && chatResources && chatResources.length > 0 && messages.length > 0 && messages[messages.length - 1]?.role === "assistant" && (
+          <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="ml-0 max-w-[85%]">
+            <p className="text-xs font-display font-semibold text-muted-foreground mb-2">Want to go deeper?</p>
+            <div className="space-y-2">
+              {chatResources.map((r) => (
+                <ResourceCard key={r.id} resource={r} />
+              ))}
+            </div>
+          </motion.div>
+        )}
 
         {isLoading && messages[messages.length - 1]?.role === "user" && (
           <div className="flex justify-start">

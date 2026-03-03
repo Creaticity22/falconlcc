@@ -2,7 +2,9 @@ import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import LessonCard from "@/components/LessonCard";
+import ResourceCard from "@/components/ResourceCard";
 import { useAuth } from "@/hooks/useAuth";
+import { useResources } from "@/hooks/useResources";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 
@@ -24,8 +26,19 @@ export default function Learn() {
   const completed = completedLessons ?? [];
   const nextLesson = LESSONS.find((l) => !completed.includes(l.id));
 
-  // Group by topic
-  const topics = [...new Set(LESSONS.map((l) => l.topic))];
+  // Map lesson topics to resource DB topics
+  const topicMap: Record<string, string> = {
+    Budgeting: "budgeting",
+    Saving: "saving",
+    Tax: "economy",
+    Debt: "debt",
+    Investing: "investing_basics",
+  };
+
+  // Derive the "current" topic from the next lesson, fallback to first topic
+  const currentTopic = nextLesson?.topic ?? LESSONS[0]?.topic ?? "Budgeting";
+  const resourceTopics = topicMap[currentTopic] ? [topicMap[currentTopic]] : [currentTopic.toLowerCase()];
+  const { data: resources } = useResources(resourceTopics, 3);
 
   return (
     <AppLayout>
@@ -59,6 +72,23 @@ export default function Learn() {
           ))}
         </div>
       </section>
+
+      {/* Trusted resources */}
+      {resources && resources.length > 0 && (
+        <section className="mt-8 pb-4">
+          <h2 className="font-display font-semibold text-base mb-3">Trusted resources</h2>
+          <p className="text-xs text-muted-foreground mb-3">
+            Curated links about {currentTopic.toLowerCase()} from UK experts
+          </p>
+          <div className="space-y-3">
+            {resources.map((r) => (
+              <motion.div key={r.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <ResourceCard resource={r} />
+              </motion.div>
+            ))}
+          </div>
+        </section>
+      )}
     </AppLayout>
   );
 }
