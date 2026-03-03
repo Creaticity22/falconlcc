@@ -131,6 +131,48 @@ export type Database = {
         }
         Relationships: []
       }
+      goal_templates: {
+        Row: {
+          code: string
+          created_at: string
+          default_topic: string
+          description: string
+          id: string
+          lesson_id: string | null
+          name: string
+          resource_topics: string[]
+          suggested_max_amount: number
+          suggested_min_amount: number
+          suggested_timeframe_months: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          default_topic?: string
+          description: string
+          id?: string
+          lesson_id?: string | null
+          name: string
+          resource_topics?: string[]
+          suggested_max_amount?: number
+          suggested_min_amount?: number
+          suggested_timeframe_months?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          default_topic?: string
+          description?: string
+          id?: string
+          lesson_id?: string | null
+          name?: string
+          resource_topics?: string[]
+          suggested_max_amount?: number
+          suggested_min_amount?: number
+          suggested_timeframe_months?: number
+        }
+        Relationships: []
+      }
       lesson_progress: {
         Row: {
           completed_at: string
@@ -151,6 +193,57 @@ export type Database = {
           id?: string
           lesson_id?: string
           score?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      money_diary_entries: {
+        Row: {
+          created_at: string
+          id: string
+          mood_emoji: string
+          mood_score: number
+          note: string | null
+          user_id: string
+          week_start_date: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          mood_emoji?: string
+          mood_score: number
+          note?: string | null
+          user_id: string
+          week_start_date: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          mood_emoji?: string
+          mood_score?: number
+          note?: string | null
+          user_id?: string
+          week_start_date?: string
+        }
+        Relationships: []
+      }
+      money_wins: {
+        Row: {
+          created_at: string
+          id: string
+          text: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          text: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          text?: string
           user_id?: string
         }
         Relationships: []
