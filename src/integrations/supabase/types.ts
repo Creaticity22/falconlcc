@@ -194,6 +194,45 @@ export type Database = {
         }
         Relationships: []
       }
+      resources: {
+        Row: {
+          age_max: number | null
+          age_min: number | null
+          created_at: string
+          description: string
+          id: string
+          is_video: boolean
+          source_name: string
+          title: string
+          topic: string
+          url: string
+        }
+        Insert: {
+          age_max?: number | null
+          age_min?: number | null
+          created_at?: string
+          description: string
+          id?: string
+          is_video?: boolean
+          source_name: string
+          title: string
+          topic: string
+          url: string
+        }
+        Update: {
+          age_max?: number | null
+          age_min?: number | null
+          created_at?: string
+          description?: string
+          id?: string
+          is_video?: boolean
+          source_name?: string
+          title?: string
+          topic?: string
+          url?: string
+        }
+        Relationships: []
+      }
       savings_goals: {
         Row: {
           created_at: string
