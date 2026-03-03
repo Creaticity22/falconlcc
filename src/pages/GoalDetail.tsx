@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import ResourceCard from "@/components/ResourceCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
+import { useResources } from "@/hooks/useResources";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -88,6 +90,8 @@ export default function GoalDetail() {
       toast.success("Invite created!");
     },
   });
+
+  const { data: goalResources } = useResources(["saving", "investing_basics"], 2);
 
   if (!goal) return <AppLayout><div className="pt-20 text-center text-muted-foreground">Loading...</div></AppLayout>;
 
@@ -190,6 +194,17 @@ export default function GoalDetail() {
               </Button>
             )}
           </div>
+          {/* Learn more */}
+          {goalResources && goalResources.length > 0 && (
+            <div>
+              <p className="text-sm font-display font-semibold mb-2">Learn more about saving</p>
+              <div className="space-y-2">
+                {goalResources.map((r) => (
+                  <ResourceCard key={r.id} resource={r} />
+                ))}
+              </div>
+            </div>
+          )}
         </motion.div>
       </div>
     </AppLayout>
