@@ -66,6 +66,31 @@ export default function Learn() {
         </p>
       </div>
 
+      {/* Damien Talks Money */}
+      <motion.section
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2 }}
+        className="mb-8"
+      >
+        <h2 className="font-display font-semibold text-base mb-1">Damien Talks Money – Videos</h2>
+        <p className="text-xs text-muted-foreground mb-3">
+          Curated videos from Damien Talks Money, one of the UK's biggest personal finance channels, for education and inspiration only (not personal advice).
+        </p>
+        <div className="relative w-full rounded-xl overflow-hidden border border-border/50" style={{ paddingBottom: "56.25%" }}>
+          <iframe
+            src="https://www.youtube.com/embed/yjS6kc7LiuM"
+            title="Damien Talks Money – YouTube channel"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute inset-0 w-full h-full"
+          />
+        </div>
+        <p className="text-[10px] text-muted-foreground mt-2">
+          Videos play from YouTube in a new tab or in‑player, depending on your device.
+        </p>
+      </motion.section>
+
       {/* Featured videos */}
       <section className="mb-8">
         <h2 className="font-display font-semibold text-base mb-3">Featured videos</h2>
@@ -126,7 +151,7 @@ export default function Learn() {
       )}
 
       {/* Browse topics */}
-      <section>
+      <section className="pb-6">
         <h2 className="font-display font-semibold text-base mb-3">Browse topics</h2>
         <div className="space-y-3">
           {LESSONS.map((lesson, i) => (
@@ -140,31 +165,6 @@ export default function Learn() {
           ))}
         </div>
       </section>
-
-      {/* Damien Talks Money */}
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="mt-8 pb-6"
-      >
-        <h2 className="font-display font-semibold text-base mb-1">Damien Talks Money – Videos</h2>
-        <p className="text-xs text-muted-foreground mb-3">
-          Curated videos from Damien Talks Money, one of the UK's biggest personal finance channels, for education and inspiration only (not personal advice).
-        </p>
-        <div className="relative w-full rounded-xl overflow-hidden border border-border/50" style={{ paddingBottom: "56.25%" }}>
-          <iframe
-            src="https://www.youtube.com/embed/yjS6kc7LiuM"
-            title="Damien Talks Money – YouTube channel"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="absolute inset-0 w-full h-full"
-          />
-        </div>
-        <p className="text-[10px] text-muted-foreground mt-2">
-          Videos play from YouTube in a new tab or in‑player, depending on your device.
-        </p>
-      </motion.section>
     </AppLayout>
   );
 }
