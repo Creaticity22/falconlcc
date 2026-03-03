@@ -79,7 +79,7 @@ export default function Dashboard() {
   const nextLesson = LESSONS.find((l) => !completedLessons?.includes(l.id));
 
   const quickActions = [
-    { label: "Ask the AI", icon: MessageCircle, to: "/ai", gradient: "gradient-primary" },
+    { label: "Ask Falcon AI", icon: MessageCircle, to: "/ai", gradient: "gradient-primary" },
     { label: "Add expense", icon: Plus, to: "/budget?add=1", gradient: "gradient-accent" },
     { label: "Add savings", icon: PiggyBank, to: "/goals", gradient: "bg-success" },
     { label: "Start lesson", icon: BookOpen, to: nextLesson ? `/learn/${nextLesson.id}` : "/learn", gradient: "gradient-xp" },
