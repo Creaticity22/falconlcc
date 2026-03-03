@@ -15,6 +15,9 @@ import Learn from "./pages/Learn";
 import Lesson from "./pages/Lesson";
 import AIChat from "./pages/AIChat";
 import Settings from "./pages/Settings";
+import MoneyMoment from "./pages/MoneyMoment";
+import MoneyDiary from "./pages/MoneyDiary";
+import MoneyWins from "./pages/MoneyWins";
 import NotFound from "./pages/NotFound";
 import { Bird } from "lucide-react";
 import { motion } from "framer-motion";
@@ -68,6 +71,9 @@ const App = () => (
             <Route path="/goals/:id" element={<ProtectedRoute><GoalDetail /></ProtectedRoute>} />
             <Route path="/learn" element={<ProtectedRoute><Learn /></ProtectedRoute>} />
             <Route path="/learn/:id" element={<ProtectedRoute><Lesson /></ProtectedRoute>} />
+            <Route path="/learn/moment/:id" element={<ProtectedRoute><MoneyMoment /></ProtectedRoute>} />
+            <Route path="/diary" element={<ProtectedRoute><MoneyDiary /></ProtectedRoute>} />
+            <Route path="/wins" element={<ProtectedRoute><MoneyWins /></ProtectedRoute>} />
             <Route path="/ai" element={<ProtectedRoute><AIChat /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />

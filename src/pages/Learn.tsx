@@ -1,5 +1,7 @@
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
@@ -7,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useResources } from "@/hooks/useResources";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
+import { MONEY_MOMENTS } from "@/lib/moneyMoments";
 
 const FEATURED_VIDEOS = [
   {
@@ -121,6 +124,34 @@ export default function Learn() {
                 </div>
               </div>
             </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Real-life money moments */}
+      <section className="mb-8">
+        <h2 className="font-display font-semibold text-base mb-1">Real‑life money moments</h2>
+        <p className="text-xs text-muted-foreground mb-3">
+          Step-by-step guides for big money milestones
+        </p>
+        <div className="space-y-2">
+          {MONEY_MOMENTS.map((moment, i) => (
+            <Link key={moment.id} to={`/learn/moment/${moment.id}`}>
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: i * 0.05 }}
+                whileTap={{ scale: 0.98 }}
+                className="bg-card rounded-xl p-4 border border-border/50 flex items-center gap-3 hover:border-primary/30 transition-colors"
+              >
+                <span className="text-2xl">{moment.emoji}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-semibold">{moment.title}</p>
+                  <p className="text-xs text-muted-foreground line-clamp-1">{moment.description}</p>
+                </div>
+                <ArrowRight className="w-4 h-4 text-muted-foreground shrink-0" />
+              </motion.div>
+            </Link>
           ))}
         </div>
       </section>
