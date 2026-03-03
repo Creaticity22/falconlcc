@@ -103,7 +103,7 @@ export default function Learn() {
         </p>
         <div className="relative w-full rounded-xl overflow-hidden border border-border/50" style={{ paddingBottom: "56.25%" }}>
           <iframe
-            src="https://www.youtube.com/embed/videoseries?list=UU7HnFjm-oRMvmLEGTcrdmBQ"
+            src="https://www.youtube.com/embed/yjS6kc7LiuM"
             title="Damien Talks Money – YouTube channel"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
