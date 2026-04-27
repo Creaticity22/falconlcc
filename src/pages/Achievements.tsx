@@ -6,7 +6,9 @@ import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
 import BadgeMedallion from "@/components/BadgeMedallion";
 import CertificateCard from "@/components/CertificateCard";
+import SponsoredBanner from "@/components/SponsoredBanner";
 import { Button } from "@/components/ui/button";
+import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 import {
   useBadgeCatalogue,
   useCertificateCatalogue,
