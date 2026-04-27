@@ -92,8 +92,8 @@ export default function Dashboard() {
       {/* Hero header */}
       <section className="pt-4 md:pt-8 pb-6 md:pb-8">
         {/* Mobile-only big logo bar */}
-        <div className="md:hidden flex items-center justify-between mb-5">
-          <FalconLogo showWordmark size={48} />
+        <div className="md:hidden flex items-center justify-between mb-6">
+          <FalconLogo showWordmark size={64} className="drop-shadow-[0_0_18px_hsl(268_75%_55%/0.5)]" />
           <Link
             to="/settings"
             className="w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-lg shrink-0"

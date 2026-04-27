@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useUpdateProfile } from "@/hooks/useProfile";
 import { useAwardXP } from "@/hooks/useGamification";
+import FalconLogo from "@/components/FalconLogo";
 
 const AGE_RANGES = ["15-17", "18-21"];
 const INCOME_BANDS = [
@@ -69,9 +70,14 @@ export default function Onboarding() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-background px-6 pt-16 pb-8">
+    <div className="min-h-screen flex flex-col bg-background px-6 pt-12 pb-8">
+      {/* Brand mark */}
+      <div className="flex justify-center mb-8">
+        <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_22px_hsl(268_75%_55%/0.5)]" />
+      </div>
+
       {/* Progress */}
-      <div className="flex gap-1.5 mb-12 max-w-sm mx-auto w-full">
+      <div className="flex gap-1.5 mb-10 max-w-sm mx-auto w-full">
         {[0, 1, 2, 3, 4].map((i) => (
           <div
             key={i}
