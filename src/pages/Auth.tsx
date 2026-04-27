@@ -63,16 +63,16 @@ export default function Auth() {
         className="w-full max-w-sm space-y-10 relative z-10"
       >
         {/* Logo + brand */}
-        <div className="text-center space-y-5">
+        <div className="text-center space-y-6">
           <motion.div
             initial={{ scale: 0, rotate: -10 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.15 }}
-            className="flex justify-center"
+            className="flex justify-center drop-shadow-[0_8px_30px_hsl(268_75%_45%/0.5)]"
           >
-            <FalconLogo showWordmark size={72} />
+            <FalconLogo showWordmark size={140} />
           </motion.div>
-          <p className="text-base text-muted-foreground font-medium">
+          <p className="text-base md:text-lg text-muted-foreground font-medium">
             Level up your money skills
           </p>
         </div>
