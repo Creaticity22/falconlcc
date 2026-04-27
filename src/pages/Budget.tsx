@@ -154,19 +154,19 @@ export default function Budget() {
       ) : (
         <>
           {/* Overview */}
-          <div className="gradient-primary rounded-2xl p-5 text-primary-foreground mb-6">
-            <div className="grid grid-cols-3 gap-4 text-center">
+          <div className="relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-8 mb-8">
+            <div className="grid grid-cols-3 gap-4 text-center relative z-10">
               <div>
-                <p className="text-xs opacity-80">Planned</p>
-                <p className="text-xl font-display font-bold">£{Number(budget!.monthly_income).toFixed(0)}</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground">Planned</p>
+                <p className="text-2xl md:text-3xl font-display font-bold mt-1">£{Number(budget!.monthly_income).toFixed(0)}</p>
+              </div>
+              <div className="border-x border-border/40">
+                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground">Spent</p>
+                <p className="text-2xl md:text-3xl font-display font-bold mt-1 text-gradient-gold">£{totalSpent.toFixed(0)}</p>
               </div>
               <div>
-                <p className="text-xs opacity-80">Spent</p>
-                <p className="text-xl font-display font-bold">£{totalSpent.toFixed(0)}</p>
-              </div>
-              <div>
-                <p className="text-xs opacity-80">Left</p>
-                <p className={`text-xl font-display font-bold ${remaining < 0 ? "text-destructive" : ""}`}>
+                <p className="text-[10px] uppercase tracking-[0.18em] font-semibold text-muted-foreground">Left</p>
+                <p className={`text-2xl md:text-3xl font-display font-bold mt-1 ${remaining < 0 ? "text-destructive" : "text-success"}`}>
                   £{remaining.toFixed(0)}
                 </p>
               </div>
