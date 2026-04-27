@@ -82,8 +82,11 @@ export default function Goals() {
 
   return (
     <AppLayout>
-      <div className="pt-8 pb-4 flex items-center justify-between">
-        <h1 className="text-2xl font-display font-bold">Savings Goals</h1>
+      <div className="pt-6 md:pt-10 pb-6 md:pb-8 flex items-end justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">Savings</p>
+          <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">My Goals</h1>
+        </div>
         <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
           <DialogTrigger asChild>
             <Button size="sm" className="rounded-xl gradient-primary text-primary-foreground border-0">

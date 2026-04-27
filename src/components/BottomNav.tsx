@@ -13,22 +13,22 @@ export default function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 glass-card border-t border-border/50 pb-safe">
-      <div className="flex items-center justify-around h-16 max-w-lg mx-auto">
+    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe bg-background/85 backdrop-blur-xl border-t border-border/60">
+      <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
         {tabs.map((tab) => {
-          const isActive = tab.path === "/" 
-            ? location.pathname === "/" 
+          const isActive = tab.path === "/"
+            ? location.pathname === "/"
             : location.pathname.startsWith(tab.path);
           return (
             <Link
               key={tab.path}
               to={tab.path}
-              className="relative flex flex-col items-center gap-0.5 px-4 py-2"
+              className="relative flex flex-col items-center gap-1 px-4 py-2 flex-1"
             >
               {isActive && (
                 <motion.div
                   layoutId="activeTab"
-                  className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-8 h-1 rounded-full gradient-primary"
+                  className="absolute inset-x-3 top-0 h-[3px] rounded-full gradient-primary"
                   transition={{ type: "spring", stiffness: 400, damping: 30 }}
                 />
               )}
@@ -38,8 +38,8 @@ export default function BottomNav() {
                 }`}
               />
               <span
-                className={`text-[10px] font-medium transition-colors ${
-                  isActive ? "text-primary" : "text-muted-foreground"
+                className={`text-[10px] font-semibold transition-colors ${
+                  isActive ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
                 {tab.label}

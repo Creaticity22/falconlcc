@@ -147,13 +147,13 @@ export default function AIChat() {
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-border/50 bg-card/80 backdrop-blur-lg">
-        <Link to="/" className="text-muted-foreground"><ArrowLeft className="w-5 h-5" /></Link>
-        <div className="w-8 h-8 rounded-lg gradient-primary flex items-center justify-center">
+      <div className="flex items-center gap-3 px-4 md:px-8 py-3 md:py-4 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+        <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
+        <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-lg">
           <Bird className="w-4 h-4 text-primary-foreground" />
         </div>
         <div>
-          <p className="font-display font-semibold text-sm">Falcon AI</p>
+          <p className="font-display font-bold text-sm">Falcon AI</p>
           <p className="text-[10px] text-muted-foreground">Your money companion</p>
         </div>
       </div>
