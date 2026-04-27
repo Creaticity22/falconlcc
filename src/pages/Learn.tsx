@@ -1,15 +1,25 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award, ShieldCheck, Sparkles, Linkedin, X } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useResources } from "@/hooks/useResources";
+import {
+  useBadgeCatalogue,
+  useCertificateCatalogue,
+  useUserBadges,
+  useUserCertificates,
+} from "@/hooks/useAchievements";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 import { MONEY_MOMENTS } from "@/lib/moneyMoments";
+
+const TUTORIAL_KEY = "falcon.achievements.tutorialSeen.v1";
 
 const FEATURED_VIDEOS = [
   {
