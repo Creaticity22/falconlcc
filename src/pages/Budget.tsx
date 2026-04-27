@@ -118,11 +118,11 @@ export default function Budget() {
 
   return (
     <AppLayout>
-      <div className="pt-8 pb-4">
-        <h1 className="text-2xl font-display font-bold">Budget</h1>
-        <p className="text-sm text-muted-foreground">
+      <div className="pt-6 md:pt-10 pb-6 md:pb-8">
+        <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">
           {new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
         </p>
+        <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">Budget</h1>
       </div>
 
       {!budget && !showSetup ? (
