@@ -75,25 +75,6 @@ export default function Settings() {
           </div>
         </motion.section>
 
-        {/* Achievements entry */}
-        <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}>
-          <Link
-            to="/achievements"
-            className="flex items-center justify-between bg-gradient-to-br from-primary/15 via-card to-accent/10 rounded-xl p-4 border border-primary/30 hover:border-primary/50 transition-colors"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg gradient-primary grid place-items-center">
-                <Award className="w-5 h-5 text-primary-foreground" />
-              </div>
-              <div>
-                <p className="font-display font-semibold text-sm">Badges & certificates</p>
-                <p className="text-[11px] text-muted-foreground">Verifiable achievements for LinkedIn & CV</p>
-              </div>
-            </div>
-            <ChevronRight className="w-4 h-4 text-muted-foreground" />
-          </Link>
-        </motion.div>
-
         {/* Help & Resources */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="bg-card rounded-xl p-4 border border-border/50">
           <h2 className="font-display font-semibold text-base mb-3">Help & Resources</h2>
