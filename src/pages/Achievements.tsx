@@ -204,6 +204,7 @@ interface DetailModalProps {
   issuedAt?: string;
   verificationCode?: string;
   kind: "badge" | "certificate";
+  badgeCode?: string;
   onClose: () => void;
 }
 
