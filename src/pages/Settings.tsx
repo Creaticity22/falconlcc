@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Award, ChevronRight } from "lucide-react";
+import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
