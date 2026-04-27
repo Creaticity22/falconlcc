@@ -90,32 +90,35 @@ export default function Dashboard() {
   return (
     <AppLayout>
       {/* Hero header */}
-      <section className="pt-6 md:pt-10 pb-6 md:pb-8">
+      <section className="pt-4 md:pt-8 pb-6 md:pb-8">
+        {/* Mobile-only big logo bar */}
+        <div className="md:hidden flex items-center justify-between mb-5">
+          <FalconLogo showWordmark size={48} />
+          <Link
+            to="/settings"
+            className="w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-lg shrink-0"
+            aria-label="Settings"
+          >
+            <Bird className="w-5 h-5 text-primary-foreground" />
+          </Link>
+        </div>
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-10"
+          className="relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12"
         >
-          <div className="relative z-10 flex items-start justify-between gap-4">
-            <div className="space-y-2 max-w-xl">
-              <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-semibold text-accent">
-                Welcome back
-              </p>
-              <h1 className="text-3xl md:text-5xl font-display font-bold leading-tight">
-                Hey {profile?.first_name ?? "there"}
-                <span className="text-gradient-primary"> 👋</span>
-              </h1>
-              <p className="text-sm md:text-base text-muted-foreground max-w-md">
-                Your money, your moves. Let's keep building those skills today.
-              </p>
-            </div>
-            <Link
-              to="/settings"
-              className="md:hidden w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-lg shrink-0"
-              aria-label="Settings"
-            >
-              <Bird className="w-5 h-5 text-primary-foreground" />
-            </Link>
+          <div className="relative z-10 space-y-3 max-w-2xl">
+            <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-semibold text-accent">
+              Welcome back
+            </p>
+            <h1 className="text-3xl md:text-6xl font-display font-bold leading-tight">
+              Hey {profile?.first_name ?? "there"}
+              <span className="text-gradient-primary"> 👋</span>
+            </h1>
+            <p className="text-sm md:text-lg text-muted-foreground max-w-md">
+              Your money, your moves. Let's keep building those skills today.
+            </p>
           </div>
         </motion.div>
       </section>
