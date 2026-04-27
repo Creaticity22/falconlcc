@@ -1,15 +1,25 @@
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Award, ShieldCheck, Sparkles, Linkedin, X } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
+import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useResources } from "@/hooks/useResources";
+import {
+  useBadgeCatalogue,
+  useCertificateCatalogue,
+  useUserBadges,
+  useUserCertificates,
+} from "@/hooks/useAchievements";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 import { MONEY_MOMENTS } from "@/lib/moneyMoments";
+
+const TUTORIAL_KEY = "falcon.achievements.tutorialSeen.v1";
 
 const FEATURED_VIDEOS = [
   {
@@ -40,6 +50,25 @@ export default function Learn() {
     },
     enabled: !!user,
   });
+
+  const { data: badges = [] } = useBadgeCatalogue();
+  const { data: certificates = [] } = useCertificateCatalogue();
+  const { data: userBadges = [] } = useUserBadges();
+  const { data: userCertificates = [] } = useUserCertificates();
+
+  const [showTutorial, setShowTutorial] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!localStorage.getItem(TUTORIAL_KEY)) {
+      setShowTutorial(true);
+    }
+  }, []);
+  const dismissTutorial = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(TUTORIAL_KEY, "1");
+    }
+    setShowTutorial(false);
+  };
 
   const completed = completedLessons ?? [];
   const nextLesson = LESSONS.find((l) => !completed.includes(l.id));
@@ -72,7 +101,57 @@ export default function Learn() {
         </p>
       </div>
 
-      {/* Damien Talks Money */}
+      {/* Badges & Certificates – prominent entry */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="mb-10"
+      >
+        <Link
+          to="/achievements"
+          className="group relative block overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/25 via-card to-accent/15 p-5 md:p-7 hover:border-primary/50 transition-colors"
+        >
+          <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-primary/30 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-52 h-52 rounded-full bg-accent/20 blur-3xl pointer-events-none" />
+          <div className="relative flex flex-col md:flex-row md:items-center gap-5">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl gradient-primary grid place-items-center shrink-0 shadow-lg">
+              <Award className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-primary font-bold mb-1">
+                <ShieldCheck className="w-3.5 h-3.5" /> New · Achievements
+              </div>
+              <h2 className="font-display font-bold text-xl md:text-2xl leading-tight">
+                Earn badges & shareable certificates
+              </h2>
+              <p className="text-xs md:text-sm text-muted-foreground mt-1 max-w-xl">
+                Stack badges as you learn. Unlock verifiable certificates for LinkedIn and your CV.
+              </p>
+              <div className="flex items-center gap-4 mt-3 text-xs flex-wrap">
+                <span className="inline-flex items-baseline gap-1">
+                  <span className="font-display font-bold text-base">{userBadges.length}</span>
+                  <span className="text-muted-foreground">/{badges.length} badges</span>
+                </span>
+                <span className="inline-flex items-baseline gap-1">
+                  <span className="font-display font-bold text-base">{userCertificates.length}</span>
+                  <span className="text-muted-foreground">/{certificates.length} certificates</span>
+                </span>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-1 text-sm text-primary font-semibold shrink-0">
+              View all <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </Link>
+        <button
+          onClick={() => setShowTutorial(true)}
+          className="mt-2 text-[11px] text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
+        >
+          <Sparkles className="w-3 h-3" /> How do badges & certificates work?
+        </button>
+      </motion.section>
+
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -199,6 +278,75 @@ export default function Learn() {
           ))}
         </div>
       </section>
+
+      {/* First-time tutorial */}
+      <AnimatePresence>
+        {showTutorial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[70] grid place-items-center bg-background/80 backdrop-blur-sm p-4"
+            onClick={dismissTutorial}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-3xl bg-card border border-primary/30 p-6 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/30 blur-3xl pointer-events-none" />
+              <button
+                onClick={dismissTutorial}
+                className="absolute top-3 right-3 w-8 h-8 grid place-items-center rounded-full hover:bg-secondary/70 z-10"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <div className="relative">
+                <div className="w-14 h-14 rounded-2xl gradient-primary grid place-items-center mb-4 shadow-lg">
+                  <Award className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div className="text-[11px] uppercase tracking-widest text-primary font-bold mb-1">
+                  Welcome to Falcon Achievements
+                </div>
+                <h3 className="font-display font-bold text-2xl leading-tight mb-3">
+                  Turn learning into proof of skill
+                </h3>
+                <ul className="space-y-3 text-sm text-foreground/85 mb-5">
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">1</span>
+                    <span><b>Earn badges</b> automatically as you complete lessons, hit goals and build healthy money habits.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">2</span>
+                    <span><b>Stack badges</b> to unlock tiered <b>certificates</b> in budgeting, saving and money knowledge.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">3</span>
+                    <span className="inline-flex items-start gap-1.5">
+                      <Linkedin className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+                      <span><b>Share</b> each one with a public verification link — perfect for LinkedIn and your CV.</span>
+                    </span>
+                  </li>
+                </ul>
+                <div className="flex gap-2">
+                  <Button variant="secondary" size="sm" className="flex-1" onClick={dismissTutorial}>
+                    Got it
+                  </Button>
+                  <Button asChild size="sm" className="flex-1" onClick={dismissTutorial}>
+                    <Link to="/achievements">
+                      Explore <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AppLayout>
   );
 }
+
