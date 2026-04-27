@@ -7,11 +7,13 @@ import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
 import CommunityInsights from "@/components/CommunityInsights";
 import FalconLogo from "@/components/FalconLogo";
+import SponsoredBanner from "@/components/SponsoredBanner";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
+import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -187,6 +189,29 @@ export default function Dashboard() {
           ))}
         </div>
       </section>
+
+      {/* Sponsored opportunities (non-persistent, scrolls naturally) */}
+      {(() => {
+        const sponsored = getSponsoredCampaigns("dashboard");
+        if (sponsored.length === 0) return null;
+        return (
+          <section className="mb-10" aria-label="Sponsored opportunities">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-[11px] uppercase tracking-[0.2em] font-bold text-muted-foreground">
+                Sponsored opportunities
+              </h2>
+              <span className="text-[10px] text-muted-foreground">
+                Rewards powered by partners
+              </span>
+            </div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {sponsored.map((c) => (
+                <SponsoredBanner key={c.id} campaign={c} variant="dashboard" />
+              ))}
+            </div>
+          </section>
+        );
+      })()}
 
       {/* Two-col layout on desktop */}
       <div className="grid md:grid-cols-2 gap-8 mb-10">

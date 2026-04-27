@@ -6,7 +6,9 @@ import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
 import BadgeMedallion from "@/components/BadgeMedallion";
 import CertificateCard from "@/components/CertificateCard";
+import SponsoredBanner from "@/components/SponsoredBanner";
 import { Button } from "@/components/ui/button";
+import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 import {
   useBadgeCatalogue,
   useCertificateCatalogue,
@@ -158,6 +160,7 @@ export default function Achievements() {
           issuedAt={earnedBadgeMap.get(openBadge.code)?.issued_at}
           verificationCode={earnedBadgeMap.get(openBadge.code)?.verification_code}
           kind="badge"
+          badgeCode={openBadge.code}
           onClose={() => setOpenBadge(null)}
         />
       )}
@@ -201,6 +204,7 @@ interface DetailModalProps {
   issuedAt?: string;
   verificationCode?: string;
   kind: "badge" | "certificate";
+  badgeCode?: string;
   onClose: () => void;
 }
 
@@ -214,8 +218,12 @@ function DetailModal({
   issuedAt,
   verificationCode,
   kind,
+  badgeCode,
   onClose,
 }: DetailModalProps) {
+  const sponsoredHeader = badgeCode
+    ? getSponsoredCampaigns("badge_header", { badgeCode })[0]
+    : undefined;
   const verifyUrl = verificationCode
     ? `${window.location.origin}/verify/${kind === "badge" ? "b" : "c"}/${verificationCode}`
     : "";
@@ -262,6 +270,12 @@ function DetailModal({
             <h3 className="font-display font-bold text-xl leading-tight">{title}</h3>
           </div>
         </div>
+
+        {sponsoredHeader && (
+          <div className="mb-3">
+            <SponsoredBanner campaign={sponsoredHeader} variant="header" />
+          </div>
+        )}
 
         <p className="text-sm text-foreground/80 mb-3">{description}</p>
 
