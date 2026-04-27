@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { ShieldCheck, Award, ExternalLink, Copy, Linkedin } from "lucide-react";
 import FalconLogo from "@/components/FalconLogo";
@@ -104,15 +103,31 @@ export default function Verify() {
     ? `${item.recipientName ?? "A Falcon learner"} earned the ${item.catalogue.name} ${item.kind} from Falcon.`
     : "Public verification page for Falcon badges and certificates.";
 
+  useEffect(() => {
+    document.title = title;
+    const setMeta = (name: string, value: string, attr: "name" | "property" = "name") => {
+      let el = document.head.querySelector<HTMLMetaElement>(`meta[${attr}="${name}"]`);
+      if (!el) {
+        el = document.createElement("meta");
+        el.setAttribute(attr, name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute("content", value);
+    };
+    setMeta("description", description.slice(0, 160));
+    setMeta("og:title", title, "property");
+    setMeta("og:description", description.slice(0, 160), "property");
+    let canonical = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", url);
+  }, [title, description, url]);
+
   return (
     <div className="min-h-screen bg-background">
-      <Helmet>
-        <title>{title}</title>
-        <meta name="description" content={description.slice(0, 160)} />
-        <meta property="og:title" content={title} />
-        <meta property="og:description" content={description.slice(0, 160)} />
-        <link rel="canonical" href={url} />
-      </Helmet>
 
       <header className="sticky top-0 z-30 bg-background/80 backdrop-blur-xl border-b border-border/50">
         <div className="max-w-3xl mx-auto px-4 md:px-8 h-16 flex items-center justify-between">
