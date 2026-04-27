@@ -154,7 +154,27 @@ export default function Learn() {
         </button>
       </motion.section>
 
+      {/* Sponsored learning opportunities */}
+      {(() => {
+        const sponsored = getSponsoredCampaigns("learn");
+        if (sponsored.length === 0) return null;
+        return (
+          <section className="mb-8" aria-label="Sponsored learning opportunities">
+            <h2 className="font-display font-semibold text-base mb-1">Sponsored opportunities</h2>
+            <p className="text-xs text-muted-foreground mb-3">
+              Extra rewards from partners who support youth financial education.
+            </p>
+            <div className="space-y-3">
+              {sponsored.map((c) => (
+                <SponsoredBanner key={c.id} campaign={c} variant="compact" />
+              ))}
+            </div>
+          </section>
+        );
+      })()}
+
       <motion.section
+
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2 }}
