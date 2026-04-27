@@ -218,8 +218,12 @@ function DetailModal({
   issuedAt,
   verificationCode,
   kind,
+  badgeCode,
   onClose,
 }: DetailModalProps) {
+  const sponsoredHeader = badgeCode
+    ? getSponsoredCampaigns("badge_header", { badgeCode })[0]
+    : undefined;
   const verifyUrl = verificationCode
     ? `${window.location.origin}/verify/${kind === "badge" ? "b" : "c"}/${verificationCode}`
     : "";
