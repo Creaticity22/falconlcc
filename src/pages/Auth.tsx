@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Bird, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import FalconLogo from "@/components/FalconLogo";
 
 export default function Auth() {
   const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
@@ -18,8 +19,11 @@ export default function Auth() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: "linear" }}>
-          <Bird className="w-10 h-10 text-primary" />
+        <motion.div
+          animate={{ scale: [1, 1.08, 1], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+        >
+          <FalconLogo size={56} />
         </motion.div>
       </div>
     );
@@ -45,25 +49,30 @@ export default function Auth() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background">
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden">
+      {/* Ambient brand glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/20 blur-[120px]" />
+        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[100px]" />
+      </div>
+
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-sm space-y-8"
+        className="w-full max-w-sm space-y-10 relative z-10"
       >
-        {/* Logo */}
-        <div className="text-center space-y-3">
+        {/* Logo + brand */}
+        <div className="text-center space-y-5">
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 300, damping: 20, delay: 0.2 }}
-            className="w-20 h-20 rounded-2xl gradient-primary mx-auto flex items-center justify-center shadow-lg"
+            initial={{ scale: 0, rotate: -10 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.15 }}
+            className="flex justify-center"
           >
-            <Bird className="w-10 h-10 text-primary-foreground" />
+            <FalconLogo showWordmark size={72} />
           </motion.div>
-          <h1 className="text-3xl font-display font-bold">Falcon</h1>
-          <p className="text-muted-foreground text-sm font-medium">
+          <p className="text-base text-muted-foreground font-medium">
             Level up your money skills
           </p>
         </div>
@@ -72,7 +81,7 @@ export default function Auth() {
         <div className="space-y-3">
           <Button
             onClick={signInWithGoogle}
-            className="w-full h-12 rounded-xl font-semibold text-sm gradient-primary text-primary-foreground border-0 shadow-md"
+            className="w-full h-12 rounded-xl font-semibold text-sm gradient-primary text-primary-foreground border-0 shadow-[0_8px_30px_hsl(268_75%_45%/0.45)] hover:shadow-[0_12px_40px_hsl(268_75%_45%/0.6)] transition-shadow"
             size="lg"
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
@@ -88,7 +97,7 @@ export default function Auth() {
             <Button
               onClick={() => setShowEmail(true)}
               variant="outline"
-              className="w-full h-12 rounded-xl font-semibold text-sm"
+              className="w-full h-12 rounded-xl font-semibold text-sm bg-secondary/40 border-border/60 hover:bg-secondary"
               size="lg"
             >
               <Mail className="w-4 h-4 mr-2" />
@@ -106,7 +115,7 @@ export default function Auth() {
                 placeholder="Email address"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="h-12 rounded-xl"
+                className="h-12 rounded-xl bg-secondary/40 border-border/60"
                 required
               />
               <Input
@@ -114,7 +123,7 @@ export default function Auth() {
                 placeholder="Password (min 6 characters)"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="h-12 rounded-xl"
+                className="h-12 rounded-xl bg-secondary/40 border-border/60"
                 minLength={6}
                 required
               />
@@ -128,7 +137,7 @@ export default function Auth() {
               <button
                 type="button"
                 onClick={() => setIsSignUp(!isSignUp)}
-                className="w-full text-center text-xs text-muted-foreground hover:text-foreground"
+                className="w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
               >
                 {isSignUp ? "Already have an account? Sign in" : "New here? Create an account"}
               </button>
