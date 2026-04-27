@@ -18,6 +18,8 @@ import Settings from "./pages/Settings";
 import MoneyMoment from "./pages/MoneyMoment";
 import MoneyDiary from "./pages/MoneyDiary";
 import MoneyWins from "./pages/MoneyWins";
+import Achievements from "./pages/Achievements";
+import Verify from "./pages/Verify";
 import NotFound from "./pages/NotFound";
 import { Bird } from "lucide-react";
 import { motion } from "framer-motion";
@@ -64,6 +66,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={<Auth />} />
+            <Route path="/verify/:kind/:code" element={<Verify />} />
             <Route path="/onboarding" element={<OnboardingRoute />} />
             <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
@@ -76,6 +79,7 @@ const App = () => (
             <Route path="/wins" element={<ProtectedRoute><MoneyWins /></ProtectedRoute>} />
             <Route path="/ai" element={<ProtectedRoute><AIChat /></ProtectedRoute>} />
             <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
+            <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

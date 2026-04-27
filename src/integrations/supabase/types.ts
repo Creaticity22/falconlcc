@@ -38,6 +38,51 @@ export type Database = {
         }
         Relationships: []
       }
+      badges: {
+        Row: {
+          category: string
+          code: string
+          color: string
+          created_at: string
+          criteria: string
+          description: string
+          icon: string
+          id: string
+          name: string
+          skills: string[]
+          sort_order: number
+          tier: number
+        }
+        Insert: {
+          category: string
+          code: string
+          color?: string
+          created_at?: string
+          criteria: string
+          description: string
+          icon?: string
+          id?: string
+          name: string
+          skills?: string[]
+          sort_order?: number
+          tier?: number
+        }
+        Update: {
+          category?: string
+          code?: string
+          color?: string
+          created_at?: string
+          criteria?: string
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+          skills?: string[]
+          sort_order?: number
+          tier?: number
+        }
+        Relationships: []
+      }
       budgets: {
         Row: {
           categories: Json
@@ -65,6 +110,45 @@ export type Database = {
           monthly_income?: number
           updated_at?: string
           user_id?: string
+        }
+        Relationships: []
+      }
+      certificates: {
+        Row: {
+          code: string
+          created_at: string
+          description: string
+          id: string
+          issuer: string
+          name: string
+          required_badge_codes: string[]
+          skills: string[]
+          sort_order: number
+          tier: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          description: string
+          id?: string
+          issuer?: string
+          name: string
+          required_badge_codes?: string[]
+          skills?: string[]
+          sort_order?: number
+          tier?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          description?: string
+          id?: string
+          issuer?: string
+          name?: string
+          required_badge_codes?: string[]
+          skills?: string[]
+          sort_order?: number
+          tier?: number
         }
         Relationships: []
       }
@@ -406,6 +490,76 @@ export type Database = {
           },
         ]
       }
+      user_badges: {
+        Row: {
+          badge_code: string
+          id: string
+          issued_at: string
+          recipient_name: string | null
+          user_id: string
+          verification_code: string
+        }
+        Insert: {
+          badge_code: string
+          id?: string
+          issued_at?: string
+          recipient_name?: string | null
+          user_id: string
+          verification_code?: string
+        }
+        Update: {
+          badge_code?: string
+          id?: string
+          issued_at?: string
+          recipient_name?: string | null
+          user_id?: string
+          verification_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_badges_badge_code_fkey"
+            columns: ["badge_code"]
+            isOneToOne: false
+            referencedRelation: "badges"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
+      user_certificates: {
+        Row: {
+          certificate_code: string
+          id: string
+          issued_at: string
+          recipient_name: string | null
+          user_id: string
+          verification_code: string
+        }
+        Insert: {
+          certificate_code: string
+          id?: string
+          issued_at?: string
+          recipient_name?: string | null
+          user_id: string
+          verification_code?: string
+        }
+        Update: {
+          certificate_code?: string
+          id?: string
+          issued_at?: string
+          recipient_name?: string | null
+          user_id?: string
+          verification_code?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_certificates_certificate_code_fkey"
+            columns: ["certificate_code"]
+            isOneToOne: false
+            referencedRelation: "certificates"
+            referencedColumns: ["code"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -429,6 +583,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      award_badge: { Args: { _badge_code: string }; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
