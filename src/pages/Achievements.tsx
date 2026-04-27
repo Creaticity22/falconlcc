@@ -271,6 +271,12 @@ function DetailModal({
           </div>
         </div>
 
+        {sponsoredHeader && (
+          <div className="mb-3">
+            <SponsoredBanner campaign={sponsoredHeader} variant="header" />
+          </div>
+        )}
+
         <p className="text-sm text-foreground/80 mb-3">{description}</p>
 
         <div className="rounded-lg bg-secondary/40 border border-border/40 p-3 mb-3">
