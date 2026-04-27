@@ -51,6 +51,25 @@ export default function Learn() {
     enabled: !!user,
   });
 
+  const { data: badges = [] } = useBadgeCatalogue();
+  const { data: certificates = [] } = useCertificateCatalogue();
+  const { data: userBadges = [] } = useUserBadges();
+  const { data: userCertificates = [] } = useUserCertificates();
+
+  const [showTutorial, setShowTutorial] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!localStorage.getItem(TUTORIAL_KEY)) {
+      setShowTutorial(true);
+    }
+  }, []);
+  const dismissTutorial = () => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem(TUTORIAL_KEY, "1");
+    }
+    setShowTutorial(false);
+  };
+
   const completed = completedLessons ?? [];
   const nextLesson = LESSONS.find((l) => !completed.includes(l.id));
 
