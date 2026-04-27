@@ -18,22 +18,28 @@ export default function GoalCard({ id, name, targetAmount, currentAmount, target
     <Link to={`/goals/${id}`}>
       <motion.div
         whileTap={{ scale: 0.98 }}
-        className="bg-card rounded-xl p-4 border border-border/50 shadow-sm"
+        whileHover={{ y: -2 }}
+        className="card-elevated p-4 md:p-5 group"
       >
-        <div className="flex items-start gap-3">
-          <div className="w-10 h-10 rounded-lg gradient-primary flex items-center justify-center shrink-0">
-            <Target className="w-5 h-5 text-primary-foreground" />
+        <div className="flex items-start gap-4">
+          <div className="w-12 h-12 rounded-xl gradient-primary flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform">
+            <Target className="w-6 h-6 text-primary-foreground" />
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-display font-semibold text-sm truncate">{name}</h3>
-            <div className="flex items-center justify-between mt-1 text-xs text-muted-foreground">
-              <span>£{currentAmount.toFixed(0)} / £{targetAmount.toFixed(0)}</span>
-              <span>{pct.toFixed(0)}%</span>
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-display font-bold text-base truncate">{name}</h3>
+              <span className="text-xs font-bold text-gradient-gold shrink-0">{pct.toFixed(0)}%</span>
             </div>
-            <Progress value={pct} className="mt-2 h-2" />
+            <div className="flex items-center justify-between mt-1 text-xs text-muted-foreground">
+              <span>
+                <span className="text-foreground font-semibold">£{currentAmount.toFixed(0)}</span>
+                <span className="opacity-60"> / £{targetAmount.toFixed(0)}</span>
+              </span>
+            </div>
+            <Progress value={pct} className="mt-2.5 h-1.5" />
             {targetDate && (
-              <p className="text-[10px] text-muted-foreground mt-1.5">
-                Target: {new Date(targetDate).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
+              <p className="text-[10px] text-muted-foreground mt-2 uppercase tracking-wider font-medium">
+                Target · {new Date(targetDate).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
               </p>
             )}
           </div>
