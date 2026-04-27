@@ -6,6 +6,7 @@ import AppLayout from "@/components/AppLayout";
 import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
 import CommunityInsights from "@/components/CommunityInsights";
+import FalconLogo from "@/components/FalconLogo";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
