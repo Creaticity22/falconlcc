@@ -6,6 +6,8 @@ import { ArrowRight, Award, ShieldCheck, Sparkles, Linkedin, X } from "lucide-re
 import AppLayout from "@/components/AppLayout";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
+import SponsoredBanner from "@/components/SponsoredBanner";
+import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useResources } from "@/hooks/useResources";
