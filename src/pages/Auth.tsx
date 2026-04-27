@@ -63,8 +63,8 @@ export default function Auth() {
             <Bird className="w-10 h-10 text-primary-foreground" />
           </motion.div>
           <h1 className="text-3xl font-display font-bold">Falcon</h1>
-          <p className="text-muted-foreground text-sm">
-            Level up your money skills 🚀
+          <p className="text-muted-foreground text-sm font-medium">
+            Level up your money skills
           </p>
         </div>
 
