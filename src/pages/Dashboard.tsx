@@ -7,11 +7,13 @@ import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
 import CommunityInsights from "@/components/CommunityInsights";
 import FalconLogo from "@/components/FalconLogo";
+import SponsoredBanner from "@/components/SponsoredBanner";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
+import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 
 export default function Dashboard() {
   const { user } = useAuth();
