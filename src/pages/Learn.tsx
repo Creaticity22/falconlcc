@@ -62,9 +62,12 @@ export default function Learn() {
 
   return (
     <AppLayout>
-      <div className="pt-8 pb-4">
-        <h1 className="text-2xl font-display font-bold">Learning Hub</h1>
-        <p className="text-sm text-muted-foreground">
+      <div className="pt-6 md:pt-10 pb-6 md:pb-8">
+        <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">Learning Hub</p>
+        <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">
+          Master your <span className="text-gradient-primary">money skills</span>
+        </h1>
+        <p className="text-sm md:text-base text-muted-foreground mt-2">
           {completed.length}/{LESSONS.length} lessons completed
         </p>
       </div>
