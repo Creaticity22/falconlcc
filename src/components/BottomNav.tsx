@@ -1,6 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 import { Home, PieChart, Target, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
+import FalconLogo from "./FalconLogo";
 
 const tabs = [
   { path: "/", icon: Home, label: "Home" },
@@ -14,6 +15,17 @@ export default function BottomNav() {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe bg-background/85 backdrop-blur-xl border-t border-border/60">
+      <Link
+        to="/"
+        aria-label="Falcon home"
+        className="flex items-center justify-center pt-3 pb-1"
+      >
+        <FalconLogo
+          showWordmark
+          size={44}
+          className="drop-shadow-[0_0_18px_hsl(268_75%_55%/0.5)]"
+        />
+      </Link>
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
         {tabs.map((tab) => {
           const isActive = tab.path === "/"
