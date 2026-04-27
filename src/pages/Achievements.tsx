@@ -160,6 +160,7 @@ export default function Achievements() {
           issuedAt={earnedBadgeMap.get(openBadge.code)?.issued_at}
           verificationCode={earnedBadgeMap.get(openBadge.code)?.verification_code}
           kind="badge"
+          badgeCode={openBadge.code}
           onClose={() => setOpenBadge(null)}
         />
       )}
