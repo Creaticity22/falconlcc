@@ -115,8 +115,7 @@ export default function Dashboard() {
               Welcome back
             </p>
             <h1 className="text-3xl md:text-6xl font-display font-bold leading-tight">
-              Hey {profile?.first_name ?? "there"}
-              <span className="text-gradient-primary"> 👋</span>
+              Hey <span className="text-gradient-primary">{profile?.first_name ?? "there"}</span>
             </h1>
             <p className="text-sm md:text-lg text-muted-foreground max-w-md">
               Your money, your moves. Let's keep building those skills today.
