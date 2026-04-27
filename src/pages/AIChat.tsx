@@ -4,6 +4,7 @@ import { ArrowLeft, Send, Bird, Loader2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
+import FalconLogo from "@/components/FalconLogo";
 import ResourceCard from "@/components/ResourceCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useResources, type Resource } from "@/hooks/useResources";
@@ -147,14 +148,12 @@ export default function AIChat() {
   return (
     <div className="flex flex-col h-screen bg-background">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 md:px-8 py-3 md:py-4 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+      <div className="flex items-center gap-4 px-4 md:px-8 py-4 md:py-5 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
-        <div className="w-9 h-9 rounded-xl gradient-primary flex items-center justify-center shadow-lg">
-          <Bird className="w-4 h-4 text-primary-foreground" />
-        </div>
-        <div>
-          <p className="font-display font-bold text-sm">Falcon AI</p>
-          <p className="text-[10px] text-muted-foreground">Your money companion</p>
+        <FalconLogo showWordmark size={48} className="drop-shadow-[0_0_14px_hsl(268_75%_55%/0.45)]" />
+        <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
+          <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+          <span className="text-[10px] font-semibold text-primary">AI Companion</span>
         </div>
       </div>
 
@@ -162,9 +161,9 @@ export default function AIChat() {
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-8 space-y-6">
-            <div className="text-center">
-              <div className="w-14 h-14 rounded-2xl gradient-primary mx-auto flex items-center justify-center mb-3">
-                <Bird className="w-7 h-7 text-primary-foreground" />
+            <div className="text-center flex flex-col items-center">
+              <div className="mb-4 drop-shadow-[0_0_24px_hsl(268_75%_55%/0.55)]">
+                <FalconLogo showWordmark size={88} />
               </div>
               <p className="text-sm text-muted-foreground max-w-xs mx-auto">
                 Ask Falcon anything about budgeting, saving, or basic investing. I'll explain it in simple language.
