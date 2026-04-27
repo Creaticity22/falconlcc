@@ -278,6 +278,75 @@ export default function Learn() {
           ))}
         </div>
       </section>
+
+      {/* First-time tutorial */}
+      <AnimatePresence>
+        {showTutorial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[70] grid place-items-center bg-background/80 backdrop-blur-sm p-4"
+            onClick={dismissTutorial}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 10 }}
+              onClick={(e) => e.stopPropagation()}
+              className="relative w-full max-w-md rounded-3xl bg-card border border-primary/30 p-6 shadow-2xl overflow-hidden"
+            >
+              <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-primary/30 blur-3xl pointer-events-none" />
+              <button
+                onClick={dismissTutorial}
+                className="absolute top-3 right-3 w-8 h-8 grid place-items-center rounded-full hover:bg-secondary/70 z-10"
+                aria-label="Close"
+              >
+                <X className="w-4 h-4" />
+              </button>
+              <div className="relative">
+                <div className="w-14 h-14 rounded-2xl gradient-primary grid place-items-center mb-4 shadow-lg">
+                  <Award className="w-7 h-7 text-primary-foreground" />
+                </div>
+                <div className="text-[11px] uppercase tracking-widest text-primary font-bold mb-1">
+                  Welcome to Falcon Achievements
+                </div>
+                <h3 className="font-display font-bold text-2xl leading-tight mb-3">
+                  Turn learning into proof of skill
+                </h3>
+                <ul className="space-y-3 text-sm text-foreground/85 mb-5">
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">1</span>
+                    <span><b>Earn badges</b> automatically as you complete lessons, hit goals and build healthy money habits.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">2</span>
+                    <span><b>Stack badges</b> to unlock tiered <b>certificates</b> in budgeting, saving and money knowledge.</span>
+                  </li>
+                  <li className="flex gap-3">
+                    <span className="w-6 h-6 rounded-full bg-primary/20 text-primary grid place-items-center text-xs font-bold shrink-0">3</span>
+                    <span className="inline-flex items-start gap-1.5">
+                      <Linkedin className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+                      <span><b>Share</b> each one with a public verification link — perfect for LinkedIn and your CV.</span>
+                    </span>
+                  </li>
+                </ul>
+                <div className="flex gap-2">
+                  <Button variant="secondary" size="sm" className="flex-1" onClick={dismissTutorial}>
+                    Got it
+                  </Button>
+                  <Button asChild size="sm" className="flex-1" onClick={dismissTutorial}>
+                    <Link to="/achievements">
+                      Explore <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </Link>
+                  </Button>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AppLayout>
   );
 }
+
