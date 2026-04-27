@@ -101,7 +101,57 @@ export default function Learn() {
         </p>
       </div>
 
-      {/* Damien Talks Money */}
+      {/* Badges & Certificates – prominent entry */}
+      <motion.section
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.05 }}
+        className="mb-10"
+      >
+        <Link
+          to="/achievements"
+          className="group relative block overflow-hidden rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/25 via-card to-accent/15 p-5 md:p-7 hover:border-primary/50 transition-colors"
+        >
+          <div className="absolute -top-12 -right-12 w-52 h-52 rounded-full bg-primary/30 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-16 -left-16 w-52 h-52 rounded-full bg-accent/20 blur-3xl pointer-events-none" />
+          <div className="relative flex flex-col md:flex-row md:items-center gap-5">
+            <div className="w-16 h-16 md:w-20 md:h-20 rounded-2xl gradient-primary grid place-items-center shrink-0 shadow-lg">
+              <Award className="w-8 h-8 md:w-10 md:h-10 text-primary-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 text-[11px] uppercase tracking-widest text-primary font-bold mb-1">
+                <ShieldCheck className="w-3.5 h-3.5" /> New · Achievements
+              </div>
+              <h2 className="font-display font-bold text-xl md:text-2xl leading-tight">
+                Earn badges & shareable certificates
+              </h2>
+              <p className="text-xs md:text-sm text-muted-foreground mt-1 max-w-xl">
+                Stack badges as you learn. Unlock verifiable certificates for LinkedIn and your CV.
+              </p>
+              <div className="flex items-center gap-4 mt-3 text-xs flex-wrap">
+                <span className="inline-flex items-baseline gap-1">
+                  <span className="font-display font-bold text-base">{userBadges.length}</span>
+                  <span className="text-muted-foreground">/{badges.length} badges</span>
+                </span>
+                <span className="inline-flex items-baseline gap-1">
+                  <span className="font-display font-bold text-base">{userCertificates.length}</span>
+                  <span className="text-muted-foreground">/{certificates.length} certificates</span>
+                </span>
+              </div>
+            </div>
+            <div className="hidden md:flex items-center gap-1 text-sm text-primary font-semibold shrink-0">
+              View all <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+            </div>
+          </div>
+        </Link>
+        <button
+          onClick={() => setShowTutorial(true)}
+          className="mt-2 text-[11px] text-muted-foreground hover:text-primary transition-colors inline-flex items-center gap-1"
+        >
+          <Sparkles className="w-3 h-3" /> How do badges & certificates work?
+        </button>
+      </motion.section>
+
       <motion.section
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
