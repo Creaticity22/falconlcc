@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ReactNode } from "react";
+import { ReactNode, CSSProperties } from "react";
 import FalconLogo from "@/components/FalconLogo";
 
 type Breakpoint = "sm" | "md" | "lg";
@@ -18,11 +18,11 @@ interface HeroBannerProps {
    * Defaults to "sm".
    */
   sideBySideFrom?: Breakpoint;
-  /** Logo size at the smallest (stacked) layout — defaults to 96 */
+  /** Logo height (px) at the smallest stacked layout — defaults to 96 */
   logoSizeSm?: number;
-  /** Logo size from `sideBySideFrom` upward — defaults to 120 */
+  /** Logo height (px) from `sideBySideFrom` upward — defaults to 120 */
   logoSizeMd?: number;
-  /** Logo size from `md:` (≥768px) upward — defaults to 140 */
+  /** Logo height (px) from md (≥768px) upward — defaults to 140 */
   logoSizeLg?: number;
   /** Optional element rendered in the top-right of the banner (e.g., settings link) */
   topRightSlot?: ReactNode;
@@ -35,10 +35,11 @@ const SIDE_BY_SIDE_CLASSES: Record<Breakpoint, string> = {
   lg: "lg:flex-row lg:items-center lg:justify-between",
 };
 
-const LOGO_MD_HEIGHT_CLASSES: Record<Breakpoint, string> = {
-  sm: "sm:!h-[var(--hero-logo-md)]",
-  md: "md:!h-[var(--hero-logo-md)]",
-  lg: "lg:!h-[var(--hero-logo-md)]",
+// Static class strings so Tailwind JIT picks them up.
+const LOGO_BP_CLASS: Record<Breakpoint, string> = {
+  sm: "hero-logo--sm",
+  md: "hero-logo--md",
+  lg: "hero-logo--lg",
 };
 
 export default function HeroBanner({
@@ -53,16 +54,16 @@ export default function HeroBanner({
   topRightSlot,
   className = "",
 }: HeroBannerProps) {
+  const cssVars = {
+    ["--hero-logo-md"]: `${logoSizeMd}px`,
+    ["--hero-logo-lg"]: `${logoSizeLg}px`,
+  } as CSSProperties;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       className={`relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12 ${className}`}
-      style={
-        {
-          ["--hero-logo-md" as string]: `${logoSizeMd}px`,
-        } as React.CSSProperties
-      }
     >
       {topRightSlot && (
         <div className="absolute top-4 right-4 z-20">{topRightSlot}</div>
@@ -91,11 +92,12 @@ export default function HeroBanner({
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
             className="shrink-0 self-center sm:self-auto"
+            style={cssVars}
           >
             <FalconLogo
               showWordmark
               size={logoSizeSm}
-              className={`drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)] ${LOGO_MD_HEIGHT_CLASSES[sideBySideFrom]} md:!h-[${logoSizeLg}px]`}
+              className={`drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)] ${LOGO_BP_CLASS[sideBySideFrom]}`}
             />
           </motion.div>
         )}
