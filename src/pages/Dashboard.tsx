@@ -7,6 +7,7 @@ import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
 import CommunityInsights from "@/components/CommunityInsights";
 import FalconLogo from "@/components/FalconLogo";
+import HeroBanner from "@/components/HeroBanner";
 import SponsoredBanner from "@/components/SponsoredBanner";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
