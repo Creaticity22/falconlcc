@@ -24,35 +24,6 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <FalconLogo showWordmark size={104} className="drop-shadow-[0_0_28px_hsl(268_75%_55%/0.6)]" />
         </Link>
 
-        <nav className="flex items-center gap-1">
-          {navItems.map((item) => {
-            const isActive = item.path === "/"
-              ? location.pathname === "/"
-              : location.pathname.startsWith(item.path);
-            return (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  isActive
-                    ? "text-foreground bg-secondary/60"
-                    : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
-                }`}
-              >
-                <item.icon className="w-4 h-4" />
-                {item.label}
-                {isActive && (
-                  <motion.span
-                    layoutId="desktop-active"
-                    className="absolute inset-x-3 -bottom-[14px] h-[3px] rounded-full gradient-primary"
-                    transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                  />
-                )}
-              </Link>
-            );
-          })}
-        </nav>
-
         <Link
           to="/settings"
           className="w-9 h-9 rounded-full bg-secondary/60 hover:bg-secondary flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors"
@@ -62,13 +33,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </Link>
       </header>
 
-      <main className="pb-36 md:pb-12 max-w-lg md:max-w-6xl mx-auto px-4 md:px-8">
+      <main className="pb-36 md:pb-40 max-w-lg md:max-w-6xl mx-auto px-4 md:px-8">
         {children}
       </main>
 
       {/* Floating Ask Falcon AI button – visible on all pages except /ai */}
       {!isAIPage && (
-        <Link to="/ai" className="fixed bottom-24 md:bottom-8 right-4 md:right-8 z-50">
+        <Link to="/ai" className="fixed bottom-44 md:bottom-44 right-4 md:right-8 z-50">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
