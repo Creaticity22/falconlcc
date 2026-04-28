@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { ArrowRight, Award, ShieldCheck, Sparkles, Linkedin, X } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
+import HeroBanner from "@/components/HeroBanner";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
 import SponsoredBanner from "@/components/SponsoredBanner";
