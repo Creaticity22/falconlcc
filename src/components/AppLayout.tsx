@@ -33,7 +33,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         </Link>
       </header>
 
-      <main className="pb-36 md:pb-12 max-w-lg md:max-w-6xl mx-auto px-4 md:px-8">
+      <main className="pb-36 md:pb-40 max-w-lg md:max-w-6xl mx-auto px-4 md:px-8">
         {children}
       </main>
 
