@@ -116,7 +116,7 @@ export default function Dashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12"
         >
-          <div className="relative z-10 flex items-center justify-between gap-6">
+          <div className="relative z-10 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-6">
             <div className="space-y-3 max-w-2xl flex-1 min-w-0">
               <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-semibold text-accent">
                 Welcome back
@@ -132,12 +132,12 @@ export default function Dashboard() {
               initial={{ scale: 0.8, opacity: 0, rotate: -8 }}
               animate={{ scale: 1, opacity: 1, rotate: 0 }}
               transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
-              className="shrink-0 hidden sm:block"
+              className="shrink-0 self-center sm:self-auto"
             >
               <FalconLogo
                 showWordmark
-                size={140}
-                className="drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)]"
+                size={96}
+                className="drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)] sm:!h-[120px] md:!h-[140px]"
               />
             </motion.div>
           </div>
