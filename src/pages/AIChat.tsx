@@ -150,7 +150,7 @@ export default function AIChat() {
       {/* Header */}
       <div className="flex items-center gap-4 px-4 md:px-8 py-4 md:py-5 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
-        <FalconLogo showWordmark size={48} className="drop-shadow-[0_0_14px_hsl(268_75%_55%/0.45)]" />
+        <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_20px_hsl(268_75%_55%/0.55)]" />
         <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
           <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
           <span className="text-[10px] font-semibold text-primary">AI Companion</span>
@@ -162,8 +162,8 @@ export default function AIChat() {
         {messages.length === 0 && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-8 space-y-6">
             <div className="text-center flex flex-col items-center">
-              <div className="mb-4 drop-shadow-[0_0_24px_hsl(268_75%_55%/0.55)]">
-                <FalconLogo showWordmark size={88} />
+              <div className="mb-4 drop-shadow-[0_0_30px_hsl(268_75%_55%/0.65)]">
+                <FalconLogo showWordmark size={140} />
               </div>
               <p className="text-sm text-muted-foreground max-w-xs mx-auto">
                 Ask Falcon anything about budgeting, saving, or basic investing. I'll explain it in simple language.

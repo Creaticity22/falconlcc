@@ -93,12 +93,18 @@ export default function Dashboard() {
     <AppLayout>
       {/* Hero header */}
       <section className="pt-4 md:pt-8 pb-6 md:pb-8">
-        {/* Mobile-only big logo bar */}
-        <div className="md:hidden flex items-center justify-between mb-6">
-          <FalconLogo showWordmark size={64} className="drop-shadow-[0_0_18px_hsl(268_75%_55%/0.5)]" />
+        {/* Mobile-only big centred logo */}
+        <div className="md:hidden relative flex items-center justify-center mb-6">
+          <motion.div
+            initial={{ scale: 0.85, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ type: "spring", stiffness: 220, damping: 20 }}
+          >
+            <FalconLogo showWordmark size={104} className="drop-shadow-[0_0_28px_hsl(268_75%_55%/0.65)]" />
+          </motion.div>
           <Link
             to="/settings"
-            className="w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-lg shrink-0"
+            className="absolute right-0 w-11 h-11 rounded-full gradient-primary flex items-center justify-center shadow-lg shrink-0"
             aria-label="Settings"
           >
             <Bird className="w-5 h-5 text-primary-foreground" />

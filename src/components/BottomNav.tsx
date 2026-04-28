@@ -18,12 +18,12 @@ export default function BottomNav() {
       <Link
         to="/"
         aria-label="Falcon home"
-        className="flex items-center justify-center pt-3 pb-1"
+        className="flex items-center justify-center pt-4 pb-2"
       >
         <FalconLogo
           showWordmark
-          size={44}
-          className="drop-shadow-[0_0_18px_hsl(268_75%_55%/0.5)]"
+          size={64}
+          className="drop-shadow-[0_0_22px_hsl(268_75%_55%/0.6)]"
         />
       </Link>
       <div className="flex items-center justify-around h-16 max-w-lg mx-auto px-2">
