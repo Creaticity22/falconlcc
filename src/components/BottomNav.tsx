@@ -14,7 +14,7 @@ export default function BottomNav() {
   const location = useLocation();
 
   return (
-    <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe bg-background/85 backdrop-blur-xl border-t border-border/60">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 pb-safe bg-background/85 backdrop-blur-xl border-t border-border/60">
       <Link
         to="/"
         aria-label="Falcon home"
