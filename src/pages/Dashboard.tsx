@@ -116,7 +116,7 @@ export default function Dashboard() {
           eyebrow="Welcome back"
           title={
             <>
-              Hey <span className="text-gradient-primary">{profile?.first_name ?? "there"}</span>
+              <span className="text-white">Hey</span> <span className="text-gradient-primary">{profile?.first_name ?? "there"}</span>
             </>
           }
           subtitle="Your money, your moves. Let's keep building those skills today."
