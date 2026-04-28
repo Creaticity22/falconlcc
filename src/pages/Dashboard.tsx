@@ -135,8 +135,8 @@ export default function Dashboard() {
               className="shrink-0 hidden sm:block"
             >
               <FalconLogo
-                size={160}
-                className="drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)] md:!w-[200px] md:!h-[200px]"
+                size={180}
+                className="drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)]"
               />
             </motion.div>
           </div>
