@@ -63,7 +63,7 @@ export default function HeroBanner({
     <motion.div
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12 ${className}`}
+      className={`relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12 text-white ${className}`}
     >
       {topRightSlot && (
         <div className="absolute top-4 right-4 z-20">{topRightSlot}</div>
@@ -77,11 +77,11 @@ export default function HeroBanner({
               {eyebrow}
             </p>
           )}
-          <h1 className="text-3xl md:text-6xl font-display font-bold leading-tight">
+          <h1 className="text-3xl md:text-6xl font-display font-bold leading-tight text-white">
             {title}
           </h1>
           {subtitle && (
-            <p className="text-sm md:text-lg text-muted-foreground max-w-md">
+            <p className="text-sm md:text-lg text-white/80 max-w-md">
               {subtitle}
             </p>
           )}
