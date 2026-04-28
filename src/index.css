@@ -6,16 +6,15 @@
 
 @layer base {
   :root {
-    /* Falcon premium dark theme — inspired by Netflix / YouTube,
-       anchored to the brand purple + gold from the Falcon logo. */
-    --background: 260 25% 7%;
-    --foreground: 40 30% 96%;
+    /* Falcon light theme — white background, brand purple + gold accents preserved. */
+    --background: 0 0% 100%;
+    --foreground: 260 25% 12%;
 
-    --card: 260 22% 11%;
-    --card-foreground: 40 30% 96%;
+    --card: 0 0% 100%;
+    --card-foreground: 260 25% 12%;
 
-    --popover: 260 25% 9%;
-    --popover-foreground: 40 30% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 260 25% 12%;
 
     /* Brand purple from logo */
     --primary: 268 75% 58%;
@@ -23,65 +22,65 @@
     --primary-glow: 280 80% 68%;
     --primary-deep: 260 70% 32%;
 
-    --secondary: 260 20% 16%;
-    --secondary-foreground: 40 30% 96%;
+    --secondary: 260 20% 96%;
+    --secondary-foreground: 260 25% 14%;
 
-    --muted: 260 18% 14%;
-    --muted-foreground: 260 10% 65%;
+    --muted: 260 20% 96%;
+    --muted-foreground: 260 10% 40%;
 
     /* Gold accent from logo */
     --accent: 42 95% 58%;
     --accent-foreground: 30 80% 12%;
     --accent-glow: 38 100% 65%;
 
-    --destructive: 0 80% 60%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 260 18% 18%;
-    --input: 260 18% 16%;
+    --border: 260 20% 90%;
+    --input: 260 20% 92%;
     --ring: 268 75% 58%;
 
     --radius: 1rem;
 
-    --success: 152 65% 48%;
+    --success: 152 65% 42%;
     --success-foreground: 0 0% 100%;
 
-    --xp: 268 75% 60%;
+    --xp: 268 75% 58%;
     --xp-foreground: 0 0% 100%;
 
-    --streak: 28 95% 58%;
+    --streak: 28 95% 55%;
     --streak-foreground: 0 0% 100%;
 
-    --sidebar-background: 260 25% 6%;
-    --sidebar-foreground: 40 20% 92%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 260 25% 14%;
     --sidebar-primary: 268 75% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 260 20% 12%;
-    --sidebar-accent-foreground: 40 30% 96%;
-    --sidebar-border: 260 18% 18%;
+    --sidebar-accent: 260 20% 96%;
+    --sidebar-accent-foreground: 260 25% 14%;
+    --sidebar-border: 260 20% 90%;
     --sidebar-ring: 268 75% 58%;
   }
 
   .dark {
-    /* Same as :root — the app is dark-mode-first */
-    --background: 260 25% 7%;
-    --foreground: 40 30% 96%;
-    --card: 260 22% 11%;
-    --card-foreground: 40 30% 96%;
-    --popover: 260 25% 9%;
-    --popover-foreground: 40 30% 96%;
+    /* Light theme mirrored — app is light-mode-first */
+    --background: 0 0% 100%;
+    --foreground: 260 25% 12%;
+    --card: 0 0% 100%;
+    --card-foreground: 260 25% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 260 25% 12%;
     --primary: 268 75% 58%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 260 20% 16%;
-    --secondary-foreground: 40 30% 96%;
-    --muted: 260 18% 14%;
-    --muted-foreground: 260 10% 65%;
+    --secondary: 260 20% 96%;
+    --secondary-foreground: 260 25% 14%;
+    --muted: 260 20% 96%;
+    --muted-foreground: 260 10% 40%;
     --accent: 42 95% 58%;
     --accent-foreground: 30 80% 12%;
-    --destructive: 0 80% 60%;
+    --destructive: 0 80% 55%;
     --destructive-foreground: 0 0% 100%;
-    --border: 260 18% 18%;
-    --input: 260 18% 16%;
+    --border: 260 20% 90%;
+    --input: 260 20% 92%;
     --ring: 268 75% 58%;
   }
 }
@@ -92,14 +91,14 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
     @apply bg-background text-foreground font-body antialiased;
     background-image:
-      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(268 70% 25% / 0.35), transparent 60%),
-      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(42 90% 30% / 0.10), transparent 60%);
+      radial-gradient(ellipse 80% 50% at 50% -10%, hsl(268 75% 90% / 0.5), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 0%, hsl(42 95% 85% / 0.35), transparent 60%);
     background-attachment: fixed;
   }
 
