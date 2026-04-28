@@ -134,6 +134,7 @@ export default function Goals() {
             )}
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {isLoading ? (
