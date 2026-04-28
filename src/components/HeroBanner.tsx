@@ -91,7 +91,7 @@ export default function HeroBanner({
             initial={{ scale: 0.8, opacity: 0, rotate: -8 }}
             animate={{ scale: 1, opacity: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
-            className="shrink-0 self-center sm:self-auto"
+            className="shrink-0"
             style={cssVars}
           >
             <FalconLogo
