@@ -69,7 +69,7 @@ export default function HeroBanner({
         <div className="absolute top-4 right-4 z-20">{topRightSlot}</div>
       )}
       <div
-        className={`relative z-10 flex flex-col-reverse gap-6 ${SIDE_BY_SIDE_CLASSES[sideBySideFrom]}`}
+        className={`relative z-10 flex flex-row items-center justify-between gap-4 ${SIDE_BY_SIDE_CLASSES[sideBySideFrom]}`}
       >
         <div className="space-y-3 max-w-2xl flex-1 min-w-0">
           {eyebrow && (
