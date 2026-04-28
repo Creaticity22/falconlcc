@@ -39,7 +39,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
 
       {/* Floating Ask Falcon AI button – visible on all pages except /ai */}
       {!isAIPage && (
-        <Link to="/ai" className="fixed bottom-24 md:bottom-8 right-4 md:right-8 z-50">
+        <Link to="/ai" className="fixed bottom-44 md:bottom-44 right-4 md:right-8 z-50">
           <motion.div
             initial={{ scale: 0, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
