@@ -7,6 +7,7 @@ import KPICard from "@/components/KPICard";
 import GoalCard from "@/components/GoalCard";
 import CommunityInsights from "@/components/CommunityInsights";
 import FalconLogo from "@/components/FalconLogo";
+import HeroBanner from "@/components/HeroBanner";
 import SponsoredBanner from "@/components/SponsoredBanner";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
@@ -111,37 +112,19 @@ export default function Dashboard() {
           </Link>
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="relative overflow-hidden rounded-3xl gradient-hero border border-border/60 p-6 md:p-12"
-        >
-          <div className="relative z-10 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-6">
-            <div className="space-y-3 max-w-2xl flex-1 min-w-0">
-              <p className="text-xs md:text-sm uppercase tracking-[0.2em] font-semibold text-accent">
-                Welcome back
-              </p>
-              <h1 className="text-3xl md:text-6xl font-display font-bold leading-tight">
-                Hey <span className="text-gradient-primary">{profile?.first_name ?? "there"}</span>
-              </h1>
-              <p className="text-sm md:text-lg text-muted-foreground max-w-md">
-                Your money, your moves. Let's keep building those skills today.
-              </p>
-            </div>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0, rotate: -8 }}
-              animate={{ scale: 1, opacity: 1, rotate: 0 }}
-              transition={{ type: "spring", stiffness: 200, damping: 18, delay: 0.1 }}
-              className="shrink-0 self-center sm:self-auto"
-            >
-              <FalconLogo
-                showWordmark
-                size={96}
-                className="drop-shadow-[0_0_40px_hsl(268_75%_55%/0.7)] sm:!h-[120px] md:!h-[140px]"
-              />
-            </motion.div>
-          </div>
-        </motion.div>
+        <HeroBanner
+          eyebrow="Welcome back"
+          title={
+            <>
+              Hey <span className="text-gradient-primary">{profile?.first_name ?? "there"}</span>
+            </>
+          }
+          subtitle="Your money, your moves. Let's keep building those skills today."
+          sideBySideFrom="sm"
+          logoSizeSm={96}
+          logoSizeMd={120}
+          logoSizeLg={140}
+        />
       </section>
 
       {/* KPI Cards */}

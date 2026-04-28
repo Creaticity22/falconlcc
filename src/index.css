@@ -186,4 +186,29 @@
   .hover-scale {
     @apply transition-transform duration-200 hover:scale-[1.02];
   }
+
+  /* HeroBanner logo responsive sizing — driven by CSS vars set inline.
+     The class name encodes the breakpoint at which the side-by-side layout
+     kicks in; the logo grows to --hero-logo-md at that breakpoint and to
+     --hero-logo-lg from md (768px) upward. */
+  .hero-logo--sm,
+  .hero-logo--md,
+  .hero-logo--lg {
+    height: 96px !important;
+    width: auto !important;
+  }
+  @media (min-width: 640px) {
+    .hero-logo--sm { height: var(--hero-logo-md, 120px) !important; }
+  }
+  @media (min-width: 768px) {
+    .hero-logo--sm { height: var(--hero-logo-lg, 140px) !important; }
+    .hero-logo--md { height: var(--hero-logo-md, 120px) !important; }
+  }
+  @media (min-width: 1024px) {
+    .hero-logo--md { height: var(--hero-logo-lg, 140px) !important; }
+    .hero-logo--lg { height: var(--hero-logo-md, 120px) !important; }
+  }
+  @media (min-width: 1280px) {
+    .hero-logo--lg { height: var(--hero-logo-lg, 140px) !important; }
+  }
 }
