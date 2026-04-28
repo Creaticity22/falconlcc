@@ -3,6 +3,7 @@ import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield } from "lu
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
+import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
