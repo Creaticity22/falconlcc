@@ -3,6 +3,7 @@ import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield } from "lu
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
+import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
@@ -21,14 +22,18 @@ export default function Settings() {
 
   return (
     <AppLayout>
-      <div className="pt-6 pb-6">
-        <Link to="/" className="flex items-center gap-1 text-sm text-muted-foreground mb-5">
+      <div className="pt-6 pb-6 space-y-4">
+        <Link to="/" className="flex items-center gap-1 text-sm text-muted-foreground">
           <ArrowLeft className="w-4 h-4" /> Home
         </Link>
-        <div className="md:hidden mb-5">
-          <FalconLogo showWordmark size={56} className="drop-shadow-[0_0_16px_hsl(268_75%_55%/0.45)]" />
-        </div>
-        <h1 className="text-3xl md:text-4xl font-display font-bold tracking-tight">Settings</h1>
+        <HeroBanner
+          eyebrow="Account"
+          title="Settings"
+          sideBySideFrom="md"
+          logoSizeSm={64}
+          logoSizeMd={88}
+          logoSizeLg={104}
+        />
       </div>
 
       <div className="space-y-6">

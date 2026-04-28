@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Plus, Target } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import HeroBanner from "@/components/HeroBanner";
 import GoalCard from "@/components/GoalCard";
 import GoalTemplateSelector from "@/components/GoalTemplateSelector";
 import { Button } from "@/components/ui/button";
@@ -82,11 +83,16 @@ export default function Goals() {
 
   return (
     <AppLayout>
-      <div className="pt-6 md:pt-10 pb-6 md:pb-8 flex items-end justify-between gap-4">
-        <div>
-          <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">Savings</p>
-          <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">My Goals</h1>
-        </div>
+      <div className="pt-6 md:pt-10 pb-6 md:pb-8 space-y-4">
+        <HeroBanner
+          eyebrow="Savings"
+          title="My Goals"
+          sideBySideFrom="md"
+          logoSizeSm={72}
+          logoSizeMd={96}
+          logoSizeLg={120}
+        />
+        <div className="flex justify-end">
         <Dialog open={open} onOpenChange={(v) => { setOpen(v); if (!v) resetForm(); }}>
           <DialogTrigger asChild>
             <Button size="sm" className="rounded-xl gradient-primary text-primary-foreground border-0">
@@ -129,6 +135,7 @@ export default function Goals() {
             )}
           </DialogContent>
         </Dialog>
+        </div>
       </div>
 
       {isLoading ? (

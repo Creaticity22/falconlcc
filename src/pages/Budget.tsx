@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, PieChart } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -119,10 +120,14 @@ export default function Budget() {
   return (
     <AppLayout>
       <div className="pt-6 md:pt-10 pb-6 md:pb-8">
-        <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">
-          {new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
-        </p>
-        <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">Budget</h1>
+        <HeroBanner
+          eyebrow={new Date().toLocaleDateString("en-GB", { month: "long", year: "numeric" })}
+          title="Budget"
+          sideBySideFrom="md"
+          logoSizeSm={72}
+          logoSizeMd={96}
+          logoSizeLg={120}
+        />
       </div>
 
       {!budget && !showSetup ? (

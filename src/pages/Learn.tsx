@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router-dom";
 import { ArrowRight, Award, ShieldCheck, Sparkles, Linkedin, X } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
+import HeroBanner from "@/components/HeroBanner";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
 import SponsoredBanner from "@/components/SponsoredBanner";
@@ -94,13 +95,15 @@ export default function Learn() {
   return (
     <AppLayout>
       <div className="pt-6 md:pt-10 pb-6 md:pb-8">
-        <p className="text-xs uppercase tracking-[0.2em] font-semibold text-accent mb-2">Learning Hub</p>
-        <h1 className="text-3xl md:text-5xl font-display font-bold tracking-tight">
-          Master your <span className="text-gradient-primary">money skills</span>
-        </h1>
-        <p className="text-sm md:text-base text-muted-foreground mt-2">
-          {completed.length}/{LESSONS.length} lessons completed
-        </p>
+        <HeroBanner
+          eyebrow="Learning Hub"
+          title={<>Master your <span className="text-gradient-primary">money skills</span></>}
+          subtitle={`${completed.length}/${LESSONS.length} lessons completed`}
+          sideBySideFrom="md"
+          logoSizeSm={72}
+          logoSizeMd={96}
+          logoSizeLg={120}
+        />
       </div>
 
       {/* Badges & Certificates – prominent entry */}

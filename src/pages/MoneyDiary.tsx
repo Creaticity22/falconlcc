@@ -4,6 +4,7 @@ import { ArrowLeft, SmilePlus, TrendingUp, MessageCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
@@ -85,12 +86,19 @@ export default function MoneyDiary() {
 
   return (
     <AppLayout>
-      <div className="pt-6 pb-4">
-        <Link to="/" className="flex items-center gap-1 text-sm text-muted-foreground mb-4">
+      <div className="pt-6 pb-4 space-y-4">
+        <Link to="/" className="flex items-center gap-1 text-sm text-muted-foreground">
           <ArrowLeft className="w-4 h-4" /> Home
         </Link>
-        <h1 className="text-2xl font-display font-bold">Money Diary</h1>
-        <p className="text-sm text-muted-foreground">Track how you feel about money each week</p>
+        <HeroBanner
+          eyebrow="Wellbeing"
+          title="Money Diary"
+          subtitle="Track how you feel about money each week"
+          sideBySideFrom="md"
+          logoSizeSm={64}
+          logoSizeMd={88}
+          logoSizeLg={104}
+        />
       </div>
 
       {/* Insights */}
