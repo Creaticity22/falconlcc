@@ -72,8 +72,8 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen flex flex-col bg-background px-6 pt-12 pb-8">
       {/* Brand mark */}
-      <div className="flex justify-center mb-8">
-        <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_22px_hsl(268_75%_55%/0.5)]" />
+      <div className="flex justify-center mb-10">
+        <FalconLogo showWordmark size={120} className="drop-shadow-[0_0_30px_hsl(268_75%_55%/0.6)]" />
       </div>
 
       {/* Progress */}

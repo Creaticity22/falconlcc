@@ -70,7 +70,7 @@ export default function Auth() {
             transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.15 }}
             className="flex justify-center drop-shadow-[0_8px_30px_hsl(268_75%_45%/0.5)]"
           >
-            <FalconLogo showWordmark size={140} />
+            <FalconLogo showWordmark size={200} />
           </motion.div>
           <p className="text-base md:text-lg text-muted-foreground font-medium">
             Level up your money skills

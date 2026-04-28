@@ -19,9 +19,9 @@ export default function AppLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-background">
       {/* Desktop top bar — Netflix/YouTube style */}
-      <header className="hidden md:flex sticky top-0 z-40 h-24 items-center justify-between px-8 bg-background/80 backdrop-blur-xl border-b border-border/60">
+      <header className="hidden md:flex sticky top-0 z-40 h-32 items-center justify-between px-8 bg-background/80 backdrop-blur-xl border-b border-border/60">
         <Link to="/" className="flex items-center hover-scale">
-          <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_20px_hsl(268_75%_55%/0.45)]" />
+          <FalconLogo showWordmark size={104} className="drop-shadow-[0_0_28px_hsl(268_75%_55%/0.6)]" />
         </Link>
 
         <nav className="flex items-center gap-1">
