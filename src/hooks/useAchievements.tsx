@@ -250,35 +250,29 @@ export function useSyncAchievements() {
   });
 }
 
-/** Public verification lookups — work for anon and authenticated users. */
+/** Public verification lookups — scoped server-side to a single code via SECURITY DEFINER RPC. */
 export async function fetchBadgeByVerificationCode(code: string) {
-  const { data: ub, error } = await supabase
-    .from("user_badges")
-    .select("badge_code, verification_code, issued_at, recipient_name")
-    .eq("verification_code", code)
-    .maybeSingle();
+  const { data, error } = await supabase.rpc("verify_badge_by_code", { _code: code });
   if (error) throw error;
+  const ub = Array.isArray(data) ? data[0] : null;
   if (!ub) return null;
   const { data: badge } = await supabase
     .from("badges")
     .select("*")
     .eq("code", ub.badge_code)
     .maybeSingle();
-  return { userBadge: ub, badge: badge as Badge | null };
+  return { userBadge: ub as UserBadge, badge: badge as Badge | null };
 }
 
 export async function fetchCertificateByVerificationCode(code: string) {
-  const { data: uc, error } = await supabase
-    .from("user_certificates")
-    .select("certificate_code, verification_code, issued_at, recipient_name")
-    .eq("verification_code", code)
-    .maybeSingle();
+  const { data, error } = await supabase.rpc("verify_certificate_by_code", { _code: code });
   if (error) throw error;
+  const uc = Array.isArray(data) ? data[0] : null;
   if (!uc) return null;
   const { data: cert } = await supabase
     .from("certificates")
     .select("*")
     .eq("code", uc.certificate_code)
     .maybeSingle();
-  return { userCertificate: uc, certificate: cert as Certificate | null };
+  return { userCertificate: uc as UserCertificate, certificate: cert as Certificate | null };
 }

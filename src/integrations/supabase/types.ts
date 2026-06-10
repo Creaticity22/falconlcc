@@ -591,6 +591,24 @@ export type Database = {
         }
         Returns: boolean
       }
+      verify_badge_by_code: {
+        Args: { _code: string }
+        Returns: {
+          badge_code: string
+          issued_at: string
+          recipient_name: string
+          verification_code: string
+        }[]
+      }
+      verify_certificate_by_code: {
+        Args: { _code: string }
+        Returns: {
+          certificate_code: string
+          issued_at: string
+          recipient_name: string
+          verification_code: string
+        }[]
+      }
     }
     Enums: {
       app_role: "young_person" | "sponsor"
