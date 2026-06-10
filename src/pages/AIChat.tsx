@@ -8,6 +8,7 @@ import FalconLogo from "@/components/FalconLogo";
 import ResourceCard from "@/components/ResourceCard";
 import { useAuth } from "@/hooks/useAuth";
 import { useResources, type Resource } from "@/hooks/useResources";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 type Msg = { role: "user" | "assistant"; content: string };
