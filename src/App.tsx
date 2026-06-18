@@ -64,7 +64,43 @@ function OnboardingRoute() {
 
 const wrap = (el: React.ReactNode) => <ErrorBoundary>{el}</ErrorBoundary>;
 
+function AppShell() {
+  useNetworkStatus();
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/auth" element={wrap(<Auth />)} />
+        <Route path="/verify/:kind/:code" element={wrap(<Verify />)} />
+        <Route path="/privacy" element={wrap(<Privacy />)} />
+        <Route path="/terms" element={wrap(<Terms />)} />
+        <Route path="/help" element={wrap(<Help />)} />
+        <Route path="/onboarding" element={wrap(<OnboardingRoute />)} />
+        <Route path="/" element={wrap(<ProtectedRoute><Dashboard /></ProtectedRoute>)} />
+        <Route path="/budget" element={wrap(<ProtectedRoute><Budget /></ProtectedRoute>)} />
+        <Route path="/goals" element={wrap(<ProtectedRoute><Goals /></ProtectedRoute>)} />
+        <Route path="/goals/:id" element={wrap(<ProtectedRoute><GoalDetail /></ProtectedRoute>)} />
+        <Route path="/learn" element={wrap(<ProtectedRoute><Learn /></ProtectedRoute>)} />
+        <Route path="/learn/:id" element={wrap(<ProtectedRoute><Lesson /></ProtectedRoute>)} />
+        <Route path="/learn/moment/:id" element={wrap(<ProtectedRoute><MoneyMoment /></ProtectedRoute>)} />
+        <Route path="/diary" element={wrap(<ProtectedRoute><MoneyDiary /></ProtectedRoute>)} />
+        <Route path="/wins" element={wrap(<ProtectedRoute><MoneyWins /></ProtectedRoute>)} />
+        <Route path="/ai" element={wrap(<ProtectedRoute><AIChat /></ProtectedRoute>)} />
+        <Route path="/settings" element={wrap(<ProtectedRoute><Settings /></ProtectedRoute>)} />
+        <Route path="/achievements" element={wrap(<ProtectedRoute><Achievements /></ProtectedRoute>)} />
+        <Route path="*" element={wrap(<NotFound />)} />
+      </Routes>
+      <CookieBanner />
+    </BrowserRouter>
+  );
+}
+
 const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <AuthProvider>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <AppShell />
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
       <TooltipProvider>
