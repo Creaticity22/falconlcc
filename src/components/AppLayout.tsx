@@ -1,9 +1,11 @@
-import { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { Bird, Home, PieChart, Target, BookOpen, Settings as SettingsIcon } from "lucide-react";
+import { ReactNode, useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Bird, Home, PieChart, Target, BookOpen, Settings as SettingsIcon, X } from "lucide-react";
 import { motion } from "framer-motion";
 import BottomNav from "./BottomNav";
 import FalconLogo from "./FalconLogo";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 const navItems = [
   { path: "/", icon: Home, label: "Home" },
@@ -12,9 +14,35 @@ const navItems = [
   { path: "/learn", icon: BookOpen, label: "Learn" },
 ];
 
+const DEMO_EMAIL = "demo@soarwithfalcon.com";
+const DEMO_BANNER_KEY = "falcon.demo.banner";
+
 export default function AppLayout({ children }: { children: ReactNode }) {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const isAIPage = location.pathname === "/ai";
+  const isDemo = user?.email === DEMO_EMAIL;
+
+  const [showDemoBanner, setShowDemoBanner] = useState(false);
+
+  useEffect(() => {
+    if (isDemo && typeof window !== "undefined" && !sessionStorage.getItem(DEMO_BANNER_KEY)) {
+      setShowDemoBanner(true);
+    } else {
+      setShowDemoBanner(false);
+    }
+  }, [isDemo]);
+
+  const dismissBanner = () => {
+    sessionStorage.setItem(DEMO_BANNER_KEY, "1");
+    setShowDemoBanner(false);
+  };
+
+  const signUpFree = async () => {
+    await supabase.auth.signOut();
+    navigate("/auth");
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -32,6 +60,25 @@ export default function AppLayout({ children }: { children: ReactNode }) {
           <SettingsIcon className="w-4 h-4" />
         </Link>
       </header>
+
+      {showDemoBanner && (
+        <div className="sticky top-0 md:top-32 z-30 bg-gradient-to-r from-primary to-accent text-primary-foreground text-xs px-4 py-2 flex items-center justify-between gap-3 shadow-sm">
+          <span className="truncate">
+            👀 You're in demo mode —{" "}
+            <button onClick={signUpFree} className="underline font-semibold hover:opacity-90">
+              Sign up free
+            </button>{" "}
+            to save your own data
+          </span>
+          <button
+            onClick={dismissBanner}
+            aria-label="Dismiss"
+            className="shrink-0 w-6 h-6 rounded-full hover:bg-white/20 flex items-center justify-center"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
 
       <main className="pb-36 md:pb-40 max-w-lg md:max-w-6xl mx-auto px-4 md:px-8">
         {children}
