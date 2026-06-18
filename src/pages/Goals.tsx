@@ -200,6 +200,58 @@ export default function Goals() {
           ))}
         </div>
       )}
+
+      {/* Round-up simulator */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 to-accent/5 overflow-hidden"
+      >
+        <button
+          onClick={() => setRoundUpOpen((v) => !v)}
+          className="w-full flex items-center gap-3 p-4 text-left"
+          aria-expanded={roundUpOpen}
+        >
+          <Sparkles className="w-5 h-5 text-primary shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold">💡 Round-up simulator</p>
+            <p className="text-xs text-muted-foreground">What if you rounded up every purchase to the nearest £1?</p>
+          </div>
+          <ChevronDown
+            className={`w-4 h-4 text-muted-foreground transition-transform ${roundUpOpen ? "rotate-180" : ""}`}
+          />
+        </button>
+        <AnimatePresence>
+          {roundUpOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="px-4 pb-4 overflow-hidden"
+            >
+              {monthExpenses && monthExpenses.length > 0 ? (
+                <>
+                  <p className="text-sm leading-relaxed mb-3">
+                    Based on your spending this month, round-ups would have added approximately{" "}
+                    <b className="text-primary">£{roundUpTotal.toFixed(2)}</b> to your savings.
+                  </p>
+                  <Button
+                    onClick={openRoundUpGoal}
+                    size="sm"
+                    className="rounded-xl gradient-primary text-primary-foreground border-0"
+                  >
+                    Create a round-up goal →
+                  </Button>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Log some expenses and we'll calculate your potential round-up savings.
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.section>
     </AppLayout>
   );
 }
