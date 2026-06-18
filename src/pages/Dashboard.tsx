@@ -23,6 +23,10 @@ export default function Dashboard() {
   const { user } = useAuth();
   const { data: profile } = useProfile();
   const { data: gamification } = useGamification();
+  const awardXP = useAwardXP();
+  const [checklistDismissed, setChecklistDismissed] = useState(
+    () => typeof window !== "undefined" && !!localStorage.getItem(CHECKLIST_KEY),
+  );
 
   const { data: goals } = useQuery({
     queryKey: ["goals", user?.id],
