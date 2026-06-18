@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, CheckCircle2, XCircle, Star, Trophy } from "lucide-react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { ArrowLeft, CheckCircle2, XCircle, Star, Trophy, RotateCcw } from "lucide-react";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,6 +10,7 @@ import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 import { trackEvent } from "@/lib/analytics";
+import { toast } from "sonner";
 
 type Phase = "reading" | "quiz" | "complete";
 
@@ -25,27 +26,49 @@ export default function Lesson() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const [newBestScore, setNewBestScore] = useState(false);
+
+  const { data: existing } = useQuery({
+    queryKey: ["lesson-progress", user?.id, id],
+    queryFn: async () => {
+      const { data } = await supabase
+        .from("lesson_progress")
+        .select("score")
+        .eq("user_id", user!.id)
+        .eq("lesson_id", id!)
+        .maybeSingle();
+      return data;
+    },
+    enabled: !!user && !!id,
+  });
+
+  const alreadyCompleted = !!existing;
+  const previousScore = existing?.score ?? null;
 
   const saveProgress = useMutation({
     mutationFn: async (score: number) => {
       if (!user) throw new Error("Not authenticated");
-      const { error } = await supabase.from("lesson_progress").upsert({
-        user_id: user.id,
-        lesson_id: id!,
-        score,
-      });
+      const { error } = await supabase.from("lesson_progress").upsert(
+        { user_id: user.id, lesson_id: id!, score },
+        { onConflict: "user_id,lesson_id" },
+      );
       if (error) throw error;
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["completed-lessons"] });
+      qc.invalidateQueries({ queryKey: ["lesson-progress"] });
     },
   });
+
+  useEffect(() => {
+    if (newBestScore) {
+      toast.success("New best score! 🎉");
+    }
+  }, [newBestScore]);
 
   if (!lesson) return <Navigate to="/learn" replace />;
 
   const quiz = lesson.quiz;
-  const isCorrect = selected !== null && selected === quiz[currentQ]?.correctIndex;
-  const score = answers.filter((a, i) => a === quiz[i]?.correctIndex).length;
 
   const handleAnswer = (idx: number) => {
     if (showResult) return;
@@ -64,9 +87,17 @@ export default function Lesson() {
     } else {
       const finalScore = newAnswers.filter((a, i) => a === quiz[i]?.correctIndex).length;
       setPhase("complete");
-      saveProgress.mutate(finalScore);
-      awardXP.mutate({ amount: lesson.xpReward, reason: `Completed "${lesson.title}"` });
-      trackEvent("lesson_completed", { lesson_id: lesson.id });
+
+      if (alreadyCompleted) {
+        if (previousScore == null || finalScore > previousScore) {
+          saveProgress.mutate(finalScore);
+          setNewBestScore(true);
+        }
+      } else {
+        saveProgress.mutate(finalScore);
+        awardXP.mutate({ amount: lesson.xpReward, reason: `Completed "${lesson.title}"` });
+        trackEvent("lesson_completed", { lesson_id: lesson.id });
+      }
     }
   };
 
@@ -76,6 +107,16 @@ export default function Lesson() {
         <Link to="/learn" className="flex items-center gap-1 text-sm text-muted-foreground mb-4">
           <ArrowLeft className="w-4 h-4" /> Back to Learn
         </Link>
+
+        {alreadyCompleted && (
+          <div className="mb-4 rounded-xl px-3 py-2 bg-success/10 border border-success/30 text-xs text-success flex items-center gap-2">
+            <RotateCcw className="w-3.5 h-3.5" />
+            You've completed this — reviewing
+            {previousScore != null && (
+              <span className="ml-auto font-bold">Best: {previousScore}/{quiz.length}</span>
+            )}
+          </div>
+        )}
 
         <h1 className="text-2xl font-display font-bold mb-1">{lesson.title}</h1>
         <p className="text-sm text-muted-foreground">{lesson.topic} · +{lesson.xpReward} XP</p>
@@ -101,7 +142,7 @@ export default function Lesson() {
               onClick={() => setPhase("quiz")}
               className="w-full h-12 rounded-xl gradient-primary text-primary-foreground border-0 font-semibold"
             >
-              Start quiz ({quiz.length} questions)
+              {alreadyCompleted ? "Re-take quiz" : "Start quiz"} ({quiz.length} questions)
             </Button>
           </motion.div>
         )}
@@ -169,16 +210,23 @@ export default function Lesson() {
             </motion.div>
 
             <div>
-              <h2 className="text-2xl font-display font-bold">Lesson complete!</h2>
+              <h2 className="text-2xl font-display font-bold">
+                {alreadyCompleted ? "Quiz reviewed!" : "Lesson complete!"}
+              </h2>
               <p className="text-muted-foreground mt-1">
                 You scored {answers.filter((a, i) => a === quiz[i]?.correctIndex).length}/{quiz.length}
               </p>
+              {newBestScore && (
+                <p className="text-success font-semibold mt-1 text-sm">New best score! 🎉</p>
+              )}
             </div>
 
-            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex items-center justify-center gap-2 text-xp font-display font-bold text-lg animate-xp-pop">
-              <Star className="w-5 h-5" />
-              +{lesson.xpReward} XP
-            </motion.div>
+            {!alreadyCompleted && (
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }} className="flex items-center justify-center gap-2 text-xp font-display font-bold text-lg animate-xp-pop">
+                <Star className="w-5 h-5" />
+                +{lesson.xpReward} XP
+              </motion.div>
+            )}
 
             <div className="bg-card rounded-xl p-4 border border-border/50 text-left">
               <p className="font-display font-semibold text-sm mb-2">Key takeaways</p>
