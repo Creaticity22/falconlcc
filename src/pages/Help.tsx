@@ -47,23 +47,26 @@ export default function Help() {
           <section key={section.title} className="space-y-3">
             <h2 className="font-display text-xl font-semibold">{section.title}</h2>
             <div className="space-y-2">
-              {section.items.map((item) => (
-                <a
-                  key={item.name}
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block bg-card rounded-xl p-4 border border-border/50 hover:border-primary/40 transition-colors"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div>
-                      <p className="font-semibold text-sm">{item.name}</p>
-                      <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
+              {section.items.map((item) => {
+                const isTel = item.url.startsWith("tel:");
+                return (
+                  <a
+                    key={item.name}
+                    href={item.url}
+                    target={isTel ? undefined : "_blank"}
+                    rel={isTel ? undefined : "noopener noreferrer"}
+                    className="block bg-card rounded-xl p-4 border border-border/50 hover:border-primary/40 transition-colors"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <p className="font-semibold text-sm">{item.name}</p>
+                        <p className="text-xs text-muted-foreground mt-0.5">{item.desc}</p>
+                      </div>
+                      <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 mt-1" />
                     </div>
-                    <ExternalLink className="w-4 h-4 text-muted-foreground shrink-0 mt-1" />
-                  </div>
-                </a>
-              ))}
+                  </a>
+                );
+              })}
             </div>
           </section>
         ))}

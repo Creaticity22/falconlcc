@@ -16,7 +16,7 @@ import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 
-const AGE_RANGES = ["15-17", "18-19", "20-21"];
+const AGE_RANGES = ["14 or under", "15-17", "18-21"];
 
 const RESOURCES = [
   { name: "MoneyHelper", url: "https://www.moneyhelper.org.uk/en" },
