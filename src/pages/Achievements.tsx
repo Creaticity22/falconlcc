@@ -155,6 +155,10 @@ export default function Achievements() {
         ))}
       </section>
 
+      <Leaderboard />
+
+
+
       {openBadge && (
         <DetailModal
           title={openBadge.name}
