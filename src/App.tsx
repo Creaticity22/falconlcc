@@ -73,7 +73,7 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/auth" element={wrap(<Auth />)} />
-            <Route path="/__boom" element={wrap(<BoomTest />)} />
+            
             <Route path="/verify/:kind/:code" element={wrap(<Verify />)} />
             <Route path="/privacy" element={wrap(<Privacy />)} />
             <Route path="/terms" element={wrap(<Terms />)} />
