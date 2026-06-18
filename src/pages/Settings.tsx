@@ -27,6 +27,31 @@ export default function Settings() {
   const { signOut } = useAuth();
   const { data: profile } = useProfile();
   const { data: gamification } = useGamification();
+  const updateProfile = useUpdateProfile();
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [ageRange, setAgeRange] = useState("");
+
+  useEffect(() => {
+    if (editOpen && profile) {
+      setFirstName(profile.first_name ?? "");
+      setAgeRange(profile.age_range ?? "");
+    }
+  }, [editOpen, profile]);
+
+  const handleSave = async () => {
+    try {
+      await updateProfile.mutateAsync({
+        first_name: firstName.trim() || null,
+        age_range: ageRange || null,
+      });
+      toast.success("Profile updated");
+      setEditOpen(false);
+    } catch {
+      toast.error("Couldn't update profile");
+    }
+  };
 
   return (
     <AppLayout>
