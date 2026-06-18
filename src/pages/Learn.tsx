@@ -22,6 +22,7 @@ import {
 } from "@/hooks/useAchievements";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
+import { trackOnce } from "@/lib/analytics";
 import { MONEY_MOMENTS } from "@/lib/moneyMoments";
 
 const TUTORIAL_KEY = "falcon.achievements.tutorialSeen.v1";
@@ -304,7 +305,7 @@ export default function Learn() {
         <h2 className="font-display font-semibold text-base mb-3">Browse topics</h2>
         <div className="space-y-3">
           {LESSONS.map((lesson, i) => (
-            <motion.div key={lesson.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }}>
+            <motion.div key={lesson.id} initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.04 }} onClick={() => trackOnce("first_lesson_started", { lessonId: lesson.id })}>
               <LessonCard
                 lesson={lesson}
                 completed={completed.includes(lesson.id)}
