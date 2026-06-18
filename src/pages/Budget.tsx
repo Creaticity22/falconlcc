@@ -192,6 +192,21 @@ export default function Budget() {
             </div>
           </div>
 
+          {/* Spending pie chart */}
+          {budgetCategories && budgetCategories.length > 0 && (
+            <section className="mb-6 bg-card rounded-2xl border border-border/50 p-4">
+              <h2 className="font-display font-semibold text-base mb-1">Spending breakdown</h2>
+              <p className="text-xs text-muted-foreground mb-2">Where your money is going this month</p>
+              <SpendingPieChart
+                data={budgetCategories.map((c) => ({
+                  name: c.name,
+                  value: getSpentByCategory(c.name),
+                }))}
+              />
+            </section>
+          )}
+
+
           {/* Categories */}
           <section className="mb-6">
             <h2 className="font-display font-semibold text-base mb-3">Categories</h2>
