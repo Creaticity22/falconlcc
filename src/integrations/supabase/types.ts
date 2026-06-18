@@ -636,6 +636,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      increment_ai_usage: { Args: { _user_id: string }; Returns: undefined }
       verify_badge_by_code: {
         Args: { _code: string }
         Returns: {
