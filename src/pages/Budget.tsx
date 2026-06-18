@@ -265,11 +265,24 @@ export default function Budget() {
               <div className="space-y-2">
                 {expenses.slice(0, 5).map((exp) => (
                   <div key={exp.id} className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/50">
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{exp.category}</p>
-                      {exp.note && <p className="text-xs text-muted-foreground">{exp.note}</p>}
+                      {exp.note && <p className="text-xs text-muted-foreground truncate">{exp.note}</p>}
                     </div>
-                    <span className="font-display font-semibold text-sm">-£{Number(exp.amount).toFixed(2)}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="font-display font-semibold text-sm">-£{Number(exp.amount).toFixed(2)}</span>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        onClick={() => {
+                          if (confirm("Delete this expense?")) deleteExpense.mutate(exp.id);
+                        }}
+                        aria-label="Delete expense"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
