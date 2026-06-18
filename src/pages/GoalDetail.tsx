@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Plus, Sparkles, Users } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Progress } from "@/components/ui/progress";
@@ -93,7 +94,7 @@ export default function GoalDetail() {
 
   const { data: goalResources } = useResources(["saving", "investing_basics"], 2);
 
-  if (!goal) return <AppLayout><div className="pt-20 text-center text-muted-foreground">Loading...</div></AppLayout>;
+  if (!goal) return <AppLayout><LoadingSpinner /></AppLayout>;
 
   const pct = Number(goal.target_amount) > 0 ? Math.min((Number(goal.current_amount) / Number(goal.target_amount)) * 100, 100) : 0;
 

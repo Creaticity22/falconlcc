@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { Plus, Target } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import HeroBanner from "@/components/HeroBanner";
 import GoalCard from "@/components/GoalCard";
 import GoalTemplateSelector from "@/components/GoalTemplateSelector";
@@ -139,7 +140,7 @@ export default function Goals() {
       </div>
 
       {isLoading ? (
-        <div className="pt-20 text-center text-muted-foreground">Loading...</div>
+        <LoadingSpinner />
       ) : goals && goals.length === 0 ? (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center py-16 space-y-4">
           <div className="w-16 h-16 rounded-2xl gradient-primary mx-auto flex items-center justify-center">

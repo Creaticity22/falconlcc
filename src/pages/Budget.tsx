@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, PieChart, Trash2, X } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import HeroBanner from "@/components/HeroBanner";
 import SpendingPieChart from "@/components/SpendingPieChart";
 import SubscriptionsSection from "@/components/SubscriptionsSection";
@@ -129,7 +130,7 @@ export default function Budget() {
   const getSpentByCategory = (catName: string) =>
     expenses?.filter((e) => e.category === catName).reduce((s, e) => s + Number(e.amount), 0) ?? 0;
 
-  if (isLoading) return <AppLayout><div className="pt-20 text-center text-muted-foreground">Loading...</div></AppLayout>;
+  if (isLoading) return <AppLayout><LoadingSpinner /></AppLayout>;
 
   return (
     <AppLayout>
