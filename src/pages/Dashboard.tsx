@@ -279,6 +279,8 @@ export default function Dashboard() {
         </div>
       </section>
 
+      <FalconNudges />
+
       {/* Sponsored opportunities (non-persistent, scrolls naturally) */}
       {(() => {
         const sponsored = getSponsoredCampaigns("dashboard");
