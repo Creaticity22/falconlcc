@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, Award, Share2, Copy, ExternalLink, ShieldCheck, X, Linkedin } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { ArrowLeft, Award, Share2, Copy, ExternalLink, ShieldCheck, X, Linkedin, Flame, Trophy } from "lucide-react";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
 import BadgeMedallion from "@/components/BadgeMedallion";
@@ -9,6 +10,7 @@ import CertificateCard from "@/components/CertificateCard";
 import SponsoredBanner from "@/components/SponsoredBanner";
 import { Button } from "@/components/ui/button";
 import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
+import { supabase } from "@/integrations/supabase/client";
 import {
   useBadgeCatalogue,
   useCertificateCatalogue,
