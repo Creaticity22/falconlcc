@@ -43,6 +43,38 @@ export default function Goals() {
     enabled: !!user,
   });
 
+  const { data: monthExpenses } = useQuery({
+    queryKey: ["round-up-expenses", user?.id],
+    queryFn: async () => {
+      const start = new Date();
+      start.setDate(1);
+      const { data } = await supabase
+        .from("expenses")
+        .select("amount")
+        .eq("user_id", user!.id)
+        .gte("expense_date", start.toISOString().split("T")[0]);
+      return data ?? [];
+    },
+    enabled: !!user,
+  });
+
+  const roundUpTotal = useMemo(() => {
+    if (!monthExpenses) return 0;
+    return monthExpenses.reduce((sum, e) => {
+      const amt = Number(e.amount);
+      return sum + (Math.ceil(amt) - amt);
+    }, 0);
+  }, [monthExpenses]);
+
+  const openRoundUpGoal = () => {
+    setName("Round-up savings");
+    setTarget("50");
+    setDesc("Small change adds up — start a round-up savings habit.");
+    setTemplateCode(null);
+    setShowForm(true);
+    setOpen(true);
+  };
+
   const createGoal = useMutation({
     mutationFn: async () => {
       const { error } = await supabase.from("savings_goals").insert({
