@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail, ArrowLeft } from "lucide-react";
+import { Mail, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
@@ -45,8 +45,6 @@ export default function Auth() {
       setDemoLoading(false);
     }
   };
-
-
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -184,22 +182,61 @@ export default function Auth() {
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-sm space-y-10 relative z-10"
+        className="w-full max-w-sm space-y-6 relative z-10"
       >
-        <div className="text-center space-y-6">
+        {/* Logo */}
+        <div className="text-center space-y-4">
           <motion.div
             initial={{ scale: 0, rotate: -10 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.15 }}
             className="flex justify-center drop-shadow-[0_8px_30px_hsl(268_75%_45%/0.5)]"
           >
-            <FalconLogo showWordmark size={200} />
+            <FalconLogo showWordmark size={180} />
           </motion.div>
-          <p className="text-base md:text-lg text-muted-foreground font-medium">
+          <p className="text-base text-muted-foreground font-medium">
             Level up your money skills
           </p>
         </div>
 
+        {/* Demo card — visible to every visitor, no interaction required */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.25 }}
+          className="rounded-2xl p-[1.5px] bg-gradient-to-br from-primary/60 via-accent/40 to-primary/60 shadow-[0_8px_32px_hsl(268_75%_45%/0.35)]"
+        >
+          <div className="rounded-[14px] bg-card px-5 py-4 space-y-3">
+            <div className="space-y-0.5">
+              <h2 className="font-display font-bold text-base">👀 See Falcon in action</h2>
+              <p className="text-xs text-muted-foreground">
+                Explore a pre-filled account — no sign-up needed
+              </p>
+            </div>
+            <Button
+              onClick={handleDemo}
+              disabled={demoLoading}
+              className="w-full h-11 rounded-xl font-semibold text-sm gradient-primary text-primary-foreground border-0"
+              size="lg"
+            >
+              {demoLoading ? "Signing in…" : (
+                <>Try the live demo <ArrowRight className="w-4 h-4 ml-1.5" /></>
+              )}
+            </Button>
+            <p className="text-[10px] text-muted-foreground text-center">
+              Alex's demo account · resets daily
+            </p>
+          </div>
+        </motion.div>
+
+        {/* Divider */}
+        <div className="flex items-center gap-3">
+          <div className="flex-1 h-px bg-border/60" />
+          <span className="text-[11px] uppercase tracking-wider text-muted-foreground">or create your own account</span>
+          <div className="flex-1 h-px bg-border/60" />
+        </div>
+
+        {/* Sign-in buttons */}
         <div className="space-y-3">
           <Button
             onClick={() => {
@@ -275,25 +312,8 @@ export default function Auth() {
                   >
                     Forgot password?
                   </button>
-          )}
-
-          <div className="flex items-center gap-3 pt-1">
-            <div className="flex-1 h-px bg-border/60" />
-            <span className="text-[11px] uppercase tracking-wider text-muted-foreground">or</span>
-            <div className="flex-1 h-px bg-border/60" />
-          </div>
-
-          <Button
-            onClick={handleDemo}
-            disabled={demoLoading}
-            variant="outline"
-            className="w-full h-12 rounded-xl font-semibold text-sm bg-secondary/30 border-border/60 hover:bg-secondary"
-            size="lg"
-          >
-            {demoLoading ? "Signing in…" : "👀 Try a live demo — no sign-up needed"}
-          </Button>
-        </div>
-
+                )}
+              </div>
 
               {showReset && (
                 <motion.div
@@ -323,7 +343,8 @@ export default function Auth() {
           )}
         </div>
 
-        <div className="space-y-3">
+        {/* Footer */}
+        <div className="space-y-2">
           <div className="flex justify-center gap-3 text-[11px] text-muted-foreground">
             <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
             <span>·</span>
