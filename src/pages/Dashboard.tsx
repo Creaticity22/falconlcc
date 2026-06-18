@@ -158,30 +158,66 @@ export default function Dashboard() {
         />
       </section>
 
+      {/* Getting started checklist (first-run) */}
+      {showChecklist && (
+        <motion.section
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="mb-8 card-feature p-5 md:p-6"
+        >
+          <h2 className="font-display font-bold text-lg md:text-xl mb-1">Let's get you set up 🚀</h2>
+          <p className="text-xs text-muted-foreground mb-4">Complete these 3 steps to earn +50 XP</p>
+          <ul className="space-y-2">
+            {checklistItems.map((item) => (
+              <li key={item.label}>
+                <Link
+                  to={item.to}
+                  className={`flex items-center gap-3 p-3 rounded-xl bg-secondary/40 hover:bg-secondary/70 transition-colors ${
+                    item.done ? "opacity-60" : ""
+                  }`}
+                >
+                  {item.done ? (
+                    <CheckCircle2 className="w-5 h-5 text-success shrink-0" />
+                  ) : (
+                    <Circle className="w-5 h-5 text-muted-foreground shrink-0" />
+                  )}
+                  <span className={`text-sm font-medium flex-1 ${item.done ? "line-through" : ""}`}>
+                    {item.label}
+                  </span>
+                  {!item.done && <ArrowRight className="w-4 h-4 text-muted-foreground" />}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </motion.section>
+      )}
+
       {/* KPI Cards */}
-      <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
-        <KPICard
-          title="Budget"
-          value={budgetPlanned > 0 ? `£${(budgetPlanned - spent).toFixed(0)}` : "—"}
-          subtitle={budgetPlanned > 0 ? `£${spent.toFixed(0)} spent` : "Not set"}
-          icon={<Wallet className="w-4 h-4" />}
-          gradient="gradient-primary"
-        />
-        <KPICard
-          title="Saved"
-          value={`£${totalSaved.toFixed(0)}`}
-          subtitle={`${goals?.length ?? 0} goals`}
-          icon={<PiggyBank className="w-4 h-4" />}
-          gradient="gradient-accent"
-        />
-        <KPICard
-          title="XP"
-          value={`${gamification?.xp_points ?? 0}`}
-          subtitle={gamification?.streak_days ? `${gamification.streak_days}🔥` : "Start streak!"}
-          icon={<Zap className="w-4 h-4" />}
-          gradient="gradient-xp"
-        />
-      </div>
+      {showKPIs && (
+        <div className="grid grid-cols-3 gap-3 md:gap-4 mb-8">
+          <KPICard
+            title="Budget"
+            value={budgetPlanned > 0 ? `£${(budgetPlanned - spent).toFixed(0)}` : "—"}
+            subtitle={budgetPlanned > 0 ? `£${spent.toFixed(0)} spent` : "Not set"}
+            icon={<Wallet className="w-4 h-4" />}
+            gradient="gradient-primary"
+          />
+          <KPICard
+            title="Saved"
+            value={`£${totalSaved.toFixed(0)}`}
+            subtitle={`${goals?.length ?? 0} goals`}
+            icon={<PiggyBank className="w-4 h-4" />}
+            gradient="gradient-accent"
+          />
+          <KPICard
+            title="XP"
+            value={`${gamification?.xp_points ?? 0}`}
+            subtitle={gamification?.streak_days ? `${gamification.streak_days}🔥` : "Start streak!"}
+            icon={<Zap className="w-4 h-4" />}
+            gradient="gradient-xp"
+          />
+        </div>
+      )}
 
       {/* Streak celebration */}
       {gamification && gamification.streak_days >= 3 && (
