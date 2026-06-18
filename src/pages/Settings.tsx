@@ -1,13 +1,21 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield } from "lucide-react";
+import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
 import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
-import { useProfile } from "@/hooks/useProfile";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+
+const AGE_RANGES = ["15-17", "18-19", "20-21"];
 
 const RESOURCES = [
   { name: "MoneyHelper", url: "https://www.moneyhelper.org.uk/en" },
