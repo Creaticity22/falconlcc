@@ -306,6 +306,10 @@ export default function Budget() {
             </section>
           )}
 
+          <SubscriptionsSection />
+
+
+
           <Button
             variant="outline"
             className="w-full mt-4 rounded-xl"
