@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil } from "lucide-react";
+import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil, Moon, Sun } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
@@ -8,6 +8,7 @@ import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
@@ -32,6 +33,26 @@ export default function Settings() {
   const [editOpen, setEditOpen] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [ageRange, setAgeRange] = useState("");
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("falcon.theme");
+    const prefersDark = saved === "dark" || (saved === null && window.matchMedia("(prefers-color-scheme: dark)").matches);
+    setIsDark(prefersDark);
+    if (prefersDark) document.documentElement.classList.add("dark");
+    else document.documentElement.classList.remove("dark");
+  }, []);
+
+  const toggleTheme = (checked: boolean) => {
+    setIsDark(checked);
+    if (checked) {
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("falcon.theme", "dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("falcon.theme", "light");
+    }
+  };
 
   useEffect(() => {
     if (editOpen && profile) {
@@ -164,6 +185,18 @@ export default function Settings() {
               <p className="font-display font-bold">{(gamification?.badges as string[])?.length ?? 0}</p>
               <p className="text-[10px] text-muted-foreground">Badges</p>
             </div>
+          </div>
+        </motion.section>
+
+        {/* Appearance */}
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }} className="bg-card rounded-xl p-4 border border-border/50">
+          <h2 className="font-display font-semibold text-base mb-3">Appearance</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {isDark ? <Moon className="w-4 h-4 text-muted-foreground" /> : <Sun className="w-4 h-4 text-muted-foreground" />}
+              <span className="text-sm font-medium">Dark mode</span>
+            </div>
+            <Switch checked={isDark} onCheckedChange={toggleTheme} />
           </div>
         </motion.section>
 

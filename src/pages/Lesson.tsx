@@ -9,6 +9,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
+import { trackEvent } from "@/lib/analytics";
 
 type Phase = "reading" | "quiz" | "complete";
 
@@ -65,6 +66,7 @@ export default function Lesson() {
       setPhase("complete");
       saveProgress.mutate(finalScore);
       awardXP.mutate({ amount: lesson.xpReward, reason: `Completed "${lesson.title}"` });
+      trackEvent("lesson_completed", { lesson_id: lesson.id });
     }
   };
 
