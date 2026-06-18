@@ -356,26 +356,25 @@ function BudgetSetup({
               />
             </div>
           )}
-            <div className="space-y-4">
-              <h2 className="text-xl font-display font-bold">Monthly income</h2>
-              <p className="text-sm text-muted-foreground">How much do you earn or receive each month?</p>
-              <Input
-                type="number"
-                placeholder="£"
-                value={income}
-                onChange={(e) => setIncome(e.target.value)}
-                className="h-14 rounded-xl text-lg"
-                autoFocus
-              />
-            </div>
-          )}
           {step === 1 && (
             <div className="space-y-4">
               <h2 className="text-xl font-display font-bold">Allocate your money</h2>
               <p className="text-sm text-muted-foreground">Split £{income} across categories</p>
               {categories.map((cat, i) => (
                 <div key={cat.name} className="space-y-1">
-                  <label className="text-sm font-medium">{cat.name}</label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">{cat.name}</label>
+                    {categories.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeCategory(i)}
+                        className="text-muted-foreground hover:text-destructive p-1"
+                        aria-label={`Remove ${cat.name}`}
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                   <Input
                     type="number"
                     placeholder="£"
@@ -385,6 +384,24 @@ function BudgetSetup({
                   />
                 </div>
               ))}
+              <div className="flex gap-2 pt-2">
+                <Input
+                  placeholder="New category name"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCategory(); } }}
+                  className="h-11 rounded-xl"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={addCategory}
+                  disabled={!newCategoryName.trim()}
+                  className="h-11 rounded-xl shrink-0"
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Add
+                </Button>
+              </div>
             </div>
           )}
           {step === 2 && (
