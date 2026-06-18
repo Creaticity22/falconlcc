@@ -44,14 +44,14 @@ const FEATURED_VIDEOS = [
 export default function Learn() {
   const { user } = useAuth();
 
-  const { data: completedLessons } = useQuery({
+  const { data: lessonProgress } = useQuery({
     queryKey: ["completed-lessons", user?.id],
     queryFn: async () => {
       const { data } = await supabase
         .from("lesson_progress")
-        .select("lesson_id")
+        .select("lesson_id, score")
         .eq("user_id", user!.id);
-      return data?.map((l) => l.lesson_id) ?? [];
+      return data ?? [];
     },
     enabled: !!user,
   });
