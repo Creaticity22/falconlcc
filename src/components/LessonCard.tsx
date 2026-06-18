@@ -7,9 +7,10 @@ interface LessonCardProps {
   lesson: Lesson;
   completed?: boolean;
   isNext?: boolean;
+  score?: number | null;
 }
 
-export default function LessonCard({ lesson, completed, isNext }: LessonCardProps) {
+export default function LessonCard({ lesson, completed, isNext, score }: LessonCardProps) {
   return (
     <Link to={`/learn/${lesson.id}`}>
       <motion.div
