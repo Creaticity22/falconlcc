@@ -20,7 +20,12 @@ import MoneyDiary from "./pages/MoneyDiary";
 import MoneyWins from "./pages/MoneyWins";
 import Achievements from "./pages/Achievements";
 import Verify from "./pages/Verify";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
+import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
+import CookieBanner from "./components/CookieBanner";
+import ErrorBoundary from "./components/ErrorBoundary";
 import { Bird } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -57,6 +62,8 @@ function OnboardingRoute() {
   return <Onboarding />;
 }
 
+const wrap = (el: React.ReactNode) => <ErrorBoundary>{el}</ErrorBoundary>;
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <AuthProvider>
@@ -65,23 +72,27 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/verify/:kind/:code" element={<Verify />} />
-            <Route path="/onboarding" element={<OnboardingRoute />} />
-            <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="/budget" element={<ProtectedRoute><Budget /></ProtectedRoute>} />
-            <Route path="/goals" element={<ProtectedRoute><Goals /></ProtectedRoute>} />
-            <Route path="/goals/:id" element={<ProtectedRoute><GoalDetail /></ProtectedRoute>} />
-            <Route path="/learn" element={<ProtectedRoute><Learn /></ProtectedRoute>} />
-            <Route path="/learn/:id" element={<ProtectedRoute><Lesson /></ProtectedRoute>} />
-            <Route path="/learn/moment/:id" element={<ProtectedRoute><MoneyMoment /></ProtectedRoute>} />
-            <Route path="/diary" element={<ProtectedRoute><MoneyDiary /></ProtectedRoute>} />
-            <Route path="/wins" element={<ProtectedRoute><MoneyWins /></ProtectedRoute>} />
-            <Route path="/ai" element={<ProtectedRoute><AIChat /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><Settings /></ProtectedRoute>} />
-            <Route path="/achievements" element={<ProtectedRoute><Achievements /></ProtectedRoute>} />
-            <Route path="*" element={<NotFound />} />
+            <Route path="/auth" element={wrap(<Auth />)} />
+            <Route path="/verify/:kind/:code" element={wrap(<Verify />)} />
+            <Route path="/privacy" element={wrap(<Privacy />)} />
+            <Route path="/terms" element={wrap(<Terms />)} />
+            <Route path="/help" element={wrap(<Help />)} />
+            <Route path="/onboarding" element={wrap(<OnboardingRoute />)} />
+            <Route path="/" element={wrap(<ProtectedRoute><Dashboard /></ProtectedRoute>)} />
+            <Route path="/budget" element={wrap(<ProtectedRoute><Budget /></ProtectedRoute>)} />
+            <Route path="/goals" element={wrap(<ProtectedRoute><Goals /></ProtectedRoute>)} />
+            <Route path="/goals/:id" element={wrap(<ProtectedRoute><GoalDetail /></ProtectedRoute>)} />
+            <Route path="/learn" element={wrap(<ProtectedRoute><Learn /></ProtectedRoute>)} />
+            <Route path="/learn/:id" element={wrap(<ProtectedRoute><Lesson /></ProtectedRoute>)} />
+            <Route path="/learn/moment/:id" element={wrap(<ProtectedRoute><MoneyMoment /></ProtectedRoute>)} />
+            <Route path="/diary" element={wrap(<ProtectedRoute><MoneyDiary /></ProtectedRoute>)} />
+            <Route path="/wins" element={wrap(<ProtectedRoute><MoneyWins /></ProtectedRoute>)} />
+            <Route path="/ai" element={wrap(<ProtectedRoute><AIChat /></ProtectedRoute>)} />
+            <Route path="/settings" element={wrap(<ProtectedRoute><Settings /></ProtectedRoute>)} />
+            <Route path="/achievements" element={wrap(<ProtectedRoute><Achievements /></ProtectedRoute>)} />
+            <Route path="*" element={wrap(<NotFound />)} />
           </Routes>
+          <CookieBanner />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
