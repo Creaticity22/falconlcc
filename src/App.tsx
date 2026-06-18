@@ -26,6 +26,7 @@ import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
 import CookieBanner from "./components/CookieBanner";
 import ErrorBoundary from "./components/ErrorBoundary";
+const BoomTest = () => { throw new Error("Boom — test"); };
 import { Bird } from "lucide-react";
 import { motion } from "framer-motion";
 
