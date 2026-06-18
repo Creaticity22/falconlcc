@@ -206,6 +206,14 @@ export default function Settings() {
         >
           <LogOut className="w-4 h-4 mr-2" /> Sign out
         </Button>
+
+        <div className="flex justify-center gap-4 pt-2 text-[11px] text-muted-foreground">
+          <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
+          <span>·</span>
+          <Link to="/terms" className="hover:text-foreground">Terms of Service</Link>
+          <span>·</span>
+          <Link to="/help" className="hover:text-foreground">Help</Link>
+        </div>
       </div>
     </AppLayout>
   );
