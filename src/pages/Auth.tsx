@@ -275,8 +275,25 @@ export default function Auth() {
                   >
                     Forgot password?
                   </button>
-                )}
-              </div>
+          )}
+
+          <div className="flex items-center gap-3 pt-1">
+            <div className="flex-1 h-px bg-border/60" />
+            <span className="text-[11px] uppercase tracking-wider text-muted-foreground">or</span>
+            <div className="flex-1 h-px bg-border/60" />
+          </div>
+
+          <Button
+            onClick={handleDemo}
+            disabled={demoLoading}
+            variant="outline"
+            className="w-full h-12 rounded-xl font-semibold text-sm bg-secondary/30 border-border/60 hover:bg-secondary"
+            size="lg"
+          >
+            {demoLoading ? "Signing in…" : "👀 Try a live demo — no sign-up needed"}
+          </Button>
+        </div>
+
 
               {showReset && (
                 <motion.div
