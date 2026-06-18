@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil, Moon, Sun } from "lucide-react";
+import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil, Moon, Sun, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
@@ -197,6 +197,31 @@ export default function Settings() {
               <span className="text-sm font-medium">Dark mode</span>
             </div>
             <Switch checked={isDark} onCheckedChange={toggleTheme} />
+          </div>
+        </motion.section>
+
+        {/* Privacy */}
+        <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.18 }} className="bg-card rounded-xl p-4 border border-border/50">
+          <h2 className="font-display font-semibold text-base mb-3">Privacy</h2>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Users className="w-4 h-4 text-muted-foreground" />
+              <div>
+                <p className="text-sm font-medium">Show me on the leaderboard</p>
+                <p className="text-[11px] text-muted-foreground">Anonymised — only your initial is shown.</p>
+              </div>
+            </div>
+            <Switch
+              checked={profile?.leaderboard_visible ?? true}
+              onCheckedChange={async (v) => {
+                try {
+                  await updateProfile.mutateAsync({ leaderboard_visible: v } as any);
+                  toast.success(v ? "You're on the leaderboard" : "Hidden from leaderboard");
+                } catch {
+                  toast.error("Couldn't update preference");
+                }
+              }}
+            />
           </div>
         </motion.section>
 

@@ -360,6 +360,7 @@ export type Database = {
           first_name: string | null
           id: string
           income_band: string | null
+          leaderboard_visible: boolean
           money_goal: string | null
           onboarding_completed: boolean | null
           saving_for: string | null
@@ -372,6 +373,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           income_band?: string | null
+          leaderboard_visible?: boolean
           money_goal?: string | null
           onboarding_completed?: boolean | null
           saving_for?: string | null
@@ -384,6 +386,7 @@ export type Database = {
           first_name?: string | null
           id?: string
           income_band?: string | null
+          leaderboard_visible?: boolean
           money_goal?: string | null
           onboarding_completed?: boolean | null
           saving_for?: string | null
@@ -629,6 +632,16 @@ export type Database = {
     }
     Functions: {
       award_badge: { Args: { _badge_code: string }; Returns: Json }
+      get_leaderboard: {
+        Args: never
+        Returns: {
+          initials: string
+          is_me: boolean
+          rank: number
+          streak_days: number
+          xp_points: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

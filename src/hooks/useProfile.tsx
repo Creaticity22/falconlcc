@@ -11,6 +11,7 @@ export interface Profile {
   money_goal: string | null;
   saving_for: string | null;
   onboarding_completed: boolean;
+  leaderboard_visible?: boolean;
 }
 
 export function useProfile() {

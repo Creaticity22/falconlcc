@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { motion } from "framer-motion";
-import { Plus, Target } from "lucide-react";
+import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Plus, Target, Sparkles, ChevronDown } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import LoadingSpinner from "@/components/LoadingSpinner";
@@ -28,6 +28,7 @@ export default function Goals() {
   const [date, setDate] = useState("");
   const [desc, setDesc] = useState("");
   const [templateCode, setTemplateCode] = useState<string | null>(null);
+  const [roundUpOpen, setRoundUpOpen] = useState(false);
 
   const { data: goals, isLoading } = useQuery({
     queryKey: ["all-goals", user?.id],
@@ -41,6 +42,38 @@ export default function Goals() {
     },
     enabled: !!user,
   });
+
+  const { data: monthExpenses } = useQuery({
+    queryKey: ["round-up-expenses", user?.id],
+    queryFn: async () => {
+      const start = new Date();
+      start.setDate(1);
+      const { data } = await supabase
+        .from("expenses")
+        .select("amount")
+        .eq("user_id", user!.id)
+        .gte("expense_date", start.toISOString().split("T")[0]);
+      return data ?? [];
+    },
+    enabled: !!user,
+  });
+
+  const roundUpTotal = useMemo(() => {
+    if (!monthExpenses) return 0;
+    return monthExpenses.reduce((sum, e) => {
+      const amt = Number(e.amount);
+      return sum + (Math.ceil(amt) - amt);
+    }, 0);
+  }, [monthExpenses]);
+
+  const openRoundUpGoal = () => {
+    setName("Round-up savings");
+    setTarget("50");
+    setDesc("Small change adds up — start a round-up savings habit.");
+    setTemplateCode(null);
+    setShowForm(true);
+    setOpen(true);
+  };
 
   const createGoal = useMutation({
     mutationFn: async () => {
@@ -167,6 +200,58 @@ export default function Goals() {
           ))}
         </div>
       )}
+
+      {/* Round-up simulator */}
+      <motion.section
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="mt-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 to-accent/5 overflow-hidden"
+      >
+        <button
+          onClick={() => setRoundUpOpen((v) => !v)}
+          className="w-full flex items-center gap-3 p-4 text-left"
+          aria-expanded={roundUpOpen}
+        >
+          <Sparkles className="w-5 h-5 text-primary shrink-0" />
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-bold">💡 Round-up simulator</p>
+            <p className="text-xs text-muted-foreground">What if you rounded up every purchase to the nearest £1?</p>
+          </div>
+          <ChevronDown
+            className={`w-4 h-4 text-muted-foreground transition-transform ${roundUpOpen ? "rotate-180" : ""}`}
+          />
+        </button>
+        <AnimatePresence>
+          {roundUpOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="px-4 pb-4 overflow-hidden"
+            >
+              {monthExpenses && monthExpenses.length > 0 ? (
+                <>
+                  <p className="text-sm leading-relaxed mb-3">
+                    Based on your spending this month, round-ups would have added approximately{" "}
+                    <b className="text-primary">£{roundUpTotal.toFixed(2)}</b> to your savings.
+                  </p>
+                  <Button
+                    onClick={openRoundUpGoal}
+                    size="sm"
+                    className="rounded-xl gradient-primary text-primary-foreground border-0"
+                  >
+                    Create a round-up goal →
+                  </Button>
+                </>
+              ) : (
+                <p className="text-sm text-muted-foreground">
+                  Log some expenses and we'll calculate your potential round-up savings.
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.section>
     </AppLayout>
   );
 }
