@@ -93,7 +93,7 @@ export default function GoalDetail() {
 
   const { data: goalResources } = useResources(["saving", "investing_basics"], 2);
 
-  if (!goal) return <AppLayout><div className="pt-20 text-center text-muted-foreground">Loading...</div></AppLayout>;
+  if (!goal) return <AppLayout><LoadingSpinner /></AppLayout>;
 
   const pct = Number(goal.target_amount) > 0 ? Math.min((Number(goal.current_amount) / Number(goal.target_amount)) * 100, 100) : 0;
 

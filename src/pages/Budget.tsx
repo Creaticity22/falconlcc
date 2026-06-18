@@ -129,7 +129,7 @@ export default function Budget() {
   const getSpentByCategory = (catName: string) =>
     expenses?.filter((e) => e.category === catName).reduce((s, e) => s + Number(e.amount), 0) ?? 0;
 
-  if (isLoading) return <AppLayout><div className="pt-20 text-center text-muted-foreground">Loading...</div></AppLayout>;
+  if (isLoading) return <AppLayout><LoadingSpinner /></AppLayout>;
 
   return (
     <AppLayout>
