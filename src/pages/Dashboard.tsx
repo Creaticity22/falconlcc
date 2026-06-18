@@ -1,5 +1,6 @@
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Bird, Wallet, PiggyBank, Zap, Flame, Plus, BookOpen, MessageCircle, SmilePlus, Trophy } from "lucide-react";
+import { Bird, Wallet, PiggyBank, Zap, Flame, Plus, BookOpen, MessageCircle, SmilePlus, Trophy, CheckCircle2, Circle, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
@@ -10,11 +11,13 @@ import FalconLogo from "@/components/FalconLogo";
 import HeroBanner from "@/components/HeroBanner";
 import SponsoredBanner from "@/components/SponsoredBanner";
 import { useProfile } from "@/hooks/useProfile";
-import { useGamification } from "@/hooks/useGamification";
+import { useGamification, useAwardXP } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
+
+const CHECKLIST_KEY = "falcon.checklist.dismissed";
 
 export default function Dashboard() {
   const { user } = useAuth();
