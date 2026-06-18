@@ -1,13 +1,21 @@
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield } from "lucide-react";
+import { ArrowLeft, LogOut, Star, Flame, Trophy, ExternalLink, Shield, Pencil } from "lucide-react";
 import { Link } from "react-router-dom";
 import AppLayout from "@/components/AppLayout";
 import FalconLogo from "@/components/FalconLogo";
 import HeroBanner from "@/components/HeroBanner";
 import { Button } from "@/components/ui/button";
-import { useProfile } from "@/hooks/useProfile";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useProfile, useUpdateProfile } from "@/hooks/useProfile";
 import { useGamification } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+
+const AGE_RANGES = ["15-17", "18-19", "20-21"];
 
 const RESOURCES = [
   { name: "MoneyHelper", url: "https://www.moneyhelper.org.uk/en" },
@@ -19,6 +27,31 @@ export default function Settings() {
   const { signOut } = useAuth();
   const { data: profile } = useProfile();
   const { data: gamification } = useGamification();
+  const updateProfile = useUpdateProfile();
+
+  const [editOpen, setEditOpen] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [ageRange, setAgeRange] = useState("");
+
+  useEffect(() => {
+    if (editOpen && profile) {
+      setFirstName(profile.first_name ?? "");
+      setAgeRange(profile.age_range ?? "");
+    }
+  }, [editOpen, profile]);
+
+  const handleSave = async () => {
+    try {
+      await updateProfile.mutateAsync({
+        first_name: firstName.trim() || null,
+        age_range: ageRange || null,
+      });
+      toast.success("Profile updated");
+      setEditOpen(false);
+    } catch {
+      toast.error("Couldn't update profile");
+    }
+  };
 
   return (
     <AppLayout>
@@ -39,7 +72,17 @@ export default function Settings() {
       <div className="space-y-6">
         {/* Profile */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="bg-card rounded-xl p-4 border border-border/50">
-          <h2 className="font-display font-semibold text-base mb-3">Profile</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="font-display font-semibold text-base">Profile</h2>
+            <Button
+              size="sm"
+              variant="ghost"
+              className="h-8 px-2 text-xs"
+              onClick={() => setEditOpen(true)}
+            >
+              <Pencil className="w-3.5 h-3.5 mr-1" /> Edit
+            </Button>
+          </div>
           <div className="space-y-2 text-sm">
             <div className="flex justify-between">
               <span className="text-muted-foreground">Name</span>
@@ -51,6 +94,50 @@ export default function Settings() {
             </div>
           </div>
         </motion.section>
+
+        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+          <DialogContent className="rounded-2xl">
+            <DialogHeader>
+              <DialogTitle className="font-display">Edit profile</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 pt-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="first_name">First name</Label>
+                <Input
+                  id="first_name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="h-11 rounded-xl"
+                />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Age range</Label>
+                <Select value={ageRange} onValueChange={setAgeRange}>
+                  <SelectTrigger className="h-11 rounded-xl">
+                    <SelectValue placeholder="Select age range" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {AGE_RANGES.map((r) => (
+                      <SelectItem key={r} value={r}>{r}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <DialogFooter className="gap-2 sm:gap-2">
+              <Button variant="outline" onClick={() => setEditOpen(false)} className="rounded-xl">
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSave}
+                disabled={updateProfile.isPending}
+                className="rounded-xl gradient-primary text-primary-foreground border-0"
+              >
+                {updateProfile.isPending ? "Saving..." : "Save changes"}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
 
         {/* Gamification */}
         <motion.section initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="bg-card rounded-xl p-4 border border-border/50">

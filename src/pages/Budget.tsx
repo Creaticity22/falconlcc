@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, PieChart } from "lucide-react";
+import { Plus, PieChart, Trash2, X } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
 import HeroBanner from "@/components/HeroBanner";
@@ -105,6 +105,18 @@ export default function Budget() {
       setExpCategory("");
       setExpNote("");
       toast.success("Expense added!");
+    },
+  });
+
+  const deleteExpense = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("expenses").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["expenses"] });
+      qc.invalidateQueries({ queryKey: ["monthly-spent"] });
+      toast.success("Expense deleted");
     },
   });
 
@@ -253,11 +265,24 @@ export default function Budget() {
               <div className="space-y-2">
                 {expenses.slice(0, 5).map((exp) => (
                   <div key={exp.id} className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/50">
-                    <div>
+                    <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{exp.category}</p>
-                      {exp.note && <p className="text-xs text-muted-foreground">{exp.note}</p>}
+                      {exp.note && <p className="text-xs text-muted-foreground truncate">{exp.note}</p>}
                     </div>
-                    <span className="font-display font-semibold text-sm">-£{Number(exp.amount).toFixed(2)}</span>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="font-display font-semibold text-sm">-£{Number(exp.amount).toFixed(2)}</span>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                        onClick={() => {
+                          if (confirm("Delete this expense?")) deleteExpense.mutate(exp.id);
+                        }}
+                        aria-label="Delete expense"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -290,6 +315,23 @@ function BudgetSetup({
     setCategories(updated);
   };
 
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  const addCategory = () => {
+    const name = newCategoryName.trim();
+    if (!name) return;
+    if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      toast.error("Category already exists");
+      return;
+    }
+    setCategories([...categories, { name, planned: 0, color: "bg-primary" }]);
+    setNewCategoryName("");
+  };
+
+  const removeCategory = (idx: number) => {
+    setCategories(categories.filter((_, i) => i !== idx));
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex gap-1.5 mb-4">
@@ -320,7 +362,19 @@ function BudgetSetup({
               <p className="text-sm text-muted-foreground">Split £{income} across categories</p>
               {categories.map((cat, i) => (
                 <div key={cat.name} className="space-y-1">
-                  <label className="text-sm font-medium">{cat.name}</label>
+                  <div className="flex items-center justify-between">
+                    <label className="text-sm font-medium">{cat.name}</label>
+                    {categories.length > 1 && (
+                      <button
+                        type="button"
+                        onClick={() => removeCategory(i)}
+                        className="text-muted-foreground hover:text-destructive p-1"
+                        aria-label={`Remove ${cat.name}`}
+                      >
+                        <X className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
                   <Input
                     type="number"
                     placeholder="£"
@@ -330,6 +384,24 @@ function BudgetSetup({
                   />
                 </div>
               ))}
+              <div className="flex gap-2 pt-2">
+                <Input
+                  placeholder="New category name"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addCategory(); } }}
+                  className="h-11 rounded-xl"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={addCategory}
+                  disabled={!newCategoryName.trim()}
+                  className="h-11 rounded-xl shrink-0"
+                >
+                  <Plus className="w-4 h-4 mr-1" /> Add
+                </Button>
+              </div>
             </div>
           )}
           {step === 2 && (

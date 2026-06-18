@@ -134,7 +134,7 @@ export default function MoneyDiary() {
                 <MessageCircle className="w-3 h-3 mr-1" /> Ask the AI for ideas
               </Button>
             </Link>
-            <Link to="/help">
+            <Link to="/settings">
               <Button size="sm" variant="outline" className="rounded-lg text-xs h-8">
                 See support options
               </Button>
