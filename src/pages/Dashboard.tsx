@@ -175,6 +175,8 @@ export default function Dashboard() {
         />
       </section>
 
+      <PersonalNudgeCard />
+
       {/* Getting started checklist (first-run) */}
       {showChecklist && (
         <motion.section
