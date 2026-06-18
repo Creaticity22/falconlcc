@@ -1,20 +1,34 @@
-import { useState } from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, Navigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail } from "lucide-react";
+import { Mail, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import FalconLogo from "@/components/FalconLogo";
 
+const AGE_KEY = "falcon.agecheck.v1";
+
+type AgeStage = "ask" | "under16" | "done";
+
 export default function Auth() {
   const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const [ageStage, setAgeStage] = useState<AgeStage>("done");
   const [showEmail, setShowEmail] = useState(false);
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [showReset, setShowReset] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetSending, setResetSending] = useState(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (!localStorage.getItem(AGE_KEY)) setAgeStage("ask");
+  }, []);
 
   if (loading) {
     return (
@@ -48,9 +62,93 @@ export default function Auth() {
     }
   };
 
+  const handleReset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetEmail.trim()) return;
+    setResetSending(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+        redirectTo: window.location.origin + "/auth",
+      });
+      if (error) toast.error(error.message);
+      else {
+        toast.success("Check your email for a reset link.");
+        setShowReset(false);
+        setResetEmail("");
+      }
+    } finally {
+      setResetSending(false);
+    }
+  };
+
+  const acceptAge = (under16: boolean) => {
+    localStorage.setItem(AGE_KEY, under16 ? "under16" : "16plus");
+    setAgeStage("done");
+  };
+
+  // ===== Age gate =====
+  if (ageStage === "ask") {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 bg-background">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-sm space-y-8 text-center"
+        >
+          <div className="flex justify-center">
+            <FalconLogo showWordmark size={140} />
+          </div>
+          <h1 className="font-display text-2xl font-bold">How old are you?</h1>
+          <div className="space-y-3">
+            <Button
+              onClick={() => acceptAge(false)}
+              className="w-full h-12 rounded-xl font-semibold gradient-primary text-primary-foreground border-0"
+            >
+              16 or over
+            </Button>
+            <Button
+              onClick={() => setAgeStage("under16")}
+              variant="outline"
+              className="w-full h-12 rounded-xl font-semibold bg-secondary/40 border-border/60"
+            >
+              Under 16
+            </Button>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
+
+  if (ageStage === "under16") {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-6 bg-background">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="w-full max-w-sm space-y-6 text-center"
+        >
+          <div className="flex justify-center">
+            <FalconLogo showWordmark size={120} />
+          </div>
+          <h2 className="font-display text-xl font-bold">You can still use Falcon!</h2>
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            We recommend a parent or guardian reads our{" "}
+            <Link to="/privacy" className="text-primary underline">Privacy Policy</Link> with you first.
+          </p>
+          <Button
+            onClick={() => acceptAge(true)}
+            className="w-full h-12 rounded-xl font-semibold gradient-primary text-primary-foreground border-0"
+          >
+            Continue
+          </Button>
+        </motion.div>
+      </div>
+    );
+  }
+
+  // ===== Main auth =====
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden">
-      {/* Ambient brand glow */}
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 bg-background relative overflow-hidden py-10">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full bg-primary/20 blur-[120px]" />
         <div className="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-accent/10 blur-[100px]" />
@@ -62,7 +160,6 @@ export default function Auth() {
         transition={{ duration: 0.6 }}
         className="w-full max-w-sm space-y-10 relative z-10"
       >
-        {/* Logo + brand */}
         <div className="text-center space-y-6">
           <motion.div
             initial={{ scale: 0, rotate: -10 }}
@@ -77,7 +174,6 @@ export default function Auth() {
           </p>
         </div>
 
-        {/* Auth buttons */}
         <div className="space-y-3">
           <Button
             onClick={signInWithGoogle}
@@ -134,20 +230,65 @@ export default function Auth() {
               >
                 {submitting ? "..." : isSignUp ? "Sign up" : "Sign in"}
               </Button>
-              <button
-                type="button"
-                onClick={() => setIsSignUp(!isSignUp)}
-                className="w-full text-center text-xs text-muted-foreground hover:text-foreground transition-colors"
-              >
-                {isSignUp ? "Already have an account? Sign in" : "New here? Create an account"}
-              </button>
+              <div className="flex justify-between items-center">
+                <button
+                  type="button"
+                  onClick={() => setIsSignUp(!isSignUp)}
+                  className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {isSignUp ? "Already have an account? Sign in" : "New here? Create an account"}
+                </button>
+                {!isSignUp && (
+                  <button
+                    type="button"
+                    onClick={() => setShowReset((v) => !v)}
+                    className="text-xs text-primary hover:underline"
+                  >
+                    Forgot password?
+                  </button>
+                )}
+              </div>
+
+              {showReset && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: "auto" }}
+                  className="space-y-2 pt-2 border-t border-border/40"
+                >
+                  <Input
+                    type="email"
+                    placeholder="Your email address"
+                    value={resetEmail}
+                    onChange={(e) => setResetEmail(e.target.value)}
+                    className="h-11 rounded-xl bg-secondary/40 border-border/60"
+                  />
+                  <Button
+                    type="button"
+                    onClick={handleReset}
+                    disabled={resetSending}
+                    variant="outline"
+                    className="w-full h-11 rounded-xl"
+                  >
+                    {resetSending ? "Sending..." : "Send reset link"}
+                  </Button>
+                </motion.div>
+              )}
             </motion.form>
           )}
         </div>
 
-        <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
-          Falcon is educational only and does not provide regulated financial advice.
-        </p>
+        <div className="space-y-3">
+          <div className="flex justify-center gap-3 text-[11px] text-muted-foreground">
+            <Link to="/privacy" className="hover:text-foreground">Privacy Policy</Link>
+            <span>·</span>
+            <Link to="/terms" className="hover:text-foreground">Terms of Service</Link>
+            <span>·</span>
+            <Link to="/help" className="hover:text-foreground">Help</Link>
+          </div>
+          <p className="text-[10px] text-muted-foreground text-center leading-relaxed">
+            Falcon is educational only and does not provide regulated financial advice.
+          </p>
+        </div>
       </motion.div>
     </div>
   );
