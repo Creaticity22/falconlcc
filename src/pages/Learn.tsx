@@ -8,6 +8,8 @@ import HeroBanner from "@/components/HeroBanner";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
 import SponsoredBanner from "@/components/SponsoredBanner";
+import ChallengesSection from "@/components/ChallengesSection";
+import SavingsCalculator from "@/components/SavingsCalculator";
 import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
