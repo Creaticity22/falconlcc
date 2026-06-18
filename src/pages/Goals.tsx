@@ -28,6 +28,7 @@ export default function Goals() {
   const [date, setDate] = useState("");
   const [desc, setDesc] = useState("");
   const [templateCode, setTemplateCode] = useState<string | null>(null);
+  const [roundUpOpen, setRoundUpOpen] = useState(false);
 
   const { data: goals, isLoading } = useQuery({
     queryKey: ["all-goals", user?.id],
