@@ -152,6 +152,27 @@ export type Database = {
         }
         Relationships: []
       }
+      challenge_completions: {
+        Row: {
+          challenge_id: string
+          completed_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          challenge_id: string
+          completed_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          challenge_id?: string
+          completed_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       expenses: {
         Row: {
           amount: number
@@ -489,6 +510,30 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          name: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          name: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          name?: string
+          user_id?: string
+        }
+        Relationships: []
       }
       user_badges: {
         Row: {
