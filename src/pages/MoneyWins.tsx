@@ -11,6 +11,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { trackOnce } from "@/lib/analytics";
 
 export default function MoneyWins() {
   const { user } = useAuth();
@@ -45,6 +46,7 @@ export default function MoneyWins() {
       setText("");
       toast.success("Money win logged! 🏆");
       awardXP.mutate({ amount: 10, reason: "Logged a money win" });
+      if (!wins || wins.length === 0) trackOnce("first_win_logged");
     },
   });
 

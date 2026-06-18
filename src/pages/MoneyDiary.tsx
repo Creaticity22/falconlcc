@@ -35,6 +35,7 @@ export default function MoneyDiary() {
   const currentWeek = getWeekStart();
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [note, setNote] = useState("");
+  const [consentChecked, setConsentChecked] = useState(false);
 
   const { data: entries, isLoading } = useQuery({
     queryKey: ["diary-entries", user?.id],
@@ -178,9 +179,18 @@ export default function MoneyDiary() {
             rows={2}
           />
 
+          <label className="flex items-center gap-2 mb-3 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={consentChecked}
+              onChange={(e) => setConsentChecked(e.target.checked)}
+              className="w-4 h-4 rounded border-border accent-primary"
+            />
+            <span className="text-xs text-muted-foreground">I consent to Falcon processing this wellbeing data to help me track my money mood.</span>
+          </label>
           <Button
             onClick={() => submitEntry.mutate()}
-            disabled={!selectedMood || submitEntry.isPending}
+            disabled={!selectedMood || submitEntry.isPending || !consentChecked}
             className="w-full h-11 rounded-xl gradient-primary text-primary-foreground border-0"
           >
             <SmilePlus className="w-4 h-4 mr-1" /> Save this week's entry (+10 XP)
