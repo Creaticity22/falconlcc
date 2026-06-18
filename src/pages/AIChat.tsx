@@ -198,9 +198,21 @@ export default function AIChat() {
       <div className="flex items-center gap-4 px-4 md:px-8 py-4 md:py-5 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
         <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_20px_hsl(268_75%_55%/0.55)]" />
-        <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-          <span className="text-[10px] font-semibold text-primary">AI Companion</span>
+        <div className="ml-auto flex items-center gap-2">
+          {messages.length > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={clearChat}
+              className="h-8 px-2 text-xs text-muted-foreground hover:text-destructive"
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-1" /> Clear chat
+            </Button>
+          )}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="text-[10px] font-semibold text-primary">AI Companion</span>
+          </div>
         </div>
       </div>
 
