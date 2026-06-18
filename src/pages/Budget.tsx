@@ -108,6 +108,18 @@ export default function Budget() {
     },
   });
 
+  const deleteExpense = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("expenses").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["expenses"] });
+      qc.invalidateQueries({ queryKey: ["monthly-spent"] });
+      toast.success("Expense deleted");
+    },
+  });
+
   const budgetCategories = budget?.categories as { name: string; planned: number }[] | undefined;
   const totalSpent = expenses?.reduce((s, e) => s + Number(e.amount), 0) ?? 0;
   const remaining = budget ? Number(budget.monthly_income) - totalSpent : 0;
