@@ -311,8 +311,6 @@ export default function AIChat() {
             )}
           </motion.div>
         ))}
-          </motion.div>
-        ))}
 
         {/* Want to go deeper? */}
         {!isLoading && chatResources && chatResources.length > 0 && messages.length > 0 && messages[messages.length - 1]?.role === "assistant" && (
