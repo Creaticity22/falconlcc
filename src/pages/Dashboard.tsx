@@ -97,6 +97,30 @@ export default function Dashboard() {
     { label: "Start lesson", icon: BookOpen, to: nextLesson ? `/learn/${nextLesson.id}` : "/learn", gradient: "gradient-xp" },
   ];
 
+  // Onboarding checklist
+  const hasBudget = !!budget;
+  const hasGoals = (goals?.length ?? 0) > 0;
+  const hasLesson = (completedLessons?.length ?? 0) > 0;
+  const dataReady = goals !== undefined && budget !== undefined && completedLessons !== undefined;
+  const allDone = hasBudget && hasGoals && hasLesson;
+  const showChecklist = dataReady && !checklistDismissed && !allDone;
+  const showKPIs = !showChecklist;
+
+  useEffect(() => {
+    if (dataReady && allDone && !checklistDismissed) {
+      localStorage.setItem(CHECKLIST_KEY, "1");
+      setChecklistDismissed(true);
+      awardXP.mutate({ amount: 50, reason: "Getting started checklist complete" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataReady, allDone, checklistDismissed]);
+
+  const checklistItems = [
+    { done: hasBudget, label: "Set up your budget", to: "/budget" },
+    { done: hasGoals, label: "Create your first savings goal", to: "/goals" },
+    { done: hasLesson, label: "Complete your first lesson", to: "/learn" },
+  ];
+
   return (
     <AppLayout>
       {/* Hero header */}
