@@ -8,6 +8,8 @@ import HeroBanner from "@/components/HeroBanner";
 import LessonCard from "@/components/LessonCard";
 import ResourceCard from "@/components/ResourceCard";
 import SponsoredBanner from "@/components/SponsoredBanner";
+import ChallengesSection from "@/components/ChallengesSection";
+import SavingsCalculator from "@/components/SavingsCalculator";
 import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -42,14 +44,14 @@ const FEATURED_VIDEOS = [
 export default function Learn() {
   const { user } = useAuth();
 
-  const { data: completedLessons } = useQuery({
+  const { data: lessonProgress } = useQuery({
     queryKey: ["completed-lessons", user?.id],
     queryFn: async () => {
       const { data } = await supabase
         .from("lesson_progress")
-        .select("lesson_id")
+        .select("lesson_id, score")
         .eq("user_id", user!.id);
-      return data?.map((l) => l.lesson_id) ?? [];
+      return data ?? [];
     },
     enabled: !!user,
   });
@@ -73,7 +75,10 @@ export default function Learn() {
     setShowTutorial(false);
   };
 
-  const completed = completedLessons ?? [];
+  const completed = (lessonProgress ?? []).map((l) => l.lesson_id);
+  const scoreByLesson = Object.fromEntries(
+    (lessonProgress ?? []).map((l) => [l.lesson_id, l.score])
+  ) as Record<string, number | null>;
   const nextLesson = LESSONS.find((l) => !completed.includes(l.id));
 
   // Map lesson topics to resource DB topics
@@ -288,6 +293,12 @@ export default function Learn() {
         </section>
       )}
 
+      {/* Challenges */}
+      <ChallengesSection />
+
+      {/* Savings calculator */}
+      <SavingsCalculator />
+
       {/* Browse topics */}
       <section className="pb-6">
         <h2 className="font-display font-semibold text-base mb-3">Browse topics</h2>
@@ -298,6 +309,7 @@ export default function Learn() {
                 lesson={lesson}
                 completed={completed.includes(lesson.id)}
                 isNext={nextLesson?.id === lesson.id}
+                score={scoreByLesson[lesson.id]}
               />
             </motion.div>
           ))}

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Send, Bird, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, Bird, Loader2, Trash2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
@@ -21,15 +21,53 @@ const SUGGESTED_PROMPTS = [
 ];
 
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/falcon-chat`;
+const CHAT_STORAGE_KEY = "falcon.chat.history";
+const MAX_STORED_MESSAGES = 20;
+
+function loadStoredMessages(): Msg[] {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = localStorage.getItem(CHAT_STORAGE_KEY);
+    if (!raw) return [];
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return [];
+    return parsed.filter(
+      (m): m is Msg =>
+        m &&
+        (m.role === "user" || m.role === "assistant") &&
+        typeof m.content === "string"
+    );
+  } catch {
+    return [];
+  }
+}
 
 export default function AIChat() {
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [messages, setMessages] = useState<Msg[]>([]);
+  const [messages, setMessages] = useState<Msg[]>(() => loadStoredMessages());
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const prefillHandled = useRef(false);
+
+  // Persist messages to localStorage (capped)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    try {
+      const trimmed = messages.slice(-MAX_STORED_MESSAGES);
+      localStorage.setItem(CHAT_STORAGE_KEY, JSON.stringify(trimmed));
+    } catch {
+      /* ignore quota errors */
+    }
+  }, [messages]);
+
+  const clearChat = () => {
+    setMessages([]);
+    if (typeof window !== "undefined") {
+      localStorage.removeItem(CHAT_STORAGE_KEY);
+    }
+  };
 
   // Handle pre-filled prompt from URL
   useEffect(() => {
@@ -160,9 +198,21 @@ export default function AIChat() {
       <div className="flex items-center gap-4 px-4 md:px-8 py-4 md:py-5 border-b border-border/60 bg-background/80 backdrop-blur-xl">
         <Link to="/" className="text-muted-foreground hover:text-foreground transition-colors"><ArrowLeft className="w-5 h-5" /></Link>
         <FalconLogo showWordmark size={72} className="drop-shadow-[0_0_20px_hsl(268_75%_55%/0.55)]" />
-        <div className="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
-          <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
-          <span className="text-[10px] font-semibold text-primary">AI Companion</span>
+        <div className="ml-auto flex items-center gap-2">
+          {messages.length > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              onClick={clearChat}
+              className="h-8 px-2 text-xs text-muted-foreground hover:text-destructive"
+            >
+              <Trash2 className="w-3.5 h-3.5 mr-1" /> Clear chat
+            </Button>
+          )}
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/15 border border-primary/30">
+            <span className="w-1.5 h-1.5 rounded-full bg-success animate-pulse" />
+            <span className="text-[10px] font-semibold text-primary">AI Companion</span>
+          </div>
         </div>
       </div>
 

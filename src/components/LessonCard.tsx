@@ -7,9 +7,10 @@ interface LessonCardProps {
   lesson: Lesson;
   completed?: boolean;
   isNext?: boolean;
+  score?: number | null;
 }
 
-export default function LessonCard({ lesson, completed, isNext }: LessonCardProps) {
+export default function LessonCard({ lesson, completed, isNext, score }: LessonCardProps) {
   return (
     <Link to={`/learn/${lesson.id}`}>
       <motion.div
@@ -52,8 +53,15 @@ export default function LessonCard({ lesson, completed, isNext }: LessonCardProp
               </span>
             )}
             {completed && (
-              <span className="inline-block mt-2.5 text-[10px] font-bold text-success bg-success/10 border border-success/30 px-2.5 py-1 rounded-full uppercase tracking-wider">
-                ✓ Completed
+              <span className="inline-flex items-center gap-2 mt-2.5">
+                <span className="text-[10px] font-bold text-success bg-success/10 border border-success/30 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                  ✓ Completed
+                </span>
+                {typeof score === "number" && (
+                  <span className="text-[10px] font-bold text-primary bg-primary/10 border border-primary/30 px-2 py-1 rounded-full">
+                    {score}/{lesson.quiz.length} ✓
+                  </span>
+                )}
               </span>
             )}
           </div>
