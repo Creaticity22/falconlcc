@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { ArrowLeft, Send, Bird, Loader2 } from "lucide-react";
+import { ArrowLeft, Send, Bird, Loader2, Trash2 } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import { Button } from "@/components/ui/button";
