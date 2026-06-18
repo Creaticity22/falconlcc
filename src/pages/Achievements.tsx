@@ -343,3 +343,70 @@ function DetailModal({
     </div>
   );
 }
+
+interface LeaderboardRow {
+  rank: number;
+  initials: string;
+  xp_points: number;
+  streak_days: number;
+  is_me: boolean;
+}
+
+function Leaderboard() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["leaderboard"],
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("get_leaderboard");
+      if (error) throw error;
+      return (data ?? []) as LeaderboardRow[];
+    },
+  });
+
+  return (
+    <section className="mb-10">
+      <div className="flex items-end justify-between mb-4">
+        <h2 className="font-display font-bold text-2xl">This week's top learners</h2>
+        <span className="text-xs text-muted-foreground">Anonymised · opt-out in Settings</span>
+      </div>
+      <div className="rounded-2xl border border-border/50 bg-card overflow-hidden">
+        {isLoading ? (
+          <div className="p-6 text-center text-sm text-muted-foreground">Loading…</div>
+        ) : !data || data.length === 0 ? (
+          <div className="p-6 text-center text-sm text-muted-foreground">
+            No one on the leaderboard yet — be the first!
+          </div>
+        ) : (
+          <ul className="divide-y divide-border/50">
+            {data.map((r) => (
+              <li
+                key={r.rank}
+                className={`flex items-center gap-3 px-4 py-3 ${
+                  r.is_me ? "bg-primary/10" : ""
+                }`}
+              >
+                <span className="w-6 text-sm font-bold text-muted-foreground tabular-nums">
+                  {r.rank}
+                </span>
+                <div className="w-8 h-8 rounded-full bg-secondary grid place-items-center text-xs font-bold">
+                  {r.initials}
+                </div>
+                <span className={`flex-1 text-sm font-medium ${r.is_me ? "text-primary" : ""}`}>
+                  {r.initials}{r.is_me && " (you)"}
+                </span>
+                {r.streak_days > 0 && (
+                  <span className="inline-flex items-center gap-1 text-xs text-streak font-bold">
+                    {r.streak_days}🔥
+                  </span>
+                )}
+                <span className="inline-flex items-center gap-1 text-xs font-bold tabular-nums">
+                  <Trophy className="w-3 h-3 text-accent" />
+                  {r.xp_points} XP
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </section>
+  );
+}
