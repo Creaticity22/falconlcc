@@ -365,8 +365,11 @@ function Leaderboard() {
   return (
     <section className="mb-10">
       <div className="flex items-end justify-between mb-4">
-        <h2 className="font-display font-bold text-2xl">This week's top learners</h2>
-        <span className="text-xs text-muted-foreground">Anonymised · opt-out in Settings</span>
+        <h2 className="font-display font-bold text-2xl">Top learners</h2>
+        <div className="text-right">
+          <span className="text-xs text-muted-foreground">Anonymised · opt-out in Settings</span>
+          <p className="text-[10px] text-muted-foreground mt-0.5">All-time XP</p>
+        </div>
       </div>
       <div className="rounded-2xl border border-border/50 bg-card overflow-hidden">
         {isLoading ? (
