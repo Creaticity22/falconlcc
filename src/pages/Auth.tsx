@@ -25,6 +25,28 @@ export default function Auth() {
   const [showReset, setShowReset] = useState(false);
   const [resetEmail, setResetEmail] = useState("");
   const [resetSending, setResetSending] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
+
+  const handleDemo = async () => {
+    setDemoLoading(true);
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email: "demo@soarwithfalcon.com",
+        password: "FalconDemo2026!",
+      });
+      if (error) {
+        toast.error("Demo not available right now — please sign up instead.");
+      } else {
+        trackEvent("demo_login");
+      }
+    } catch {
+      toast.error("Demo not available right now — please sign up instead.");
+    } finally {
+      setDemoLoading(false);
+    }
+  };
+
+
 
   useEffect(() => {
     if (typeof window === "undefined") return;
