@@ -10,6 +10,8 @@ import CommunityInsights from "@/components/CommunityInsights";
 import FalconLogo from "@/components/FalconLogo";
 import HeroBanner from "@/components/HeroBanner";
 import SponsoredBanner from "@/components/SponsoredBanner";
+import FalconNudges from "@/components/FalconNudges";
+import PersonalNudgeCard from "@/components/PersonalNudgeCard";
 import { useProfile } from "@/hooks/useProfile";
 import { useGamification, useAwardXP } from "@/hooks/useGamification";
 import { useAuth } from "@/hooks/useAuth";
