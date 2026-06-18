@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Plus, PieChart, Trash2, X } from "lucide-react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import AppLayout from "@/components/AppLayout";
+import LoadingSpinner from "@/components/LoadingSpinner";
 import HeroBanner from "@/components/HeroBanner";
 import SpendingPieChart from "@/components/SpendingPieChart";
 import SubscriptionsSection from "@/components/SubscriptionsSection";
