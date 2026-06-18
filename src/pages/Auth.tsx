@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 import FalconLogo from "@/components/FalconLogo";
 
 const AGE_KEY = "falcon.agecheck.v1";
@@ -54,8 +55,11 @@ export default function Auth() {
       const { error } = await fn(email, password);
       if (error) {
         toast.error(error.message);
-      } else if (isSignUp) {
-        toast.success("Check your email to verify your account!");
+      } else {
+        if (isSignUp) {
+          toast.success("Check your email to verify your account!");
+        }
+        trackEvent(isSignUp ? "signup" : "login", { method: "email" });
       }
     } finally {
       setSubmitting(false);
@@ -176,7 +180,10 @@ export default function Auth() {
 
         <div className="space-y-3">
           <Button
-            onClick={signInWithGoogle}
+            onClick={() => {
+              trackEvent("login", { method: "google" });
+              signInWithGoogle();
+            }}
             className="w-full h-12 rounded-xl font-semibold text-sm gradient-primary text-primary-foreground border-0 shadow-[0_8px_30px_hsl(268_75%_45%/0.45)] hover:shadow-[0_12px_40px_hsl(268_75%_45%/0.6)] transition-shadow"
             size="lg"
           >

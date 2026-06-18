@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
+import { trackOnce } from "@/lib/analytics";
 import { useSearchParams } from "react-router-dom";
 
 const DEFAULT_CATEGORIES = [
@@ -86,6 +87,7 @@ export default function Budget() {
       setShowSetup(false);
       toast.success("Budget saved!");
       awardXP.mutate({ amount: 30, reason: "Budget set up" });
+      if (!budget) trackOnce("first_budget_saved");
     },
   });
 

@@ -16,6 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
 import { LESSONS } from "@/lib/lessons";
 import { getSponsoredCampaigns } from "@/lib/sponsoredRewards";
+import { trackEvent } from "@/lib/analytics";
 
 const CHECKLIST_KEY = "falcon.checklist.dismissed";
 
@@ -27,6 +28,10 @@ export default function Dashboard() {
   const [checklistDismissed, setChecklistDismissed] = useState(
     () => typeof window !== "undefined" && !!localStorage.getItem(CHECKLIST_KEY),
   );
+
+  useEffect(() => {
+    trackEvent("view_dashboard");
+  }, []);
 
   const { data: goals } = useQuery({
     queryKey: ["goals", user?.id],
@@ -118,8 +123,18 @@ export default function Dashboard() {
   const checklistItems = [
     { done: hasBudget, label: "Set up your budget", to: "/budget" },
     { done: hasGoals, label: "Create your first savings goal", to: "/goals" },
-    { done: hasLesson, label: "Complete your first lesson", to: "/learn" },
+    { done: hasLesson, label: "Complete your first lesson", to: nextLesson ? `/learn/${nextLesson.id}` : "/learn" },
   ];
+
+  const listVariants = {
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, x: -10 },
+    visible: { opacity: 1, x: 0 },
+  };
 
   return (
     <AppLayout>
@@ -167,11 +182,12 @@ export default function Dashboard() {
         >
           <h2 className="font-display font-bold text-lg md:text-xl mb-1">Let's get you set up 🚀</h2>
           <p className="text-xs text-muted-foreground mb-4">Complete these 3 steps to earn +50 XP</p>
-          <ul className="space-y-2">
+          <motion.ul className="space-y-2" variants={listVariants} initial="hidden" animate="visible">
             {checklistItems.map((item) => (
-              <li key={item.label}>
+              <motion.li key={item.label} variants={itemVariants}>
                 <Link
                   to={item.to}
+                  onClick={() => trackEvent("checklist_click", { item: item.label })}
                   className={`flex items-center gap-3 p-3 rounded-xl bg-secondary/40 hover:bg-secondary/70 transition-colors ${
                     item.done ? "opacity-60" : ""
                   }`}
@@ -186,9 +202,9 @@ export default function Dashboard() {
                   </span>
                   {!item.done && <ArrowRight className="w-4 h-4 text-muted-foreground" />}
                 </Link>
-              </li>
+              </motion.li>
             ))}
-          </ul>
+          </motion.ul>
         </motion.section>
       )}
 

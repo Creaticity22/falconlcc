@@ -14,6 +14,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
+import { trackOnce } from "@/lib/analytics";
 import { toast } from "sonner";
 
 export default function Goals() {
@@ -58,6 +59,7 @@ export default function Goals() {
       resetForm();
       toast.success("Goal created! 🎯");
       awardXP.mutate({ amount: 20, reason: "New savings goal" });
+      if (!goals || goals.length === 0) trackOnce("first_goal_created");
     },
   });
 

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { useUpdateProfile } from "@/hooks/useProfile";
 import { useAwardXP } from "@/hooks/useGamification";
 import FalconLogo from "@/components/FalconLogo";
+import { trackEvent } from "@/lib/analytics";
 
 const AGE_RANGES = ["15-17", "18-21"];
 const INCOME_BANDS = [
@@ -56,6 +57,7 @@ export default function Onboarding() {
       onboarding_completed: true,
     });
     awardXP.mutate({ amount: 25, reason: "Completed onboarding" });
+    trackEvent("onboarding_complete");
   };
 
   const next = () => {
