@@ -100,4 +100,89 @@ export const LESSONS: Lesson[] = [
     ],
     takeaways: ["Investments can go down as well as up", "Index funds are a low-cost way to start", "Always think long term and get proper advice"],
   },
+  {
+    id: "opening-first-bank-account",
+    title: "Opening Your First Bank Account",
+    topic: "Banking",
+    xpReward: 40,
+    content: [
+      "There are two main types of bank account: a current account is for everyday spending (your card, direct debits, getting paid into), while a savings account is for putting money aside to grow over time. Most people end up with at least one of each.",
+      "In the UK, popular youth and student accounts include Monzo, Starling, HSBC and Barclays. Look for no monthly fees, a contactless debit card, and a good mobile app. Student accounts often come with an interest-free overdraft as a perk.",
+      "Most accounts require you to be 18, or 16+ with a parent or guardian to co-sign. Some app-based banks like Monzo 16+ let you open an account on your own from 16 — just have your ID and proof of address ready."
+    ],
+    quiz: [
+      { question: "What's the difference between current and savings accounts?", options: ["No difference", "Current is for spending, savings is for growing money", "Savings is for spending", "Current pays more interest"], correctIndex: 1 },
+      { question: "What does 'interest-free overdraft' mean for a student account?", options: ["You earn interest", "You can borrow up to a limit with no interest charged", "You can't go overdrawn", "It's a type of loan"], correctIndex: 1 },
+      { question: "Which of these is a UK digital bank?", options: ["Monzo", "Chase USA", "Wells Fargo", "Deutsche Bank"], correctIndex: 0 },
+    ],
+    takeaways: ["Current accounts are for spending, savings accounts are for growing money", "Compare accounts before you open one", "Some accounts are designed specifically for under-18s"],
+  },
+  {
+    id: "understanding-payslip",
+    title: "Understanding Your Payslip",
+    topic: "Tax",
+    xpReward: 50,
+    content: [
+      "A UK payslip shows your gross pay (total earned before deductions), income tax (PAYE), National Insurance contributions, and finally your net pay — the amount that actually lands in your bank account.",
+      "Your tax code (like 1257L) tells your employer how much tax-free income you get. 1257L means you can earn £12,570/year before paying income tax. If your code looks wrong (BR, 0T, or an emergency code) you may be paying too much.",
+      "If you earn under the Personal Allowance (£12,570/year) you shouldn't pay any income tax. If you have been overtaxed — common with part-time or summer jobs — you can claim a refund directly from HMRC online."
+    ],
+    quiz: [
+      { question: "What is 'net pay'?", options: ["Pay before deductions", "What you actually receive after deductions", "Just your tax", "Bonus pay"], correctIndex: 1 },
+      { question: "What does PAYE stand for?", options: ["Pay After Yearly Earnings", "Pay As You Earn", "Personal Allowance Yearly Estimate", "Public Annual Yield"], correctIndex: 1 },
+      { question: "If you earn under £12,570/year, should you pay income tax?", options: ["Yes, always", "No", "Only if employed", "Only over 18"], correctIndex: 1 },
+    ],
+    takeaways: ["Gross pay is before deductions, net pay is what you actually receive", "Check your tax code is correct", "You can claim a tax refund if you've been overtaxed"],
+  },
+  {
+    id: "credit-score-basics",
+    title: "What is a Credit Score?",
+    topic: "Credit",
+    xpReward: 60,
+    content: [
+      "A credit score is a number that tells lenders how reliable you are at paying money back. It matters when you apply for a phone contract, rent a flat, get a mortgage, or even open some bank accounts.",
+      "In the UK there are three main credit agencies: Experian, Equifax and TransUnion. Each holds a record of your borrowing history. You can check your score for free on apps like ClearScore or Credit Karma.",
+      "To build a good score: register to vote at your address, pay every bill on time, use a credit card occasionally and pay it off in full, and avoid lots of applications close together. Young people often have a 'thin credit file' — not bad, just empty — so starting early helps."
+    ],
+    quiz: [
+      { question: "What is a credit score used for?", options: ["Buying food", "Showing lenders if you're reliable", "Your tax return", "School grades"], correctIndex: 1 },
+      { question: "Which of these improves your credit score?", options: ["Missing payments", "Paying bills on time", "Lots of applications at once", "Never using credit"], correctIndex: 1 },
+      { question: "What is a 'thin credit file'?", options: ["A bad score", "Little or no credit history yet", "A type of loan", "A bank fee"], correctIndex: 1 },
+    ],
+    takeaways: ["Your credit score affects your future financial options", "You can start building credit early", "Paying on time is the single biggest factor"],
+  },
+  {
+    id: "student-finance-explained",
+    title: "Student Finance Explained",
+    topic: "Student Finance",
+    xpReward: 60,
+    content: [
+      "Student finance has two parts. The Tuition Fee Loan (up to £9,250/year) is paid directly to your university — you never see it. The Maintenance Loan helps with living costs and is paid to you in three instalments; how much depends on your household income and where you study.",
+      "You only start repaying when you earn over £25,000/year (Plan 5). You pay 9% of everything above that threshold — so on a £28,000 salary you'd repay 9% of £3,000 = about £22/month. If your income drops, repayments stop automatically.",
+      "Anything you haven't repaid after 30 years is wiped. For most graduates this works more like a graduate tax than a traditional debt. Don't let fear of 'debt' put you off uni if it's the right path for you."
+    ],
+    quiz: [
+      { question: "When do you start repaying a student loan?", options: ["Immediately", "When you earn over £25,000", "After graduation no matter what", "Never"], correctIndex: 1 },
+      { question: "What % of earnings above the threshold do you repay?", options: ["5%", "9%", "20%", "50%"], correctIndex: 1 },
+      { question: "After how many years is the loan written off?", options: ["10", "20", "30", "Never"], correctIndex: 2 },
+    ],
+    takeaways: ["Student loans are income-contingent — you only pay when you can afford to", "It's more like a graduate tax than a traditional loan", "Don't let fear of debt stop you from going to university if it's right for you"],
+  },
+  {
+    id: "side-hustles-and-tax",
+    title: "Side Hustles & Tax",
+    topic: "Tax",
+    xpReward: 70,
+    content: [
+      "HMRC gives everyone a £1,000 trading allowance. If you earn under £1,000/year from side hustles — selling on Depop or Vinted, tutoring, dog walking, freelance design — you don't need to tell HMRC or pay any tax on it.",
+      "Earn more than £1,000? You'll need to register as self-employed and complete a Self Assessment tax return each year. It sounds scary but it's mostly an online form. You declare what you earned, claim any expenses, and HMRC tells you what (if anything) you owe.",
+      "Allowable expenses reduce your taxable profit: postage and packaging for Depop sales, a portion of your phone bill for tutoring, software subscriptions for content creation. Keep simple records from day one — a spreadsheet or notes app is enough."
+    ],
+    quiz: [
+      { question: "What is the HMRC trading allowance?", options: ["£100", "£500", "£1,000", "£12,570"], correctIndex: 2 },
+      { question: "If you earn £1,500 from Depop in a year, what should you do?", options: ["Nothing", "Register as self-employed and do a Self Assessment", "Pay 50% tax instantly", "Close the account"], correctIndex: 1 },
+      { question: "What can you offset as a self-employed expense?", options: ["Holiday flights", "Postage and packaging for sales", "Cinema tickets", "Birthday presents"], correctIndex: 1 },
+    ],
+    takeaways: ["Under £1,000/year from a side hustle? You're fine", "Over £1,000? Register with HMRC — it's not scary", "Keep records of your income and expenses from day one"],
+  },
 ];

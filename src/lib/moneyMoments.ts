@@ -148,4 +148,149 @@ export const MONEY_MOMENTS: MoneyMoment[] = [
       },
     ],
   },
+  {
+    id: "opening-first-bank-account",
+    title: "Opening my first bank account",
+    emoji: "🏦",
+    description: "From choosing a bank to setting up direct debits — everything you need for your first account.",
+    resourceTopics: ["banking"],
+    aiPrompt: "I'm about to open my first bank account. What should I look for and what questions should I ask?",
+    steps: [
+      {
+        title: "Research your options",
+        body: "UK banks all offer slightly different things. App-based banks like Monzo and Starling are easy to set up and have great budgeting tools. High-street banks like HSBC and Barclays have physical branches if you prefer in-person support. Student accounts often include an interest-free overdraft.",
+        checklist: [
+          "Compare at least 3 accounts",
+          "Check for monthly fees",
+          "Look at the mobile app reviews",
+        ],
+      },
+      {
+        title: "Gather your documents",
+        body: "Most banks need proof of identity (passport or provisional driving licence) and proof of address (a utility bill, council tax letter, or bank statement). If you're under 18, you'll usually need a parent or guardian with you.",
+        checklist: [
+          "Photo ID ready",
+          "Proof of address dated within 3 months",
+          "If under 18, parent or guardian available",
+        ],
+      },
+      {
+        title: "Apply online or in branch",
+        body: "App-based banks let you apply entirely from your phone — often with a video selfie. High-street banks may need an in-branch appointment. Either way, the process usually takes 10–20 minutes.",
+      },
+      {
+        title: "Set up your online banking",
+        body: "Once approved, download the app and set a strong password. Turn on biometric login (Face ID / fingerprint) and enable notifications so you can spot any unusual activity straight away.",
+        checklist: [
+          "Strong unique password",
+          "Biometric login enabled",
+          "Transaction notifications on",
+        ],
+      },
+      {
+        title: "Set up direct debits and standing orders",
+        body: "A direct debit lets a company take a variable amount each month (like a phone bill). A standing order is a fixed amount you send out (like rent or savings). Setting up an automatic transfer to savings on payday is one of the best money habits you can build.",
+        checklist: [
+          "Move essential bills over",
+          "Set up an automatic savings transfer",
+          "Cancel any subscriptions you don't use",
+        ],
+      },
+    ],
+  },
+  {
+    id: "first-payslip",
+    title: "Getting my first payslip",
+    emoji: "💰",
+    description: "Decode every line — gross pay, tax code, National Insurance and net pay.",
+    resourceTopics: ["economy", "tax"],
+    aiPrompt: "I just got my first payslip and I don't understand some of the deductions. Can you explain what everything means?",
+    steps: [
+      {
+        title: "Understanding your gross pay",
+        body: "Gross pay is the total you earned before anything is taken off. If you're on an hourly wage it's hours worked × hourly rate. If you're salaried it's your annual salary divided by 12.",
+      },
+      {
+        title: "Finding your tax code",
+        body: "Your tax code is usually a number followed by a letter (e.g. 1257L). The number × 10 = the amount you can earn tax-free in a year. 1257L is the standard code and means a £12,570 Personal Allowance.",
+        checklist: [
+          "Locate your tax code on the payslip",
+          "Check it against gov.uk's tax code checker",
+          "Flag codes starting with BR, 0T or 'emergency'",
+        ],
+      },
+      {
+        title: "Checking your National Insurance deductions",
+        body: "National Insurance funds the NHS and state pension. You start paying it when you earn over £242/week. It's a separate deduction from income tax — and unlike tax, you pay it even if you're below the Personal Allowance.",
+      },
+      {
+        title: "Confirming your net pay",
+        body: "Net pay = Gross pay − Income Tax − National Insurance − any other deductions (like pension contributions). This is what should land in your bank account on payday.",
+        checklist: [
+          "Check the maths adds up",
+          "Compare to what arrived in your bank",
+          "Save your payslip — paper or PDF",
+        ],
+      },
+      {
+        title: "What to do if something looks wrong",
+        body: "If your tax code looks off or you've been overtaxed, contact HMRC directly (you can do this in the HMRC app). Don't go through paid 'tax refund' services — they take a big cut for something you can do for free.",
+        checklist: [
+          "Use the HMRC app or gov.uk only",
+          "Never pay a third party to claim a refund",
+          "Keep records for at least 22 months",
+        ],
+      },
+    ],
+  },
+  {
+    id: "first-self-assessment",
+    title: "Filing my first Self Assessment",
+    emoji: "📋",
+    description: "Self-employed, freelance or earning over £1,000 from a side hustle? Here's the process.",
+    resourceTopics: ["economy"],
+    aiPrompt: "I've been told I need to do a Self Assessment tax return. Can you walk me through what I need to do?",
+    steps: [
+      {
+        title: "Check if you need to file",
+        body: "You usually need to file a Self Assessment if you earned over £1,000 from self-employment or side hustles in the tax year (6 April – 5 April), had untaxed income, or were a higher-rate taxpayer. Gov.uk has a free 'do I need to file?' tool.",
+        checklist: [
+          "Add up all side-hustle income for the tax year",
+          "Use gov.uk's check tool",
+          "Know the deadline: 31 January online",
+        ],
+      },
+      {
+        title: "Register with HMRC Government Gateway",
+        body: "Register at gov.uk/register-for-self-assessment. HMRC posts you a Unique Taxpayer Reference (UTR) — keep this safe, you'll need it every year. Register early — it can take 10 working days for the UTR to arrive.",
+      },
+      {
+        title: "Gather your income records",
+        body: "Collect everything that shows what you earned: PayPal/Stripe statements, Depop/Vinted sales reports, invoices, bank statements showing money in. A simple spreadsheet of date / source / amount works perfectly.",
+        checklist: [
+          "All income totals for the year",
+          "Bank statements as backup",
+          "Notes on any cash payments",
+        ],
+      },
+      {
+        title: "Claim your allowable expenses",
+        body: "Expenses reduce your taxable profit. Common ones: postage, packaging, software, a portion of phone/internet, travel for work, equipment. Either claim actual costs with receipts, or use the £1,000 trading allowance flat — whichever is higher.",
+        checklist: [
+          "Receipts saved (photos are fine)",
+          "Decide: actual expenses vs trading allowance",
+          "Only claim genuine business costs",
+        ],
+      },
+      {
+        title: "Submit and pay any tax owed",
+        body: "Log into the gov.uk Self Assessment portal, fill in the online form (it guides you step by step), and submit. HMRC tells you immediately what you owe. Pay by 31 January. If you can't afford the bill in one go, you can set up a Time to Pay arrangement.",
+        checklist: [
+          "Submit before 31 January",
+          "Pay tax owed by 31 January",
+          "Save a PDF copy of your return",
+        ],
+      },
+    ],
+  },
 ];
