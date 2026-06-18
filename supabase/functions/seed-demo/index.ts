@@ -204,12 +204,16 @@ Deno.serve(async (req) => {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 200,
     });
-  } catch (e) {
-    const message = e instanceof Error ? e.message : String(e);
-    console.error("seed-demo error:", message);
+  } catch (e: any) {
+    const message =
+      (e && typeof e === "object" && (e.message || e.error_description || e.msg)) ||
+      (typeof e === "string" ? e : JSON.stringify(e, Object.getOwnPropertyNames(e ?? {}))) ||
+      "unknown error";
+    console.error("seed-demo error:", message, "raw:", e);
     return new Response(JSON.stringify({ success: false, error: message }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
   }
 });
+
