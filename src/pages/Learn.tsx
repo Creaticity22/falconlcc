@@ -293,6 +293,12 @@ export default function Learn() {
         </section>
       )}
 
+      {/* Challenges */}
+      <ChallengesSection />
+
+      {/* Savings calculator */}
+      <SavingsCalculator />
+
       {/* Browse topics */}
       <section className="pb-6">
         <h2 className="font-display font-semibold text-base mb-3">Browse topics</h2>
@@ -303,6 +309,7 @@ export default function Learn() {
                 lesson={lesson}
                 completed={completed.includes(lesson.id)}
                 isNext={nextLesson?.id === lesson.id}
+                score={scoreByLesson[lesson.id]}
               />
             </motion.div>
           ))}
