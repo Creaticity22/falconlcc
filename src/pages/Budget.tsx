@@ -315,6 +315,23 @@ function BudgetSetup({
     setCategories(updated);
   };
 
+  const [newCategoryName, setNewCategoryName] = useState("");
+
+  const addCategory = () => {
+    const name = newCategoryName.trim();
+    if (!name) return;
+    if (categories.some((c) => c.name.toLowerCase() === name.toLowerCase())) {
+      toast.error("Category already exists");
+      return;
+    }
+    setCategories([...categories, { name, planned: 0, color: "bg-primary" }]);
+    setNewCategoryName("");
+  };
+
+  const removeCategory = (idx: number) => {
+    setCategories(categories.filter((_, i) => i !== idx));
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex gap-1.5 mb-4">
@@ -326,6 +343,19 @@ function BudgetSetup({
       <AnimatePresence mode="wait">
         <motion.div key={step} initial={{ opacity: 0, x: 40 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -40 }}>
           {step === 0 && (
+            <div className="space-y-4">
+              <h2 className="text-xl font-display font-bold">Monthly income</h2>
+              <p className="text-sm text-muted-foreground">How much do you earn or receive each month?</p>
+              <Input
+                type="number"
+                placeholder="£"
+                value={income}
+                onChange={(e) => setIncome(e.target.value)}
+                className="h-14 rounded-xl text-lg"
+                autoFocus
+              />
+            </div>
+          )}
             <div className="space-y-4">
               <h2 className="text-xl font-display font-bold">Monthly income</h2>
               <p className="text-sm text-muted-foreground">How much do you earn or receive each month?</p>
