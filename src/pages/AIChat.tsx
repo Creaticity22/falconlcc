@@ -247,6 +247,11 @@ export default function AIChat() {
                 Ask Falcon anything about budgeting, saving, or basic investing. I'll explain it in simple language.
               </p>
             </div>
+            <div className="flex justify-start">
+              <div className="max-w-[85%] rounded-2xl rounded-bl-md px-4 py-3 text-sm bg-card border border-border/50">
+                {INTRO_MESSAGE}
+              </div>
+            </div>
             <div className="space-y-2">
               {SUGGESTED_PROMPTS.map((prompt) => (
                 <button
@@ -258,6 +263,9 @@ export default function AIChat() {
                 </button>
               ))}
             </div>
+            <p className="text-[11px] text-muted-foreground text-center px-4">
+              Falcon AI is focused on money and finance topics. For other questions, it may not be able to help.
+            </p>
           </motion.div>
         )}
 
@@ -266,7 +274,7 @@ export default function AIChat() {
             key={i}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            className={`flex flex-col ${msg.role === "user" ? "items-end" : "items-start"}`}
           >
             <div
               className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm ${
@@ -283,6 +291,26 @@ export default function AIChat() {
                 msg.content
               )}
             </div>
+            {msg.role === "assistant" && hasDistressSignals(msg.content) && (
+              <div className="mt-2 max-w-[85%] rounded-xl border border-primary/30 bg-primary/10 px-3 py-2 text-xs text-foreground">
+                💙 It sounds like things might be tough right now. Falcon is a money app, but your wellbeing matters more. Please reach out to{" "}
+                <a
+                  href="https://youngminds.org.uk"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline font-semibold"
+                >
+                  Young Minds
+                </a>{" "}
+                or call Samaritans on{" "}
+                <a href="tel:116123" className="underline font-semibold">
+                  116 123
+                </a>{" "}
+                — they're free and available 24/7.
+              </div>
+            )}
+          </motion.div>
+        ))}
           </motion.div>
         ))}
 
