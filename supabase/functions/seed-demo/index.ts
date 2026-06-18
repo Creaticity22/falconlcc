@@ -42,31 +42,27 @@ Deno.serve(async (req) => {
     // 1) Find or create the demo auth user
     let userId: string | null = null;
 
-    // Paginate users to find by email (admin.listUsers does not support filter by email reliably)
-    let page = 1;
-    while (!userId) {
-      const { data, error } = await admin.auth.admin.listUsers({ page, perPage: 200 });
-      if (error) throw error;
-      const match = data.users.find((u) => u.email?.toLowerCase() === DEMO_EMAIL);
-      if (match) { userId = match.id; break; }
-      if (data.users.length < 200) break;
-      page++;
-    }
+    const { data: created, error: createErr } = await admin.auth.admin.createUser({
+      email: DEMO_EMAIL,
+      password: DEMO_PASSWORD,
+      email_confirm: true,
+    });
 
-    if (!userId) {
-      const { data, error } = await admin.auth.admin.createUser({
-        email: DEMO_EMAIL,
-        password: DEMO_PASSWORD,
-        email_confirm: true,
-      });
-      if (error) throw error;
-      userId = data.user!.id;
-    } else {
-      // Ensure password is current (idempotent reset)
+    if (created?.user?.id) {
+      userId = created.user.id;
+    } else if (createErr) {
+      // Likely already exists — look up via SECURITY DEFINER RPC
+      const { data: existingId, error: rpcErr } = await admin.rpc("get_user_id_by_email", { _email: DEMO_EMAIL });
+      if (rpcErr) throw new Error(`lookup: ${rpcErr.message}`);
+      if (!existingId) throw new Error(`createUser failed and no existing user found: ${createErr.message}`);
+      userId = existingId as string;
+      // Reset password so the documented demo credentials always work
       await admin.auth.admin.updateUserById(userId, { password: DEMO_PASSWORD, email_confirm: true });
     }
 
-    const uid = userId!;
+    if (!userId) throw new Error("Failed to resolve demo user id");
+    const uid = userId;
+
     const today = new Date();
     const month = `${today.getUTCFullYear()}-${String(today.getUTCMonth() + 1).padStart(2, "0")}`;
     const todayDate = today.toISOString().slice(0, 10);
