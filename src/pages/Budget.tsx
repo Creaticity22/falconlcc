@@ -16,7 +16,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useAwardXP } from "@/hooks/useGamification";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { trackOnce } from "@/lib/analytics";
+import { trackEvent, trackOnce } from "@/lib/analytics";
 import { useSearchParams } from "react-router-dom";
 
 const DEFAULT_CATEGORIES = [
@@ -38,6 +38,7 @@ export default function Budget() {
   const [expAmount, setExpAmount] = useState("");
   const [expCategory, setExpCategory] = useState("");
   const [expNote, setExpNote] = useState("");
+  const [showAllExpenses, setShowAllExpenses] = useState(false);
 
   const month = new Date().toISOString().slice(0, 7);
 
@@ -88,6 +89,7 @@ export default function Budget() {
       toast.success("Budget saved!");
       awardXP.mutate({ amount: 30, reason: "Budget set up" });
       if (!budget) trackOnce("first_budget_saved");
+      trackEvent("budget_created");
     },
   });
 
@@ -110,6 +112,7 @@ export default function Budget() {
       setExpCategory("");
       setExpNote("");
       toast.success("Expense added!");
+      trackEvent("expense_logged");
     },
   });
 
@@ -283,7 +286,7 @@ export default function Budget() {
             <section className="mt-6">
               <h2 className="font-display font-semibold text-base mb-3">Recent expenses</h2>
               <div className="space-y-2">
-                {expenses.slice(0, 5).map((exp) => (
+                {(showAllExpenses ? expenses : expenses.slice(0, 5)).map((exp) => (
                   <div key={exp.id} className="flex items-center justify-between bg-card rounded-xl p-3 border border-border/50">
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-medium">{exp.category}</p>
@@ -306,6 +309,15 @@ export default function Budget() {
                   </div>
                 ))}
               </div>
+              {!showAllExpenses && expenses.length > 5 && (
+                <Button
+                  variant="ghost"
+                  className="w-full mt-2 rounded-xl text-sm text-muted-foreground hover:text-foreground"
+                  onClick={() => setShowAllExpenses(true)}
+                >
+                  Show all {expenses.length} expenses
+                </Button>
+              )}
             </section>
           )}
 

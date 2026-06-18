@@ -10,7 +10,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useResources, type Resource } from "@/hooks/useResources";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { trackOnce } from "@/lib/analytics";
+import { trackEvent, trackOnce } from "@/lib/analytics";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
@@ -126,6 +126,7 @@ export default function AIChat() {
 
   const send = async (text: string) => {
     if (!text.trim() || isLoading) return;
+    trackEvent("ai_message_sent");
     trackOnce("first_ai_message", { length: text.trim().length });
     const userMsg: Msg = { role: "user", content: text.trim() };
     const allMessages = [...messages, userMsg];

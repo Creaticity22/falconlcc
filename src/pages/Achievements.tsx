@@ -19,6 +19,7 @@ import {
   type Certificate,
 } from "@/hooks/useAchievements";
 import { toast } from "sonner";
+import { trackEvent } from "@/lib/analytics";
 
 const CATEGORY_LABELS: Record<string, string> = {
   budgeting: "Budgeting",
@@ -141,7 +142,10 @@ export default function Achievements() {
                   key={b.code}
                   badge={b}
                   earned={earnedBadgeMap.has(b.code)}
-                  onClick={() => setOpenBadge(b)}
+                  onClick={() => {
+                    trackEvent("badge_viewed", { badge_code: b.code });
+                    setOpenBadge(b);
+                  }}
                 />
               ))}
             </div>
