@@ -20,6 +20,25 @@ const SUGGESTED_PROMPTS = [
   "What's the difference between saving and investing?",
 ];
 
+const INTRO_MESSAGE =
+  "Hi! I'm Falcon AI 👋 I can help with budgeting, saving, debt, tax, and investing basics. I'm educational only and not a financial adviser — for personalised advice please speak to an FCA-registered adviser.";
+
+const DISTRESS_KEYWORDS = [
+  "suicide",
+  "kill myself",
+  "self harm",
+  "self-harm",
+  "no point",
+  "can't cope",
+  "cant cope",
+  "ending it",
+];
+
+function hasDistressSignals(text: string): boolean {
+  const t = text.toLowerCase();
+  return DISTRESS_KEYWORDS.some((kw) => t.includes(kw));
+}
+
 const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/falcon-chat`;
 const CHAT_STORAGE_KEY = "falcon.chat.history";
 const MAX_STORED_MESSAGES = 20;
