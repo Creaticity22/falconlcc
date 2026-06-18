@@ -75,7 +75,10 @@ export default function Learn() {
     setShowTutorial(false);
   };
 
-  const completed = completedLessons ?? [];
+  const completed = (lessonProgress ?? []).map((l) => l.lesson_id);
+  const scoreByLesson = Object.fromEntries(
+    (lessonProgress ?? []).map((l) => [l.lesson_id, l.score])
+  ) as Record<string, number | null>;
   const nextLesson = LESSONS.find((l) => !completed.includes(l.id));
 
   // Map lesson topics to resource DB topics
